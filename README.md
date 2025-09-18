@@ -19,13 +19,6 @@
 
 ---
 
-## 👨‍💻 Thành viên nhóm
-- **Thành viên 1**: [Tên + MSSV] – Vai trò: Thiết kế CSDL, kết nối MySQL.  
-- **Thành viên 2**: [Tên + MSSV] – Vai trò: Xây dựng giao diện WinForms.  
-- **Thành viên 3**: [Tên + MSSV] – Vai trò: Xử lý chức năng và báo cáo.  
-
----
-
 ## 🏗️ Công nghệ sử dụng
 - **Ngôn ngữ:** C# (.NET Framework / .NET 6)  
 - **Giao diện:** Windows Forms  
