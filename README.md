@@ -31,23 +31,22 @@
 ---
 
 ## 📂 Cấu trúc thư mục dự án
-```bash
-QuanLyBanHoa_CSharp/
+QuanLyBanHoa/                # Solution folder
 │
-├── src/                  # Code C# (Windows Forms)
-│   ├── Forms/            # Các form giao diện
-│   ├── Models/           # Lớp ánh xạ dữ liệu
-│   ├── Services/         # Xử lý nghiệp vụ
-│   └── Program.cs        # File main
+├── QuanLyBanHoa.sln         # Solution file
 │
-├── database/             # Script SQL tạo CSDL, bảng, dữ liệu mẫu
-│   └── QuanLyBanHoa.sql
+├── QuanLyBanHoa/            # Project folder
+│   ├── QuanLyBanHoa.csproj  # Project file
+│   ├── Program.cs           # File main (entry point)
+│   ├── App.config           # File cấu hình (connection string, settings)
+│   ├── FormMain.cs          # Form chính
+│   ├── FormMain.Designer.cs # Mã thiết kế UI của FormMain
+│   ├── FormMain.resx        # Resource của FormMain (text, icon…)
+│   ├── Properties/
+│   │   ├── AssemblyInfo.cs  # Thông tin project
+│   │   └── Resources.resx   # Tài nguyên chung
+│   └── bin/                 # File sau khi build (exe, dll)
 │
-├── docs/                 # Tài liệu phân tích, thiết kế, báo cáo
-│   ├── UseCaseDiagram.png
-│   ├── ERD.png
-│   └── DFD_Level1.png
-│
-├── .gitignore            # File bỏ qua khi commit
-├── README.md             # Giới thiệu dự án
-└── QuanLyBanHoa.sln      # Solution file (nếu dùng Visual Studio)
+└── database/                # (bạn tự thêm) script SQL tạo CSDL
+    └── QuanLyBanHoa.sql
+
