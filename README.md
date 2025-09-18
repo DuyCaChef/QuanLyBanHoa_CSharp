@@ -31,6 +31,7 @@
 ---
 
 ## 📂 Cấu trúc thư mục dự án
+```bash
 QuanLyBanHoa/                # Solution folder
 │
 ├── QuanLyBanHoa.sln         # Solution file
