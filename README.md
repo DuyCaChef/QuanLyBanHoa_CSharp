@@ -1,3 +1,5 @@
+![logo](![z7026674563976_820309d45047a596437f025d671dd714](https://github.com/user-attachments/assets/4a91b8af-57ff-43a6-b489-be51f3ac3982)
+)
 # QuanLyBanHoa_CSharp
 Đồ án Quản lý bán hàng (hoa) - C# .NET + MySQL
 
