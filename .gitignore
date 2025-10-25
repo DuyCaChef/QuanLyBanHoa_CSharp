@@ -1,0 +1,16 @@
+# Bỏ qua thư mục tạm của Visual Studio
+.vs/
+bin/
+obj/
+
+# Bỏ qua file người dùng
+*.user
+*.suo
+
+# Bỏ qua cache build
+*.cache
+*.log
+
+# Bỏ qua file tạm của hệ thống
+Thumbs.db
+desktop.ini
