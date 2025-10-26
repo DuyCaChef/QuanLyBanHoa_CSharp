@@ -34,7 +34,7 @@
             btnDangNhap = new Button();
             label4 = new Label();
             label3 = new Label();
-            textBox1 = new TextBox();
+            txtPass = new TextBox();
             txtEmail = new TextBox();
             label2 = new Label();
             label1 = new Label();
@@ -51,7 +51,7 @@
             panel1.Controls.Add(btnDangNhap);
             panel1.Controls.Add(label4);
             panel1.Controls.Add(label3);
-            panel1.Controls.Add(textBox1);
+            panel1.Controls.Add(txtPass);
             panel1.Controls.Add(txtEmail);
             panel1.Controls.Add(label2);
             panel1.Controls.Add(label1);
@@ -84,6 +84,7 @@
             ckbHienMK.TabIndex = 7;
             ckbHienMK.Text = "Hiện mật khẩu";
             ckbHienMK.UseVisualStyleBackColor = false;
+            ckbHienMK.CheckedChanged += ckbHienMK_CheckedChanged;
             // 
             // btnDangNhap
             // 
@@ -96,6 +97,7 @@
             btnDangNhap.TabIndex = 6;
             btnDangNhap.Text = "Đăng Nhập";
             btnDangNhap.UseVisualStyleBackColor = false;
+            btnDangNhap.Click += btnDangNhap_Click;
             // 
             // label4
             // 
@@ -119,15 +121,15 @@
             label3.TabIndex = 4;
             label3.Text = "Email:";
             // 
-            // textBox1
+            // txtPass
             // 
-            textBox1.Font = new Font("Times New Roman", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            textBox1.Location = new Point(104, 303);
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "Nhập Password";
-            textBox1.Size = new Size(448, 40);
-            textBox1.TabIndex = 3;
-            textBox1.UseSystemPasswordChar = true;
+            txtPass.Font = new Font("Times New Roman", 14F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtPass.Location = new Point(104, 303);
+            txtPass.Name = "txtPass";
+            txtPass.PlaceholderText = "Nhập Password";
+            txtPass.Size = new Size(448, 40);
+            txtPass.TabIndex = 3;
+            txtPass.UseSystemPasswordChar = true;
             // 
             // txtEmail
             // 
@@ -163,11 +165,13 @@
             // 
             // FrmDangNhap
             // 
+            AcceptButton = btnDangNhap;
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(674, 567);
             Controls.Add(panel1);
             Name = "FrmDangNhap";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Đăng Nhập";
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
@@ -181,7 +185,7 @@
         private Label label1;
         private Label label4;
         private Label label3;
-        private TextBox textBox1;
+        private TextBox txtPass;
         private TextBox txtEmail;
         private Button btnDangNhap;
         private CheckBox ckbHienMK;
