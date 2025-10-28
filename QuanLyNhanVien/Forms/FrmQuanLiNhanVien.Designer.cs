@@ -35,16 +35,11 @@
             label3 = new Label();
             txtSDT = new TextBox();
             label4 = new Label();
-            comboBox1 = new ComboBox();
+            cboChucVu = new ComboBox();
             btnThem = new Button();
             btnXoa = new Button();
             btnSua = new Button();
             dgvNhanVien = new DataGridView();
-            colHoTen = new DataGridViewTextBoxColumn();
-            colMaSo = new DataGridViewTextBoxColumn();
-            colSDT = new DataGridViewTextBoxColumn();
-            colChucVu = new DataGridViewTextBoxColumn();
-            colSoDonHang = new DataGridViewTextBoxColumn();
             menuStrip1 = new MenuStrip();
             trangChủToolStripMenuItem = new ToolStripMenuItem();
             quảnLýKháchHàngToolStripMenuItem = new ToolStripMenuItem();
@@ -54,8 +49,7 @@
             đăngXuấtToolStripMenuItem = new ToolStripMenuItem();
             label5 = new Label();
             C = new Button();
-            btnHuy = new Button();
-            btnLuu = new Button();
+            btnTaiLai = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvNhanVien).BeginInit();
             menuStrip1.SuspendLayout();
             SuspendLayout();
@@ -126,14 +120,15 @@
             label4.TabIndex = 6;
             label4.Text = "Chức vụ:";
             // 
-            // comboBox1
+            // cboChucVu
             // 
-            comboBox1.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(37, 486);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(390, 35);
-            comboBox1.TabIndex = 7;
+            cboChucVu.Font = new Font("Times New Roman", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            cboChucVu.FormattingEnabled = true;
+            cboChucVu.Items.AddRange(new object[] { "Nhân viên bán hàng", "Nhân viên tư vấn\t", "Shipper", "Bảo vệ", "Thủ kho" });
+            cboChucVu.Location = new Point(37, 486);
+            cboChucVu.Name = "cboChucVu";
+            cboChucVu.Size = new Size(390, 35);
+            cboChucVu.TabIndex = 7;
             // 
             // btnThem
             // 
@@ -146,6 +141,7 @@
             btnThem.TabIndex = 8;
             btnThem.Text = "Thêm";
             btnThem.UseVisualStyleBackColor = false;
+            btnThem.Click += btnThem_Click;
             // 
             // btnXoa
             // 
@@ -158,6 +154,7 @@
             btnXoa.TabIndex = 9;
             btnXoa.Text = "Xoá";
             btnXoa.UseVisualStyleBackColor = false;
+            btnXoa.Click += btnXoa_Click;
             // 
             // btnSua
             // 
@@ -170,14 +167,15 @@
             btnSua.TabIndex = 10;
             btnSua.Text = "Sửa";
             btnSua.UseVisualStyleBackColor = false;
+            btnSua.Click += btnSua_Click;
             // 
             // dgvNhanVien
             // 
             dgvNhanVien.AllowUserToAddRows = false;
             dgvNhanVien.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvNhanVien.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
             dgvNhanVien.BackgroundColor = SystemColors.ButtonHighlight;
             dgvNhanVien.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvNhanVien.Columns.AddRange(new DataGridViewColumn[] { colHoTen, colMaSo, colSDT, colChucVu, colSoDonHang });
             dgvNhanVien.Location = new Point(479, 154);
             dgvNhanVien.Name = "dgvNhanVien";
             dgvNhanVien.ReadOnly = true;
@@ -185,41 +183,7 @@
             dgvNhanVien.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvNhanVien.Size = new Size(1021, 541);
             dgvNhanVien.TabIndex = 11;
-            // 
-            // colHoTen
-            // 
-            colHoTen.HeaderText = "Họ Tên";
-            colHoTen.MinimumWidth = 8;
-            colHoTen.Name = "colHoTen";
-            colHoTen.ReadOnly = true;
-            // 
-            // colMaSo
-            // 
-            colMaSo.HeaderText = "Mã Số";
-            colMaSo.MinimumWidth = 8;
-            colMaSo.Name = "colMaSo";
-            colMaSo.ReadOnly = true;
-            // 
-            // colSDT
-            // 
-            colSDT.HeaderText = "Số Điện Thoại";
-            colSDT.MinimumWidth = 8;
-            colSDT.Name = "colSDT";
-            colSDT.ReadOnly = true;
-            // 
-            // colChucVu
-            // 
-            colChucVu.HeaderText = "Chức Vụ";
-            colChucVu.MinimumWidth = 8;
-            colChucVu.Name = "colChucVu";
-            colChucVu.ReadOnly = true;
-            // 
-            // colSoDonHang
-            // 
-            colSoDonHang.HeaderText = "Số Đơn Hàng";
-            colSoDonHang.MinimumWidth = 8;
-            colSoDonHang.Name = "colSoDonHang";
-            colSoDonHang.ReadOnly = true;
+            dgvNhanVien.CellClick += dgvNhanVien_CellClick;
             // 
             // menuStrip1
             // 
@@ -249,20 +213,20 @@
             // kháchHàngToolStripMenuItem
             // 
             kháchHàngToolStripMenuItem.Name = "kháchHàngToolStripMenuItem";
-            kháchHàngToolStripMenuItem.Size = new Size(270, 34);
+            kháchHàngToolStripMenuItem.Size = new Size(264, 34);
             kháchHàngToolStripMenuItem.Text = "Khách Hàng";
             // 
             // đơnHàngToolStripMenuItem
             // 
             đơnHàngToolStripMenuItem.Name = "đơnHàngToolStripMenuItem";
-            đơnHàngToolStripMenuItem.Size = new Size(270, 34);
+            đơnHàngToolStripMenuItem.Size = new Size(264, 34);
             đơnHàngToolStripMenuItem.Text = "Đơn Hàng";
             // 
             // thốngKêBáoCáoToolStripMenuItem
             // 
             thốngKêBáoCáoToolStripMenuItem.BackColor = SystemColors.Control;
             thốngKêBáoCáoToolStripMenuItem.Name = "thốngKêBáoCáoToolStripMenuItem";
-            thốngKêBáoCáoToolStripMenuItem.Size = new Size(270, 34);
+            thốngKêBáoCáoToolStripMenuItem.Size = new Size(264, 34);
             thốngKêBáoCáoToolStripMenuItem.Text = "Thống Kê, Báo Cáo";
             // 
             // đăngXuấtToolStripMenuItem
@@ -292,30 +256,20 @@
             C.TabIndex = 14;
             C.Text = "Tìm kiếm";
             C.UseVisualStyleBackColor = false;
+            C.Click += C_Click;
             // 
-            // btnHuy
+            // btnTaiLai
             // 
-            btnHuy.BackColor = SystemColors.ActiveCaptionText;
-            btnHuy.Font = new Font("Times New Roman", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnHuy.ForeColor = SystemColors.ButtonHighlight;
-            btnHuy.Location = new Point(479, 737);
-            btnHuy.Name = "btnHuy";
-            btnHuy.Size = new Size(196, 64);
-            btnHuy.TabIndex = 15;
-            btnHuy.Text = "Huỷ";
-            btnHuy.UseVisualStyleBackColor = false;
-            // 
-            // btnLuu
-            // 
-            btnLuu.BackColor = SystemColors.ActiveCaptionText;
-            btnLuu.Font = new Font("Times New Roman", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnLuu.ForeColor = SystemColors.ButtonHighlight;
-            btnLuu.Location = new Point(1304, 737);
-            btnLuu.Name = "btnLuu";
-            btnLuu.Size = new Size(196, 64);
-            btnLuu.TabIndex = 16;
-            btnLuu.Text = "Lưu";
-            btnLuu.UseVisualStyleBackColor = false;
+            btnTaiLai.BackColor = SystemColors.ActiveCaptionText;
+            btnTaiLai.Font = new Font("Times New Roman", 11F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnTaiLai.ForeColor = SystemColors.ButtonHighlight;
+            btnTaiLai.Location = new Point(1304, 734);
+            btnTaiLai.Name = "btnTaiLai";
+            btnTaiLai.Size = new Size(196, 64);
+            btnTaiLai.TabIndex = 15;
+            btnTaiLai.Text = "Tải Lại";
+            btnTaiLai.UseVisualStyleBackColor = false;
+            btnTaiLai.Click += btnTaiLai_Click;
             // 
             // FrmQuanLiNhanVien
             // 
@@ -323,15 +277,14 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.Control;
             ClientSize = new Size(1578, 844);
-            Controls.Add(btnLuu);
-            Controls.Add(btnHuy);
+            Controls.Add(btnTaiLai);
             Controls.Add(C);
             Controls.Add(label5);
             Controls.Add(dgvNhanVien);
             Controls.Add(btnSua);
             Controls.Add(btnXoa);
             Controls.Add(btnThem);
-            Controls.Add(comboBox1);
+            Controls.Add(cboChucVu);
             Controls.Add(label4);
             Controls.Add(txtSDT);
             Controls.Add(label3);
@@ -342,7 +295,9 @@
             Controls.Add(menuStrip1);
             MainMenuStrip = menuStrip1;
             Name = "FrmQuanLiNhanVien";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Quản lí Nhân Viên";
+            Load += FrmQuanLiNhanVien_Load;
             ((System.ComponentModel.ISupportInitialize)dgvNhanVien).EndInit();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
@@ -359,16 +314,11 @@
         private Label label3;
         private TextBox txtSDT;
         private Label label4;
-        private ComboBox comboBox1;
+        private ComboBox cboChucVu;
         private Button btnThem;
         private Button btnXoa;
         private Button btnSua;
         private DataGridView dgvNhanVien;
-        private DataGridViewTextBoxColumn colHoTen;
-        private DataGridViewTextBoxColumn colMaSo;
-        private DataGridViewTextBoxColumn colSDT;
-        private DataGridViewTextBoxColumn colChucVu;
-        private DataGridViewTextBoxColumn colSoDonHang;
         private MenuStrip menuStrip1;
         private ToolStripMenuItem trangChủToolStripMenuItem;
         private ToolStripMenuItem quảnLýKháchHàngToolStripMenuItem;
@@ -378,7 +328,6 @@
         private ToolStripMenuItem đăngXuấtToolStripMenuItem;
         private Label label5;
         private Button C;
-        private Button btnHuy;
-        private Button btnLuu;
+        private Button btnTaiLai;
     }
 }
