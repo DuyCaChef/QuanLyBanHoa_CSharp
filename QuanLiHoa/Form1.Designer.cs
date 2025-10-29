@@ -1,6 +1,6 @@
 ﻿namespace Doan_QLDanhMucHoa
 {
-    partial class frmQuanLiHoa
+    partial class Form1
     {
         /// <summary>
         ///  Required designer variable.
@@ -31,7 +31,7 @@
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmQuanLiHoa));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             groupBox1 = new GroupBox();
             dgDSHoa = new DataGridView();
             mahoa = new DataGridViewTextBoxColumn();

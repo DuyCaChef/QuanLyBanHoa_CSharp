@@ -1,8 +1,8 @@
 namespace Doan_QLDanhMucHoa
 {
-    public partial class frmQuanLiHoa : Form
+    public partial class Form1 : Form
     {
-        public frmQuanLiHoa()
+        public Form1()
         {
             InitializeComponent();
         }

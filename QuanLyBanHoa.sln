@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuanLiDonHang", "QuanLiDonH
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThongKeBaoCao", "ThongKeBaoCao\ThongKeBaoCao.csproj", "{94D37ADD-C32B-4377-817D-3F5D7560C6DF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QLHoa", "QuanLiHoa\QLHoa.csproj", "{D23D7AD9-5617-C468-E02C-B4D135760BEE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QLKhachHang", "QuanLiKhachHang\QLKhachHang.csproj", "{478D0267-E09D-5943-0FB1-2F14C2322FD9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{94D37ADD-C32B-4377-817D-3F5D7560C6DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{94D37ADD-C32B-4377-817D-3F5D7560C6DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{94D37ADD-C32B-4377-817D-3F5D7560C6DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D23D7AD9-5617-C468-E02C-B4D135760BEE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D23D7AD9-5617-C468-E02C-B4D135760BEE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D23D7AD9-5617-C468-E02C-B4D135760BEE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D23D7AD9-5617-C468-E02C-B4D135760BEE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{478D0267-E09D-5943-0FB1-2F14C2322FD9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{478D0267-E09D-5943-0FB1-2F14C2322FD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{478D0267-E09D-5943-0FB1-2F14C2322FD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{478D0267-E09D-5943-0FB1-2F14C2322FD9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
