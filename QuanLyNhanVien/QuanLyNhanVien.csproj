@@ -12,4 +12,8 @@
     <PackageReference Include="MySql.Data" Version="9.5.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\QuanLyBanHoa.Data\QuanLyBanHoa.Data.csproj" />
+  </ItemGroup>
+
 </Project>

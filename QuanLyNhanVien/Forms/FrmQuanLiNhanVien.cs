@@ -1,6 +1,6 @@
 ﻿using MySql.Data.MySqlClient;
 using Org.BouncyCastle.Bcpg.OpenPgp;
-using QuanLyBanHoa;
+using QuanLyBanHoa.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;

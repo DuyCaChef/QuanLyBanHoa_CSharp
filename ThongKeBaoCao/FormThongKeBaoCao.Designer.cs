@@ -107,7 +107,7 @@
             this.lblTitle.ForeColor = System.Drawing.Color.White;
             this.lblTitle.Location = new System.Drawing.Point(24, 12);
             this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(264, 37);
+            this.lblTitle.Size = new System.Drawing.Size(313, 45);
             this.lblTitle.TabIndex = 0;
             this.lblTitle.Text = "Thống kê đơn hàng";
             // 
@@ -123,7 +123,7 @@
             this.tlpFilters.Controls.Add(this.lblTo, 2, 0);
             this.tlpFilters.Controls.Add(this.dtpTo, 3, 0);
             this.tlpFilters.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tlpFilters.Location = new System.Drawing.Point(0, 88);
+            this.tlpFilters.Location = new System.Drawing.Point(0, 93);
             this.tlpFilters.Name = "tlpFilters";
             this.tlpFilters.Padding = new System.Windows.Forms.Padding(16, 12, 16, 12);
             this.tlpFilters.RowCount = 1;
@@ -136,9 +136,9 @@
             this.lblFrom.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblFrom.AutoSize = true;
             this.lblFrom.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblFrom.Location = new System.Drawing.Point(19, 20);
+            this.lblFrom.Location = new System.Drawing.Point(19, 18);
             this.lblFrom.Name = "lblFrom";
-            this.lblFrom.Size = new System.Drawing.Size(71, 23);
+            this.lblFrom.Size = new System.Drawing.Size(83, 28);
             this.lblFrom.TabIndex = 0;
             this.lblFrom.Text = "Ngày từ";
             // 
@@ -148,10 +148,10 @@
             this.dtpFrom.CustomFormat = "dddd, dd/MM/yyyy";
             this.dtpFrom.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpFrom.Location = new System.Drawing.Point(116, 17);
+            this.dtpFrom.Location = new System.Drawing.Point(116, 15);
             this.dtpFrom.Margin = new System.Windows.Forms.Padding(0, 3, 16, 3);
             this.dtpFrom.Name = "dtpFrom";
-            this.dtpFrom.Size = new System.Drawing.Size(508, 30);
+            this.dtpFrom.Size = new System.Drawing.Size(508, 34);
             this.dtpFrom.TabIndex = 1;
             // 
             // lblTo
@@ -159,9 +159,9 @@
             this.lblTo.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblTo.AutoSize = true;
             this.lblTo.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblTo.Location = new System.Drawing.Point(643, 20);
+            this.lblTo.Location = new System.Drawing.Point(643, 12);
             this.lblTo.Name = "lblTo";
-            this.lblTo.Size = new System.Drawing.Size(83, 23);
+            this.lblTo.Size = new System.Drawing.Size(55, 40);
             this.lblTo.TabIndex = 2;
             this.lblTo.Text = "Đến ngày";
             // 
@@ -171,10 +171,10 @@
             this.dtpTo.CustomFormat = "dddd, dd/MM/yyyy";
             this.dtpTo.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpTo.Location = new System.Drawing.Point(740, 17);
+            this.dtpTo.Location = new System.Drawing.Point(740, 15);
             this.dtpTo.Margin = new System.Windows.Forms.Padding(0, 3, 16, 3);
             this.dtpTo.Name = "dtpTo";
-            this.dtpTo.Size = new System.Drawing.Size(508, 30);
+            this.dtpTo.Size = new System.Drawing.Size(508, 34);
             this.dtpTo.TabIndex = 3;
             // 
             // gbOverview
@@ -182,7 +182,7 @@
             this.gbOverview.Controls.Add(this.tlpCards);
             this.gbOverview.Dock = System.Windows.Forms.DockStyle.Top;
             this.gbOverview.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
-            this.gbOverview.Location = new System.Drawing.Point(0, 152);
+            this.gbOverview.Location = new System.Drawing.Point(0, 157);
             this.gbOverview.Name = "gbOverview";
             this.gbOverview.Padding = new System.Windows.Forms.Padding(12, 8, 12, 12);
             this.gbOverview.Size = new System.Drawing.Size(1280, 140);
@@ -202,12 +202,12 @@
             this.tlpCards.Controls.Add(this.cardDiscount, 2, 0);
             this.tlpCards.Controls.Add(this.cardCancelRate, 3, 0);
             this.tlpCards.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpCards.Location = new System.Drawing.Point(12, 33);
+            this.tlpCards.Location = new System.Drawing.Point(12, 38);
             this.tlpCards.Name = "tlpCards";
             this.tlpCards.Padding = new System.Windows.Forms.Padding(8);
             this.tlpCards.RowCount = 1;
             this.tlpCards.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpCards.Size = new System.Drawing.Size(1256, 95);
+            this.tlpCards.Size = new System.Drawing.Size(1256, 90);
             this.tlpCards.TabIndex = 0;
             // 
             // cardRevenue
@@ -221,7 +221,7 @@
             this.cardRevenue.Location = new System.Drawing.Point(11, 11);
             this.cardRevenue.Name = "cardRevenue";
             this.cardRevenue.Padding = new System.Windows.Forms.Padding(12);
-            this.cardRevenue.Size = new System.Drawing.Size(304, 73);
+            this.cardRevenue.Size = new System.Drawing.Size(304, 68);
             this.cardRevenue.TabIndex = 0;
             // 
             // panelRevenueAccent
@@ -230,7 +230,7 @@
             this.panelRevenueAccent.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelRevenueAccent.Location = new System.Drawing.Point(12, 12);
             this.panelRevenueAccent.Name = "panelRevenueAccent";
-            this.panelRevenueAccent.Size = new System.Drawing.Size(6, 47);
+            this.panelRevenueAccent.Size = new System.Drawing.Size(6, 42);
             this.panelRevenueAccent.TabIndex = 2;
             // 
             // lblRevenue
@@ -239,9 +239,9 @@
             this.lblRevenue.AutoSize = true;
             this.lblRevenue.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.lblRevenue.ForeColor = System.Drawing.Color.Black;
-            this.lblRevenue.Location = new System.Drawing.Point(28, 34);
+            this.lblRevenue.Location = new System.Drawing.Point(28, 29);
             this.lblRevenue.Name = "lblRevenue";
-            this.lblRevenue.Size = new System.Drawing.Size(57, 37);
+            this.lblRevenue.Size = new System.Drawing.Size(67, 45);
             this.lblRevenue.TabIndex = 1;
             this.lblRevenue.Text = "0 đ";
             // 
@@ -252,7 +252,7 @@
             this.lblRevenueTitle.ForeColor = System.Drawing.Color.DimGray;
             this.lblRevenueTitle.Location = new System.Drawing.Point(28, 12);
             this.lblRevenueTitle.Name = "lblRevenueTitle";
-            this.lblRevenueTitle.Size = new System.Drawing.Size(94, 23);
+            this.lblRevenueTitle.Size = new System.Drawing.Size(112, 28);
             this.lblRevenueTitle.TabIndex = 0;
             this.lblRevenueTitle.Text = "Doanh thu";
             // 
@@ -267,7 +267,7 @@
             this.cardOrders.Location = new System.Drawing.Point(321, 11);
             this.cardOrders.Name = "cardOrders";
             this.cardOrders.Padding = new System.Windows.Forms.Padding(12);
-            this.cardOrders.Size = new System.Drawing.Size(304, 73);
+            this.cardOrders.Size = new System.Drawing.Size(304, 68);
             this.cardOrders.TabIndex = 1;
             // 
             // panelOrdersAccent
@@ -276,7 +276,7 @@
             this.panelOrdersAccent.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelOrdersAccent.Location = new System.Drawing.Point(12, 12);
             this.panelOrdersAccent.Name = "panelOrdersAccent";
-            this.panelOrdersAccent.Size = new System.Drawing.Size(6, 47);
+            this.panelOrdersAccent.Size = new System.Drawing.Size(6, 42);
             this.panelOrdersAccent.TabIndex = 3;
             // 
             // lblOrders
@@ -285,9 +285,9 @@
             this.lblOrders.AutoSize = true;
             this.lblOrders.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.lblOrders.ForeColor = System.Drawing.Color.Black;
-            this.lblOrders.Location = new System.Drawing.Point(28, 34);
+            this.lblOrders.Location = new System.Drawing.Point(28, 29);
             this.lblOrders.Name = "lblOrders";
-            this.lblOrders.Size = new System.Drawing.Size(33, 37);
+            this.lblOrders.Size = new System.Drawing.Size(38, 45);
             this.lblOrders.TabIndex = 1;
             this.lblOrders.Text = "0";
             // 
@@ -298,7 +298,7 @@
             this.lblOrdersTitle.ForeColor = System.Drawing.Color.DimGray;
             this.lblOrdersTitle.Location = new System.Drawing.Point(28, 12);
             this.lblOrdersTitle.Name = "lblOrdersTitle";
-            this.lblOrdersTitle.Size = new System.Drawing.Size(112, 23);
+            this.lblOrdersTitle.Size = new System.Drawing.Size(132, 28);
             this.lblOrdersTitle.TabIndex = 0;
             this.lblOrdersTitle.Text = "Số đơn hàng";
             // 
@@ -313,7 +313,7 @@
             this.cardDiscount.Location = new System.Drawing.Point(631, 11);
             this.cardDiscount.Name = "cardDiscount";
             this.cardDiscount.Padding = new System.Windows.Forms.Padding(12);
-            this.cardDiscount.Size = new System.Drawing.Size(304, 73);
+            this.cardDiscount.Size = new System.Drawing.Size(304, 68);
             this.cardDiscount.TabIndex = 2;
             // 
             // panelDiscountAccent
@@ -322,7 +322,7 @@
             this.panelDiscountAccent.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelDiscountAccent.Location = new System.Drawing.Point(12, 12);
             this.panelDiscountAccent.Name = "panelDiscountAccent";
-            this.panelDiscountAccent.Size = new System.Drawing.Size(6, 47);
+            this.panelDiscountAccent.Size = new System.Drawing.Size(6, 42);
             this.panelDiscountAccent.TabIndex = 3;
             // 
             // lblDiscount
@@ -331,9 +331,9 @@
             this.lblDiscount.AutoSize = true;
             this.lblDiscount.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.lblDiscount.ForeColor = System.Drawing.Color.Black;
-            this.lblDiscount.Location = new System.Drawing.Point(28, 34);
+            this.lblDiscount.Location = new System.Drawing.Point(28, 29);
             this.lblDiscount.Name = "lblDiscount";
-            this.lblDiscount.Size = new System.Drawing.Size(33, 37);
+            this.lblDiscount.Size = new System.Drawing.Size(38, 45);
             this.lblDiscount.TabIndex = 1;
             this.lblDiscount.Text = "0";
             // 
@@ -344,7 +344,7 @@
             this.lblDiscountTitle.ForeColor = System.Drawing.Color.DimGray;
             this.lblDiscountTitle.Location = new System.Drawing.Point(28, 12);
             this.lblDiscountTitle.Name = "lblDiscountTitle";
-            this.lblDiscountTitle.Size = new System.Drawing.Size(109, 23);
+            this.lblDiscountTitle.Size = new System.Drawing.Size(128, 28);
             this.lblDiscountTitle.TabIndex = 0;
             this.lblDiscountTitle.Text = "KM đã dùng";
             // 
@@ -359,7 +359,7 @@
             this.cardCancelRate.Location = new System.Drawing.Point(941, 11);
             this.cardCancelRate.Name = "cardCancelRate";
             this.cardCancelRate.Padding = new System.Windows.Forms.Padding(12);
-            this.cardCancelRate.Size = new System.Drawing.Size(304, 73);
+            this.cardCancelRate.Size = new System.Drawing.Size(304, 68);
             this.cardCancelRate.TabIndex = 3;
             // 
             // panelCancelAccent
@@ -368,7 +368,7 @@
             this.panelCancelAccent.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelCancelAccent.Location = new System.Drawing.Point(12, 12);
             this.panelCancelAccent.Name = "panelCancelAccent";
-            this.panelCancelAccent.Size = new System.Drawing.Size(6, 47);
+            this.panelCancelAccent.Size = new System.Drawing.Size(6, 42);
             this.panelCancelAccent.TabIndex = 3;
             // 
             // lblCancelRate
@@ -377,9 +377,9 @@
             this.lblCancelRate.AutoSize = true;
             this.lblCancelRate.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
             this.lblCancelRate.ForeColor = System.Drawing.Color.Black;
-            this.lblCancelRate.Location = new System.Drawing.Point(28, 34);
+            this.lblCancelRate.Location = new System.Drawing.Point(28, 29);
             this.lblCancelRate.Name = "lblCancelRate";
-            this.lblCancelRate.Size = new System.Drawing.Size(63, 37);
+            this.lblCancelRate.Size = new System.Drawing.Size(75, 45);
             this.lblCancelRate.TabIndex = 1;
             this.lblCancelRate.Text = "0 %";
             // 
@@ -390,7 +390,7 @@
             this.lblCancelRateTitle.ForeColor = System.Drawing.Color.DimGray;
             this.lblCancelRateTitle.Location = new System.Drawing.Point(28, 12);
             this.lblCancelRateTitle.Name = "lblCancelRateTitle";
-            this.lblCancelRateTitle.Size = new System.Drawing.Size(78, 23);
+            this.lblCancelRateTitle.Size = new System.Drawing.Size(94, 28);
             this.lblCancelRateTitle.TabIndex = 0;
             this.lblCancelRateTitle.Text = "Tỉ lệ huỷ";
             // 
@@ -430,7 +430,7 @@
             this.dgvThongKe.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvThongKe.EnableHeadersVisualStyles = false;
             this.dgvThongKe.GridColor = System.Drawing.Color.LightSteelBlue;
-            this.dgvThongKe.Location = new System.Drawing.Point(0, 292);
+            this.dgvThongKe.Location = new System.Drawing.Point(0, 297);
             this.dgvThongKe.MultiSelect = false;
             this.dgvThongKe.Name = "dgvThongKe";
             this.dgvThongKe.ReadOnly = true;
@@ -438,7 +438,7 @@
             this.dgvThongKe.RowHeadersWidth = 51;
             this.dgvThongKe.RowTemplate.Height = 32;
             this.dgvThongKe.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvThongKe.Size = new System.Drawing.Size(1280, 468);
+            this.dgvThongKe.Size = new System.Drawing.Size(1280, 463);
             this.dgvThongKe.TabIndex = 3;
             // 
             // colNgay
@@ -538,6 +538,7 @@
             this.menuStrip1.AllowItemReorder = true;
             this.menuStrip1.BackColor = System.Drawing.Color.SkyBlue;
             this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.mnuTrangChu,
@@ -546,14 +547,14 @@
             this.menuStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
             this.menuStrip1.Location = new System.Drawing.Point(0, 60);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1280, 28);
+            this.menuStrip1.Size = new System.Drawing.Size(1280, 33);
             this.menuStrip1.TabIndex = 2;
             this.menuStrip1.Text = "menuStrip1";
             // 
             // mnuTrangChu
             // 
             this.mnuTrangChu.Name = "mnuTrangChu";
-            this.mnuTrangChu.Size = new System.Drawing.Size(89, 24);
+            this.mnuTrangChu.Size = new System.Drawing.Size(107, 29);
             this.mnuTrangChu.Text = "Trang Chủ";
             // 
             // mnuQuanLy
@@ -563,31 +564,31 @@
             this.mnuDonHang,
             this.mnuThongKeMenu});
             this.mnuQuanLy.Name = "mnuQuanLy";
-            this.mnuQuanLy.Size = new System.Drawing.Size(73, 24);
+            this.mnuQuanLy.Size = new System.Drawing.Size(89, 29);
             this.mnuQuanLy.Text = "Quản lý";
             // 
             // mnuKhachHang
             // 
             this.mnuKhachHang.Name = "mnuKhachHang";
-            this.mnuKhachHang.Size = new System.Drawing.Size(172, 26);
+            this.mnuKhachHang.Size = new System.Drawing.Size(209, 34);
             this.mnuKhachHang.Text = "Khách Hàng";
             // 
             // mnuDonHang
             // 
             this.mnuDonHang.Name = "mnuDonHang";
-            this.mnuDonHang.Size = new System.Drawing.Size(172, 26);
+            this.mnuDonHang.Size = new System.Drawing.Size(209, 34);
             this.mnuDonHang.Text = "Đơn Hàng";
             // 
             // mnuThongKeMenu
             // 
             this.mnuThongKeMenu.Name = "mnuThongKeMenu";
-            this.mnuThongKeMenu.Size = new System.Drawing.Size(172, 26);
+            this.mnuThongKeMenu.Size = new System.Drawing.Size(209, 34);
             this.mnuThongKeMenu.Text = "Thống Kê";
             // 
             // mnuDangXuat
             // 
             this.mnuDangXuat.Name = "mnuDangXuat";
-            this.mnuDangXuat.Size = new System.Drawing.Size(91, 24);
+            this.mnuDangXuat.Size = new System.Drawing.Size(109, 29);
             this.mnuDangXuat.Text = "Đăng xuất";
             // 
             // FormThongKeBaoCao
