@@ -1,4 +1,4 @@
-﻿namespace Doan_QLKhachhang
+﻿namespace QuanLyBanHoa_CSharp.Forms
 {
     partial class frmQuanLiKhachHang
     {

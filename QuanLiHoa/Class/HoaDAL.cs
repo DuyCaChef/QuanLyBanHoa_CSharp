@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 using QuanLyBanHoa_CSharp;
-namespace QLHoa.Class
+namespace QuanLyBanHoa_CSharp.Forms
 {
     internal class HoaDAL
     {

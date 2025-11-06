@@ -1,4 +1,7 @@
-namespace Doan_QLKhachhang
+using QuanLyBanHoa_CSharp;
+using System;
+using System.Windows.Forms;
+namespace QuanLyBanHoa_CSharp.Forms
 {
     internal static class Program
     {

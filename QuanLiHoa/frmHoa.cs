@@ -1,10 +1,9 @@
 ﻿using MySql.Data.MySqlClient;
-using QLHoa;
-using QLHoa.Class;
 using System.Data;
 using System.Runtime.InteropServices;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using QuanLyBanHoa_CSharp.Forms;
 
 namespace Doan_QLDanhMucHoa
 {
@@ -137,7 +136,6 @@ namespace Doan_QLDanhMucHoa
                 PhanLoai = txtLoaiHoa.Text.Trim(),
                 Ghichu = txtGhichu.Text.Trim()
             };
-
             HoaDAL dal = new HoaDAL();
             try
             {
@@ -168,7 +166,6 @@ namespace Doan_QLDanhMucHoa
         {
            
         }
-
         private void LoadDataToDataGridView()
         {
             HoaDAL dal = new HoaDAL();
@@ -178,10 +175,10 @@ namespace Doan_QLDanhMucHoa
                 if (listHoa != null && listHoa.Count > 0)
                 {
                     dgDSHoa.DataSource = listHoa;
-                    // Format GiaBan column if exists
-                    if (dgDSHoa.Columns.Contains("GiaBan"))
+                    // Format Gia column if exists
+                    if (dgDSHoa.Columns.Contains("Gia"))
                     {
-                        dgDSHoa.Columns["GiaBan"].DefaultCellStyle.Format = "N2";
+                        dgDSHoa.Columns["Gia"].DefaultCellStyle.Format = "N2";
                     }
                 }
                 else

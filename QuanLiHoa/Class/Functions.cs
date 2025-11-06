@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;     
 using QuanLyBanHoa_CSharp;
-namespace QLHoa.Class
+namespace QuanLyBanHoa_CSharp.Forms
 {
     class Functions
     {

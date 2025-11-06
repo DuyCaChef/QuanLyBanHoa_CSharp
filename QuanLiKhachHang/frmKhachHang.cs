@@ -1,7 +1,8 @@
 using MySql.Data.MySqlClient;
 using System.Data;
+using QuanLyBanHoa_CSharp;
 
-namespace Doan_QLKhachhang
+namespace QuanLyBanHoa_CSharp.Forms
 {
     public partial class frmQuanLiKhachHang : Form
     {

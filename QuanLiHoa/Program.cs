@@ -1,6 +1,6 @@
 using Doan_QLDanhMucHoa;
 
-namespace QuanLyBanHoa_CSharp
+namespace QuanLyBanHoa_CSharp.Forms
 {
     internal static class Program
     {

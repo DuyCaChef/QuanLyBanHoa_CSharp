@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using QuanLyBanHoa_CSharp;
-namespace QLHoa
+namespace QuanLyBanHoa_CSharp.Forms
 {
     public class Hoa
     {
