@@ -3,6 +3,8 @@ using QLHoa;
 using QLHoa.Class;
 using System.Data;
 using System.Runtime.InteropServices;
+using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Doan_QLDanhMucHoa
 {
@@ -23,7 +25,8 @@ namespace Doan_QLDanhMucHoa
             LoadSoLuongCoSan();
             if (dgDSHoa != null)
             {
-                getData();
+                // Prefer DAL-based loading
+                LoadDataToDataGridView();
             }
         }
         private void LoadSoLuongCoSan()
@@ -82,7 +85,78 @@ namespace Doan_QLDanhMucHoa
 
         private void btnThem_Click(object sender, EventArgs e)
         {
+            // Validate inputs
+            if (string.IsNullOrWhiteSpace(txtTenHoa.Text))
+            {
+                MessageBox.Show("Vui lòng nhập tên hoa.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
+            string rawGia = txtGia.Text.Trim();
+            decimal gia;
+
+            // Try multiple culture parsers and clean input to accept commas/dots and currency symbols
+            bool parsed = decimal.TryParse(rawGia, NumberStyles.Number | NumberStyles.AllowCurrencySymbol, CultureInfo.CurrentCulture, out gia)
+                || decimal.TryParse(rawGia, NumberStyles.Number | NumberStyles.AllowCurrencySymbol, new CultureInfo("vi-VN"), out gia)
+                || decimal.TryParse(rawGia, NumberStyles.Number | NumberStyles.AllowCurrencySymbol, CultureInfo.InvariantCulture, out gia);
+
+            if (!parsed)
+            {
+                // Remove any non-digit, non-separator characters
+                string cleaned = Regex.Replace(rawGia, "[^0-9,.-]", "");
+
+                // If both separators present (e.g. "1.234,56"), remove thousands dots
+                if (cleaned.Contains(',') && cleaned.Contains('.'))
+                {
+                    cleaned = cleaned.Replace(".", "");
+                    cleaned = cleaned.Replace(',', '.'); // normalize to dot for invariant
+                }
+                // Try parse cleaned with invariant and vi
+                parsed = decimal.TryParse(cleaned, NumberStyles.Number | NumberStyles.AllowCurrencySymbol, CultureInfo.InvariantCulture, out gia)
+                    || decimal.TryParse(cleaned, NumberStyles.Number | NumberStyles.AllowCurrencySymbol, new CultureInfo("vi-VN"), out gia);
+            }
+
+            if (!parsed)
+            {
+                MessageBox.Show("Giá không hợp lệ. Vui lòng nhập số.", "Lỗi định dạng", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (cboSoLuong.SelectedItem == null || !int.TryParse(cboSoLuong.SelectedItem.ToString(), out int soLuong))
+            {
+                MessageBox.Show("Vui lòng chọn số lượng.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Create new Hoa object
+            Hoa newHoa = new Hoa
+            {
+                TenHoa = txtTenHoa.Text.Trim(),
+                Gia = gia,
+                SoLuong = soLuong,
+                PhanLoai = txtLoaiHoa.Text.Trim(),
+                Ghichu = txtGhichu.Text.Trim()
+            };
+
+            HoaDAL dal = new HoaDAL();
+            try
+            {
+                bool ok = dal.InsertHoa(newHoa);
+                if (ok)
+                {
+                    MessageBox.Show("Thêm hoa thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadDataToDataGridView();
+                    ClearInputFields();
+                }
+                else
+                {
+                    MessageBox.Show("Thêm hoa không thành công.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thêm hoa: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnThoat_Click(object sender, EventArgs e)
@@ -104,6 +178,11 @@ namespace Doan_QLDanhMucHoa
                 if (listHoa != null && listHoa.Count > 0)
                 {
                     dgDSHoa.DataSource = listHoa;
+                    // Format GiaBan column if exists
+                    if (dgDSHoa.Columns.Contains("GiaBan"))
+                    {
+                        dgDSHoa.Columns["GiaBan"].DefaultCellStyle.Format = "N2";
+                    }
                 }
                 else
                 {

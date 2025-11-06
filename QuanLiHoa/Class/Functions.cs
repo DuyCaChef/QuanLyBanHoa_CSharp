@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;     
-
+using QuanLyBanHoa_CSharp;
 namespace QLHoa.Class
 {
     class Functions

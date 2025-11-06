@@ -1,4 +1,6 @@
-namespace Doan_QLDanhMucHoa
+using Doan_QLDanhMucHoa;
+
+namespace QuanLyBanHoa_CSharp
 {
     internal static class Program
     {
