@@ -202,6 +202,7 @@
             trangChủToolStripMenuItem.Name = "trangChủToolStripMenuItem";
             trangChủToolStripMenuItem.Size = new Size(107, 29);
             trangChủToolStripMenuItem.Text = "Trang Chủ";
+            trangChủToolStripMenuItem.Click += trangChủToolStripMenuItem_Click;
             // 
             // quảnLýKháchHàngToolStripMenuItem
             // 
@@ -213,27 +214,31 @@
             // kháchHàngToolStripMenuItem
             // 
             kháchHàngToolStripMenuItem.Name = "kháchHàngToolStripMenuItem";
-            kháchHàngToolStripMenuItem.Size = new Size(264, 34);
+            kháchHàngToolStripMenuItem.Size = new Size(270, 34);
             kháchHàngToolStripMenuItem.Text = "Khách Hàng";
+            kháchHàngToolStripMenuItem.Click += kháchHàngToolStripMenuItem_Click_1;
             // 
             // đơnHàngToolStripMenuItem
             // 
             đơnHàngToolStripMenuItem.Name = "đơnHàngToolStripMenuItem";
-            đơnHàngToolStripMenuItem.Size = new Size(264, 34);
+            đơnHàngToolStripMenuItem.Size = new Size(270, 34);
             đơnHàngToolStripMenuItem.Text = "Đơn Hàng";
+            đơnHàngToolStripMenuItem.Click += đơnHàngToolStripMenuItem_Click;
             // 
             // thốngKêBáoCáoToolStripMenuItem
             // 
             thốngKêBáoCáoToolStripMenuItem.BackColor = SystemColors.Control;
             thốngKêBáoCáoToolStripMenuItem.Name = "thốngKêBáoCáoToolStripMenuItem";
-            thốngKêBáoCáoToolStripMenuItem.Size = new Size(264, 34);
+            thốngKêBáoCáoToolStripMenuItem.Size = new Size(270, 34);
             thốngKêBáoCáoToolStripMenuItem.Text = "Thống Kê, Báo Cáo";
+            thốngKêBáoCáoToolStripMenuItem.Click += thốngKêBáoCáoToolStripMenuItem_Click;
             // 
             // đăngXuấtToolStripMenuItem
             // 
             đăngXuấtToolStripMenuItem.Name = "đăngXuấtToolStripMenuItem";
             đăngXuấtToolStripMenuItem.Size = new Size(109, 29);
             đăngXuấtToolStripMenuItem.Text = "Đăng xuất";
+            đăngXuấtToolStripMenuItem.Click += đăngXuấtToolStripMenuItem_Click;
             // 
             // label5
             // 

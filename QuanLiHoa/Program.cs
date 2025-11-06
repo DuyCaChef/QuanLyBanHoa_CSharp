@@ -1,4 +1,4 @@
-using Doan_QLDanhMucHoa;
+using QuanLyBanHoa_CSharp.Forms;
 
 namespace QuanLyBanHoa_CSharp.Forms
 {

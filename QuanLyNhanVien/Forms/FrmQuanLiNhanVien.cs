@@ -10,6 +10,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using QuanLyBanHoa_CSharp;
+using QuanLiDonHang;
+using ThongKeBaoCao;
+using DangNhap.Forms;
 
 namespace QuanLyBanHoa_CSharp.Forms
 {
@@ -23,26 +27,32 @@ namespace QuanLyBanHoa_CSharp.Forms
         //Kết nối với class database để lấy dữ liệu từ database
         private void LoadNhanVien()
         {
-            using (var conn = Database.GetConnection())
+            try
             {
-                conn.Open();
-                string query = @"
-                SELECT
-                    nv.MaNV,
-                    nv.TenNV,
-                    nv.SoDienThoai,
-                    nv.ChucVu,
-                    COUNT(ct.MaDh) AS SoLuongDonHang
-                FROM NhanVien nv
-                LEFT JOIN ChiTietDonHang ct ON nv.MaNV = ct.MaNV
-                GROUP BY nv.MaNV, nv.TenNV, nv.SoDienThoai, nv.ChucVu;";
-                MySqlCommand cmd = new MySqlCommand(query, conn);
-                MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-                dgvNhanVien.DataSource = dt;
+                using (var conn = Database.GetConnection())
+                {
+                    conn.Open();
+                    string query = @"
+                    SELECT
+                        nv.MaNV,
+                        nv.TenNV,
+                        nv.SoDienThoai,
+                        nv.ChucVu,
+                        COUNT(ct.MaDh) AS SoLuongDonHang
+                    FROM NhanVien nv
+                    LEFT JOIN ChiTietDonHang ct ON nv.MaNV = ct.MaNV
+                    GROUP BY nv.MaNV, nv.TenNV, nv.SoDienThoai, nv.ChucVu;";
+                    MySqlCommand cmd = new MySqlCommand(query, conn);
+                    MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    dgvNhanVien.DataSource = dt;
+                }
             }
-
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi tải dữ liệu nhân viên: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void FrmQuanLiNhanVien_Load(object sender, EventArgs e)
@@ -252,13 +262,138 @@ namespace QuanLyBanHoa_CSharp.Forms
 
         private void btnTaiLai_Click(object sender, EventArgs e)
         {
-            LoadNhanVien(); 
+            LoadNhanVien();
             txtHoTen.Clear();
             txtMaSo.Clear();
             txtSDT.Clear();
             cboChucVu.SelectedIndex = -1;
             txtHoTen.Focus();
         }
+
+        //mở form trang chủ
+        private void trangChủToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChuyenForm<FrmHoa>("Hoa");
+        }
+
+        private void đơnHàngToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChuyenForm<FormDonHang>("Đơn Hàng");
+        }
+
+        private void kháchHàngToolStripMenuItem_Click_1(object sender, EventArgs e)
+        {
+            ChuyenForm<frmQuanLiKhachHang>("Khách Hàng");
+        }
+
+        private void thốngKêBáoCáoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChuyenForm<FormThongKeBaoCao>("Thống Kê Báo Cáo");
+        }
+
+        // Phương thức chung để chuyển form với xử lý lỗi tốt hơn
+        private void ChuyenForm<T>(string tenForm) where T : Form, new()
+        {
+            try
+            {
+                // Ẩn form hiện tại trước
+                this.Hide();
+
+                // Tạo form mới trong try-catch riêng
+                T newForm = null;
+                try
+                {
+                    newForm = new T();
+                }
+                catch (Exception ex)
+                {
+                    // Nếu lỗi khi khởi tạo form, hiện lại form hiện tại
+                    this.Show();
+                    MessageBox.Show(
+                        $"Lỗi khi khởi tạo form {tenForm}:\n\n" +
+                        $"Lỗi: {ex.Message}\n\n" +
+                        $"Chi tiết:\n{ex.InnerException?.Message ?? ex.StackTrace}",
+                        "Lỗi khởi tạo form",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Đăng ký sự kiện đóng form để hiện lại form hiện tại
+                newForm.FormClosed += (s, args) =>
+                {
+                    if (!this.IsDisposed)
+                        this.Show();
+                };
+
+                // Hiển thị form mới
+                try
+                {
+                    newForm.Show();
+                }
+                catch (Exception ex)
+                {
+                    // Nếu lỗi khi hiển thị form, dispose form mới và hiện lại form hiện tại
+                    newForm?.Dispose();
+                    this.Show();
+                    MessageBox.Show(
+                        $"Lỗi khi hiển thị form {tenForm}:\n\n" +
+                        $"Lỗi: {ex.Message}\n\n" +
+                        $"Chi tiết:\n{ex.InnerException?.Message ?? ex.StackTrace}",
+                        "Lỗi hiển thị form",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Bắt mọi lỗi khác và đảm bảo form hiện tại được hiển thị lại
+                if (!this.Visible && !this.IsDisposed)
+                    this.Show();
+                    
+                MessageBox.Show(
+                    $"Lỗi không xác định khi mở form {tenForm}:\n\n" +
+                    $"Lỗi: {ex.Message}\n\n" +
+                    $"Chi tiết:\n{ex.InnerException?.Message ?? ex.StackTrace}",
+                    "Lỗi",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+            }
+        }
+
+        private void đăngXuấtToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult result = MessageBox.Show(
+            "Bạn có chắc chắn muốn đăng xuất không?",
+            "Xác nhận",
+            MessageBoxButtons.YesNo,
+            MessageBoxIcon.Question
+    );
+
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                    // Ẩn form hiện tại (form chính)
+                    this.Hide();
+
+                    // Mở lại form đăng nhập
+                    FrmDangNhap frmDangNhap = new FrmDangNhap();
+                    frmDangNhap.ShowDialog(); // dùng ShowDialog để đợi đăng nhập xong
+
+                    // Sau khi form đăng nhập đóng, thoát hẳn ứng dụng
+                    this.Close();
+                }
+                catch (Exception ex)
+                {
+                    this.Show();
+                    MessageBox.Show($"Lỗi khi đăng xuất:\n{ex.Message}\n\nChi tiết:\n{ex.StackTrace}", 
+                        "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        
     }
 
 }
