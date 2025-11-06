@@ -3,9 +3,9 @@ using System.Data;
 using System.Runtime.InteropServices;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using QuanLyBanHoa_CSharp.Forms;
+using QuanLyBanHoa_CSharp;
 
-namespace Doan_QLDanhMucHoa
+namespace QuanLyBanHoa_CSharp.Forms
 {
     public partial class FrmHoa : Form
     {

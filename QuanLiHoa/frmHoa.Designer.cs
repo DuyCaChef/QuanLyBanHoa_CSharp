@@ -1,4 +1,4 @@
-﻿namespace Doan_QLDanhMucHoa
+﻿namespace QuanLyBanHoa_CSharp.Forms
 {
     partial class FrmHoa
     {
