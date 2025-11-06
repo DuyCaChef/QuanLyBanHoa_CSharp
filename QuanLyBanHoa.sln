@@ -15,11 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QLHoa", "QuanLiHoa\QLHoa.cs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QLKhachHang", "QuanLiKhachHang\QLKhachHang.csproj", "{478D0267-E09D-5943-0FB1-2F14C2322FD9}"
 EndProject
-<<<<<<< HEAD
-=======
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuanLyBanHoa.Data", "QuanLyBanHoa.Data\QuanLyBanHoa.Data.csproj", "{DA05B4D2-875E-462C-B2F3-152AC657B42F}"
 EndProject
->>>>>>> 851a7a5 (Update database for all projects)
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,9 +47,10 @@ Global
 		{478D0267-E09D-5943-0FB1-2F14C2322FD9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{478D0267-E09D-5943-0FB1-2F14C2322FD9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{478D0267-E09D-5943-0FB1-2F14C2322FD9}.Release|Any CPU.Build.0 = Release|Any CPU
-<<<<<<< HEAD
-=======
->>>>>>> 851a7a5 (Update database for all projects)
+		{DA05B4D2-875E-462C-B2F3-152AC657B42F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA05B4D2-875E-462C-B2F3-152AC657B42F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA05B4D2-875E-462C-B2F3-152AC657B42F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA05B4D2-875E-462C-B2F3-152AC657B42F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

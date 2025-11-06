@@ -1,6 +1,6 @@
 ﻿namespace Doan_QLDanhMucHoa
 {
-    partial class Form1
+    partial class FrmHoa
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,17 +28,12 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmHoa));
             groupBox1 = new GroupBox();
             dgDSHoa = new DataGridView();
-            mahoa = new DataGridViewTextBoxColumn();
-            tenhoa = new DataGridViewTextBoxColumn();
-            giaban = new DataGridViewTextBoxColumn();
-            soluong = new DataGridViewTextBoxColumn();
-            loaihoa = new DataGridViewTextBoxColumn();
             btnTim = new Button();
             txtTim = new TextBox();
             label8 = new Label();
@@ -93,28 +88,27 @@
             // 
             dgDSHoa.AllowUserToAddRows = false;
             dgDSHoa.AllowUserToResizeColumns = false;
-            dataGridViewCellStyle1.BackColor = Color.LightGray;
-            dgDSHoa.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle4.BackColor = Color.LightGray;
+            dgDSHoa.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
             dgDSHoa.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgDSHoa.BackgroundColor = Color.White;
-            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = SystemColors.Control;
-            dataGridViewCellStyle2.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle2.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
-            dgDSHoa.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle5.BackColor = SystemColors.Control;
+            dataGridViewCellStyle5.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
+            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
+            dgDSHoa.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgDSHoa.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgDSHoa.Columns.AddRange(new DataGridViewColumn[] { mahoa, tenhoa, giaban, soluong, loaihoa });
-            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle3.BackColor = Color.White;
-            dataGridViewCellStyle3.Font = new Font("Times New Roman", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle3.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle3.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
-            dgDSHoa.DefaultCellStyle = dataGridViewCellStyle3;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = Color.White;
+            dataGridViewCellStyle6.Font = new Font("Times New Roman", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dgDSHoa.DefaultCellStyle = dataGridViewCellStyle6;
             dgDSHoa.Location = new Point(23, 84);
             dgDSHoa.Name = "dgDSHoa";
             dgDSHoa.ReadOnly = true;
@@ -122,41 +116,7 @@
             dgDSHoa.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgDSHoa.Size = new Size(673, 453);
             dgDSHoa.TabIndex = 11;
-            // 
-            // mahoa
-            // 
-            mahoa.HeaderText = "Mã Hoa";
-            mahoa.MinimumWidth = 6;
-            mahoa.Name = "mahoa";
-            mahoa.ReadOnly = true;
-            // 
-            // tenhoa
-            // 
-            tenhoa.HeaderText = "Tên Hoa";
-            tenhoa.MinimumWidth = 6;
-            tenhoa.Name = "tenhoa";
-            tenhoa.ReadOnly = true;
-            // 
-            // giaban
-            // 
-            giaban.HeaderText = "Giá Bán";
-            giaban.MinimumWidth = 6;
-            giaban.Name = "giaban";
-            giaban.ReadOnly = true;
-            // 
-            // soluong
-            // 
-            soluong.HeaderText = "Số Lượng";
-            soluong.MinimumWidth = 6;
-            soluong.Name = "soluong";
-            soluong.ReadOnly = true;
-            // 
-            // loaihoa
-            // 
-            loaihoa.HeaderText = "Loại Hoa";
-            loaihoa.MinimumWidth = 6;
-            loaihoa.Name = "loaihoa";
-            loaihoa.ReadOnly = true;
+            dgDSHoa.CellContentClick += dgDSHoa_CellContentClick;
             // 
             // btnTim
             // 
@@ -241,11 +201,14 @@
             // 
             // cboSoLuong
             // 
+            cboSoLuong.DropDownHeight = 250;
             cboSoLuong.FormattingEnabled = true;
+            cboSoLuong.IntegralHeight = false;
             cboSoLuong.Location = new Point(146, 185);
             cboSoLuong.Name = "cboSoLuong";
             cboSoLuong.Size = new Size(136, 33);
             cboSoLuong.TabIndex = 8;
+            cboSoLuong.SelectedIndexChanged += cboSoLuong_SelectedIndexChanged;
             // 
             // txtLoaiHoa
             // 
@@ -335,6 +298,7 @@
             btnThem.TabIndex = 3;
             btnThem.Text = "Thêm";
             btnThem.UseVisualStyleBackColor = false;
+            btnThem.Click += btnThem_Click;
             // 
             // btnSua
             // 
@@ -359,6 +323,7 @@
             btnXoa.TabIndex = 5;
             btnXoa.Text = "Xóa";
             btnXoa.UseVisualStyleBackColor = false;
+            btnXoa.Click += btnXoa_Click;
             // 
             // btnLuu
             // 
@@ -371,6 +336,7 @@
             btnLuu.TabIndex = 6;
             btnLuu.Text = "Lưu";
             btnLuu.UseVisualStyleBackColor = false;
+            btnLuu.Click += btnLuu_Click;
             // 
             // btnThoat
             // 
@@ -383,6 +349,7 @@
             btnThoat.TabIndex = 7;
             btnThoat.Text = "Thoát";
             btnThoat.UseVisualStyleBackColor = false;
+            btnThoat.Click += btnThoat_Click;
             // 
             // menuStrip1
             // 
@@ -439,7 +406,7 @@
             đăngXuấtToolStripMenuItem.Size = new Size(93, 24);
             đăngXuấtToolStripMenuItem.Text = "Đăng Xuất";
             // 
-            // frmQuanLiHoa
+            // FrmHoa
             // 
             AutoScaleDimensions = new SizeF(13F, 26F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -458,7 +425,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip1;
             Margin = new Padding(5, 4, 5, 4);
-            Name = "frmQuanLiHoa";
+            Name = "FrmHoa";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Quản Lý Hoa";
             Load += frmQuanLiHoa_Load;
@@ -494,11 +461,6 @@
         private Button btnLuu;
         private Button btnThoat;
         private DataGridView dgDSHoa;
-        private DataGridViewTextBoxColumn mahoa;
-        private DataGridViewTextBoxColumn tenhoa;
-        private DataGridViewTextBoxColumn giaban;
-        private DataGridViewTextBoxColumn soluong;
-        private DataGridViewTextBoxColumn loaihoa;
         private ComboBox cboSoLuong;
         private TextBox txtTenHoa;
         private TextBox txtGia;

@@ -50,11 +50,6 @@
             lbMaKH = new Label();
             groupBox2 = new GroupBox();
             dgDSKhachHang = new DataGridView();
-            maKH = new DataGridViewTextBoxColumn();
-            hotenKH = new DataGridViewTextBoxColumn();
-            sdtKH = new DataGridViewTextBoxColumn();
-            emailKH = new DataGridViewTextBoxColumn();
-            diachiKH = new DataGridViewTextBoxColumn();
             lbTen = new Label();
             menuStrip1 = new MenuStrip();
             trangChủToolStripMenuItem = new ToolStripMenuItem();
@@ -93,6 +88,7 @@
             btnThoat.TabIndex = 1;
             btnThoat.Text = "Thoát";
             btnThoat.UseVisualStyleBackColor = false;
+            btnThoat.Click += btnThoat_Click;
             // 
             // btnXoa
             // 
@@ -278,7 +274,6 @@
             dgDSKhachHang.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgDSKhachHang.BackgroundColor = SystemColors.ButtonHighlight;
             dgDSKhachHang.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgDSKhachHang.Columns.AddRange(new DataGridViewColumn[] { maKH, hotenKH, sdtKH, emailKH, diachiKH });
             dgDSKhachHang.GridColor = SystemColors.HighlightText;
             dgDSKhachHang.Location = new Point(15, 33);
             dgDSKhachHang.Name = "dgDSKhachHang";
@@ -288,41 +283,6 @@
             dgDSKhachHang.Size = new Size(1036, 212);
             dgDSKhachHang.TabIndex = 0;
             dgDSKhachHang.CellContentClick += dataGridView1_CellContentClick;
-            // 
-            // maKH
-            // 
-            maKH.HeaderText = "Mã KH";
-            maKH.MinimumWidth = 6;
-            maKH.Name = "maKH";
-            maKH.ReadOnly = true;
-            // 
-            // hotenKH
-            // 
-            hotenKH.HeaderText = "Họ Và Tên";
-            hotenKH.MinimumWidth = 8;
-            hotenKH.Name = "hotenKH";
-            hotenKH.ReadOnly = true;
-            // 
-            // sdtKH
-            // 
-            sdtKH.HeaderText = "SĐT";
-            sdtKH.MinimumWidth = 6;
-            sdtKH.Name = "sdtKH";
-            sdtKH.ReadOnly = true;
-            // 
-            // emailKH
-            // 
-            emailKH.HeaderText = "Email";
-            emailKH.MinimumWidth = 6;
-            emailKH.Name = "emailKH";
-            emailKH.ReadOnly = true;
-            // 
-            // diachiKH
-            // 
-            diachiKH.HeaderText = "Địa Chỉ";
-            diachiKH.MinimumWidth = 6;
-            diachiKH.Name = "diachiKH";
-            diachiKH.ReadOnly = true;
             // 
             // lbTen
             // 
@@ -411,6 +371,7 @@
             Name = "frmQuanLiKhachHang";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Quản Lý Khách Hàng";
+            Load += frmQuanLiKhachHang_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             groupBox2.ResumeLayout(false);
@@ -441,11 +402,6 @@
         private TextBox txtSĐT;
         private TextBox txtHoTen;
         private TextBox txtMaKH;
-        private DataGridViewTextBoxColumn maKH;
-        private DataGridViewTextBoxColumn hotenKH;
-        private DataGridViewTextBoxColumn sdtKH;
-        private DataGridViewTextBoxColumn emailKH;
-        private DataGridViewTextBoxColumn diachiKH;
         private Label lbEmail;
         private Label lbTen;
         private TextBox txtSoluong;
