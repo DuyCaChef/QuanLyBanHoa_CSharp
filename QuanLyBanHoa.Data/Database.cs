@@ -8,7 +8,7 @@ namespace QuanLyBanHoa.Data
     {
         // ✅ Connection string: nên dùng chữ thường hoặc thống nhất theo tên DB trong MySQL
         private static readonly string connectionString =
-            "server = localhost; uid= root; pwd = Duy@2005; database = quanlybanhoa;";
+            "server = localhost; uid= root; pwd = 1234; database = quanlybanhoa;";
 
         /// <summary>
         /// Trả về một kết nối MySQL đã cấu hình sẵn.
