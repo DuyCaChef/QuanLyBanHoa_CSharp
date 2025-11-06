@@ -10,7 +10,7 @@ using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using QuanLyBanHoa.Data;
 
-namespace QuanLiDonHang
+namespace QuanLyBanHoa_CSharp.Forms
 {
     public partial class FormDonHang : Form
     {

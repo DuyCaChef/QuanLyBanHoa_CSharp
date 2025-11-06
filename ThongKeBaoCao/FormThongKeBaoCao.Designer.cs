@@ -1,4 +1,4 @@
-﻿namespace ThongKeBaoCao
+﻿namespace QuanLyBanHoa_CSharp.Forms
 {
     partial class FormThongKeBaoCao
     {
@@ -399,7 +399,8 @@
             this.dgvThongKe.AllowUserToAddRows = false;
             this.dgvThongKe.AllowUserToDeleteRows = false;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(245)))), ((int)(((byte)(245)))));
-            this.dgvThongKe.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+
+this.dgvThongKe.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvThongKe.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvThongKe.BackgroundColor = System.Drawing.Color.White;
             this.dgvThongKe.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;

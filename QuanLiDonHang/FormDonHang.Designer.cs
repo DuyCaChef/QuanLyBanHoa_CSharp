@@ -1,4 +1,4 @@
-﻿namespace QuanLiDonHang
+﻿namespace QuanLyBanHoa_CSharp.Forms
 {
     partial class FormDonHang
     {
