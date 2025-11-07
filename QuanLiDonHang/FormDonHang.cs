@@ -42,7 +42,6 @@ namespace QuanLyBanHoa_CSharp.Forms
             LoadHoaToComboBox();
         }
 
-        // Khởi tạo mặc định: chi tiết trống, chờ chọn đơn
         private void FormDonHang_Load(object sender, EventArgs e)
         {
             try
@@ -53,19 +52,14 @@ namespace QuanLyBanHoa_CSharp.Forms
                     dgvChiTiet.Rows.Clear();
                 }
 
-                if (dgvDonHang != null && dgvDonHang.SelectedRows.Count == 0 && dgvDonHang.Rows.Count > 0)
+                if (dgvDonHang != null)
                 {
-                    // Không tự chọn hàng nào để tránh hiểu nhầm nhập chi tiết
                     dgvDonHang.ClearSelection();
                 }
 
                 // Load initial orders and flowers from database
                 LoadHoaToComboBox();
                 LoadDonHang();
-
-                // Ẩn khu vực mã khuyến mãi vì chưa triển khai
-                if (lblMaKM != null) lblMaKM.Visible = false;
-                if (txtMaKM != null) { txtMaKM.Visible = false; txtMaKM.TabStop = false; }
             }
             catch (Exception ex)
             {
@@ -153,7 +147,7 @@ namespace QuanLyBanHoa_CSharp.Forms
 
         /// <summary>
         /// Load orders from database and populate dgvDonHang.
-        /// Shows one representative product per order, total quantity and total amount.
+        /// Không hiển thị TongTien nữa - chỉ hiển thị khi xem chi tiết
         /// </summary>
         private void LoadDonHang()
         {
@@ -165,11 +159,10 @@ namespace QuanLyBanHoa_CSharp.Forms
                 {
                     conn.Open();
 
-                    // Query: join DonHang with KhachHang and get one product + sums from ChiTietDonHang
+                    // Query: join DonHang with KhachHang - Không lấy TongTien
                     string sql = @"SELECT d.MaDH, d.NgayDatHang, k.TenKH, k.SoDienThoai, d.MaNV,
                                     (SELECT h.TenHoa FROM ChiTietDonHang ct JOIN Hoa h ON ct.MaHoa = h.MaHoa WHERE ct.MaDH = d.MaDH LIMIT 1) AS TenHoa,
-                                    (SELECT SUM(SoLuong) FROM ChiTietDonHang WHERE MaDH = d.MaDH) AS SumSoLuong,
-                                    d.TongTien
+                                    (SELECT SUM(SoLuong) FROM ChiTietDonHang WHERE MaDH = d.MaDH) AS SumSoLuong
                                   FROM DonHang d
                                   LEFT JOIN KhachHang k ON d.MaKH = k.MaKH
                                   ORDER BY d.NgayDatHang DESC, d.MaDH DESC LIMIT 500";
@@ -187,9 +180,9 @@ namespace QuanLyBanHoa_CSharp.Forms
                                 int maNV = rdr.IsDBNull(4) ? 0 : rdr.GetInt32(4);
                                 string tenHoa = rdr.IsDBNull(5) ? string.Empty : rdr.GetString(5);
                                 int soLuong = rdr.IsDBNull(6) ? 0 : Convert.ToInt32(rdr.GetValue(6));
-                                decimal tongTien = rdr.IsDBNull(7) ? 0m : rdr.GetDecimal(7);
 
-                                dgvDonHang.Rows.Add(maDH, ngay.ToString("g"), tenKH, sdt, maNV.ToString(), tenHoa, soLuong, tongTien.ToString("N2"));
+                                // Không thêm cột TongTien nữa
+                                dgvDonHang.Rows.Add(maDH, ngay.ToString("g"), tenKH, sdt, maNV.ToString(), tenHoa, soLuong);
                             }
                         }
                     }
@@ -201,7 +194,7 @@ namespace QuanLyBanHoa_CSharp.Forms
             }
         }
 
-        // Khi chọn một đơn ở danh sách -> hiển thị chi tiết (chỉ xem)
+        // Khi chọn một đơn ở danh sách -> hiển thị chi tiết đầy đủ và tính tổng tiền
         private void dgvDonHang_SelectionChanged(object sender, EventArgs e)
         {
             try
@@ -216,29 +209,22 @@ namespace QuanLyBanHoa_CSharp.Forms
                     txtTenKhach.Clear();
                     txtSdt.Clear();
                     txtMaNV.Clear();
-                    txtMaKM.Clear();
                     if (nudTongSoLuong != null) nudTongSoLuong.Value = nudTongSoLuong.Minimum;
+                    
+                    // Clear tổng tiền
+                    if (lblTongTienValue != null) lblTongTienValue.Text = "0 đ";
+                    
                     return;
                 }
 
                 var row = dgvDonHang.SelectedRows[0];
 
-                // Lấy dữ liệu cơ bản từ danh sách đơn (nếu có)
+                // Lấy dữ liệu cơ bản từ danh sách đơn
                 string maDonStr = Convert.ToString(row.Cells["colMaDon"].Value ?? "");
                 string ngayStr = Convert.ToString(row.Cells["colNgay"].Value ?? "");
                 string tenKH = Convert.ToString(row.Cells["colTenKhach"].Value ?? "");
-                string sSoLuong = Convert.ToString(row.Cells["colSoLuong"].Value ?? "0");
-                string sTongTien = Convert.ToString(row.Cells["colGia"].Value ?? "0");
                 string sdt = Convert.ToString(row.Cells["colSDT"].Value ?? "");
                 string sMaNV = Convert.ToString(row.Cells["colMaNV"].Value ?? "");
-
-                int soLuong;
-                if (!int.TryParse(sSoLuong, NumberStyles.Any, CultureInfo.CurrentCulture, out soLuong))
-                    soLuong = 0;
-
-                decimal tongTien;
-                if (!decimal.TryParse(sTongTien, NumberStyles.Any, CultureInfo.CurrentCulture, out tongTien))
-                    tongTien = 0m;
 
                 // Cập nhật controls
                 if (!string.IsNullOrWhiteSpace(maDonStr)) txtMaDon.Text = maDonStr;
@@ -251,28 +237,7 @@ namespace QuanLyBanHoa_CSharp.Forms
                 txtSdt.Text = sdt;
                 txtMaNV.Text = sMaNV;
 
-                if (nudTongSoLuong != null)
-                {
-                    if (soLuong >= (int)nudTongSoLuong.Minimum && soLuong <= (int)nudTongSoLuong.Maximum)
-                    {
-                        nudTongSoLuong.Value = Math.Max(nudTongSoLuong.Minimum, Math.Min(nudTongSoLuong.Maximum, soLuong));
-                    }
-                    else if (soLuong > (int)nudTongSoLuong.Maximum)
-                    {
-                        nudTongSoLuong.Value = nudTongSoLuong.Maximum;
-                    }
-                    else
-                    {
-                        nudTongSoLuong.Value = nudTongSoLuong.Minimum;
-                    }
-                }
-
-                // Tính đơn giá (nếu có số lượng)
-                decimal donGia = 0m;
-                if (soLuong > 0)
-                    donGia = tongTien / soLuong;
-
-                // Hiển thị chi tiết: truy vấn ChiTietDonHang thực tế
+                // Hiển thị chi tiết đầy đủ và tính tổng tiền
                 if (dgvChiTiet != null)
                 {
                     dgvChiTiet.Rows.Clear();
@@ -281,6 +246,9 @@ namespace QuanLyBanHoa_CSharp.Forms
                     {
                         try
                         {
+                            int tongSoLuong = 0;
+                            decimal tongTien = 0m;
+
                             using (var conn = Database.GetConnection())
                             {
                                 conn.Open();
@@ -295,29 +263,46 @@ namespace QuanLyBanHoa_CSharp.Forms
                                     {
                                         while (rdr.Read())
                                         {
-                                            string prod = rdr.IsDBNull(0) ? string.Empty : rdr.GetInt32(0).ToString();
-                                            if (rdr.FieldCount >= 2 && !rdr.IsDBNull(1)) prod = rdr.GetString(1);
+                                            string tenHoa = rdr.IsDBNull(1) ? string.Empty : rdr.GetString(1);
                                             int sl = rdr.IsDBNull(2) ? 0 : rdr.GetInt32(2);
-                                            decimal dg = 0m;
-                                            if (!rdr.IsDBNull(3)) dg = rdr.GetDecimal(3) / Math.Max(1, sl);
+                                            decimal thanhTien = rdr.IsDBNull(3) ? 0m : rdr.GetDecimal(3);
+                                            decimal donGia = sl > 0 ? thanhTien / sl : 0m;
 
-                                            dgvChiTiet.Rows.Add(prod, sl, dg);
+                                            dgvChiTiet.Rows.Add(tenHoa, sl, donGia.ToString("N2"));
+
+                                            tongSoLuong += sl;
+                                            tongTien += thanhTien;
                                         }
                                     }
                                 }
+                            }
+
+                            // Cập nhật tổng số lượng
+                            if (nudTongSoLuong != null)
+                            {
+                                if (tongSoLuong >= (int)nudTongSoLuong.Minimum && tongSoLuong <= (int)nudTongSoLuong.Maximum)
+                                {
+                                    nudTongSoLuong.Value = tongSoLuong;
+                                }
+                                else if (tongSoLuong > (int)nudTongSoLuong.Maximum)
+                                {
+                                    nudTongSoLuong.Value = nudTongSoLuong.Maximum;
+                                }
+                                else
+                                {
+                                    nudTongSoLuong.Value = nudTongSoLuong.Minimum;
+                                }
+                            }
+
+                            // Hiển thị tổng tiền
+                            if (lblTongTienValue != null)
+                            {
+                                lblTongTienValue.Text = tongTien.ToString("N0") + " đ";
                             }
                         }
                         catch (Exception ex)
                         {
                             MessageBox.Show($"Lỗi khi tải chi tiết đơn:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
-                    else
-                    {
-                        // fallback: use row data
-                        if (!string.IsNullOrWhiteSpace(row.Cells["colTenHoa"].Value?.ToString()) || soLuong > 0 || tongTien > 0)
-                        {
-                            dgvChiTiet.Rows.Add(row.Cells["colTenHoa"].Value?.ToString() ?? string.Empty, soLuong, donGia);
                         }
                     }
                 }
@@ -329,6 +314,9 @@ namespace QuanLyBanHoa_CSharp.Forms
             }
         }
 
+        /// <summary>
+        /// Kiểm tra đơn hàng đã tồn tại chưa, nếu có thì cập nhật, nếu không thì tạo mới
+        /// </summary>
         private void btnThem_Click(object sender, EventArgs e)
         {
             try
@@ -340,6 +328,21 @@ namespace QuanLyBanHoa_CSharp.Forms
                     return;
                 }
 
+                // Validate flower selection
+                if (cboTenHoa.SelectedItem == null)
+                {
+                    MessageBox.Show("Vui lòng chọn loại hoa.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string tenHoa = cboTenHoa.SelectedItem.ToString();
+                
+                if (!flowerData.ContainsKey(tenHoa))
+                {
+                    MessageBox.Show("Không tìm thấy thông tin hoa.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
                 // Parse MaNV
                 if (!int.TryParse(txtMaNV.Text.Trim(), out int maNV))
                 {
@@ -347,38 +350,16 @@ namespace QuanLyBanHoa_CSharp.Forms
                     return;
                 }
 
-                // Determine totals from chi tiết if present
-                int tongSoLuong = 0;
-                decimal tongTien = 0m;
-                bool hasChiTiet = false;
+                var (maHoa, gia) = flowerData[tenHoa];
+                int soLuong = (int)nudTongSoLuong.Value;
 
-                if (dgvChiTiet != null && dgvChiTiet.Rows.Count > 0)
+                if (soLuong <= 0)
                 {
-                    foreach (DataGridViewRow r in dgvChiTiet.Rows)
-                    {
-                        if (r.IsNewRow) continue;
-                        hasChiTiet = true;
-
-                        int soLuong = 0;
-                        decimal donGia = 0m;
-
-                        if (r.Cells.Count > 1 && r.Cells[1].Value != null)
-                            int.TryParse(r.Cells[1].Value.ToString(), out soLuong);
-
-                        if (r.Cells.Count > 2 && r.Cells[2].Value != null)
-                            decimal.TryParse(r.Cells[2].Value.ToString(), NumberStyles.Any, CultureInfo.CurrentCulture, out donGia);
-
-                        tongSoLuong += soLuong;
-                        tongTien += soLuong * donGia;
-                    }
+                    MessageBox.Show("Số lượng phải lớn hơn 0.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
 
-                if (!hasChiTiet)
-                {
-                    // fallback
-                    tongSoLuong = nudTongSoLuong != null ? (int)nudTongSoLuong.Value : 0;
-                    tongTien = 0m;
-                }
+                decimal thanhTien = soLuong * gia;
 
                 using (var conn = Database.GetConnection())
                 {
@@ -387,7 +368,7 @@ namespace QuanLyBanHoa_CSharp.Forms
                     {
                         try
                         {
-                            // 1) Ensure MaKH exists: try find by phone, otherwise insert new KhachHang
+                            // 1) Ensure MaKH exists
                             int maKH = 0;
                             using (var cmdFind = new MySqlCommand("SELECT MaKH FROM KhachHang WHERE SoDienThoai = @sdt LIMIT 1", conn, tx))
                             {
@@ -409,110 +390,78 @@ namespace QuanLyBanHoa_CSharp.Forms
                                 }
                             }
 
-                            // 2) MaKM hiện chưa triển khai -> luôn NULL
                             object maKmDb = DBNull.Value;
 
-                            // 3) Insert DonHang
-                            string insertDon = @"INSERT INTO DonHang (MaKH, MaNV, NgayDatHang, TongTien, MaKM) VALUES (@MaKH, @MaNV, @NgayDatHang, @TongTien, @MaKM); SELECT LAST_INSERT_ID();";
+                            // 2) Luôn tạo đơn hàng mới (không kiểm tra trùng)
+                            // Có thể nhập MaDH hoặc để auto increment
+                            string insertDon;
+                            MySqlCommand cmdDon;
+                            
+                            if (!string.IsNullOrWhiteSpace(txtMaDon.Text) && int.TryParse(txtMaDon.Text.Trim(), out int maDHInput))
+                            {
+                                // Người dùng nhập MaDH (ví dụ: 001)
+                                insertDon = @"INSERT INTO DonHang (MaDH, MaKH, MaNV, NgayDatHang, TongTien, MaKM) 
+                                            VALUES (@MaDH, @MaKH, @MaNV, @NgayDatHang, @TongTien, @MaKM);";
+                                cmdDon = new MySqlCommand(insertDon, conn, tx);
+                                cmdDon.Parameters.AddWithValue("@MaDH", maDHInput);
+                            }
+                            else
+                            {
+                                // Auto increment MaDH
+                                insertDon = @"INSERT INTO DonHang (MaKH, MaNV, NgayDatHang, TongTien, MaKM) 
+                                            VALUES (@MaKH, @MaNV, @NgayDatHang, @TongTien, @MaKM); 
+                                            SELECT LAST_INSERT_ID();";
+                                cmdDon = new MySqlCommand(insertDon, conn, tx);
+                            }
+
+                            cmdDon.Parameters.AddWithValue("@MaKH", maKH);
+                            cmdDon.Parameters.AddWithValue("@MaNV", maNV);
+                            cmdDon.Parameters.AddWithValue("@NgayDatHang", dtpNgay.Value.Date);
+                            cmdDon.Parameters.AddWithValue("@TongTien", thanhTien);
+                            cmdDon.Parameters.AddWithValue("@MaKM", maKmDb);
 
                             int maDH;
-                            using (var cmdDon = new MySqlCommand(insertDon, conn, tx))
+                            if (!string.IsNullOrWhiteSpace(txtMaDon.Text) && int.TryParse(txtMaDon.Text.Trim(), out int maDHInput2))
                             {
-                                cmdDon.Parameters.AddWithValue("@MaKH", maKH);
-                                cmdDon.Parameters.AddWithValue("@MaNV", maNV);
-                                cmdDon.Parameters.AddWithValue("@NgayDatHang", dtpNgay.Value.Date);
-                                cmdDon.Parameters.AddWithValue("@TongTien", tongTien);
-                                cmdDon.Parameters.AddWithValue("@MaKM", maKmDb);
-
+                                cmdDon.ExecuteNonQuery();
+                                maDH = maDHInput2;
+                            }
+                            else
+                            {
                                 var idObj = cmdDon.ExecuteScalar();
                                 if (idObj == null) throw new Exception("Không lấy được ID DonHang.");
                                 maDH = Convert.ToInt32(idObj);
                             }
 
-                            // 4) Insert ChiTietDonHang rows if any. Need MaHoa for each row.
-                            if (hasChiTiet)
+                            // 3) Insert ChiTietDonHang
+                            string insertCt = @"INSERT INTO ChiTietDonHang (MaDH, MaHoa, SoLuong, ThanhTien, MaNV) 
+                                              VALUES (@MaDH, @MaHoa, @SoLuong, @ThanhTien, @MaNV);";
+                            using (var cmdCt = new MySqlCommand(insertCt, conn, tx))
                             {
-                                string insertCt = @"INSERT INTO ChiTietDonHang (MaDH, MaHoa, SoLuong, ThanhTien, MaNV) VALUES (@MaDH, @MaHoa, @SoLuong, @ThanhTien, @MaNV);";
-                                using (var cmdCt = new MySqlCommand(insertCt, conn, tx))
-                                {
-                                    cmdCt.Parameters.Add("@MaDH", MySqlDbType.Int32);
-                                    cmdCt.Parameters.Add("@MaHoa", MySqlDbType.Int32);
-                                    cmdCt.Parameters.Add("@SoLuong", MySqlDbType.Int32);
-                                    cmdCt.Parameters.Add("@ThanhTien", MySqlDbType.Decimal);
-                                    cmdCt.Parameters.Add("@MaNV", MySqlDbType.Int32);
-
-                                    foreach (DataGridViewRow r in dgvChiTiet.Rows)
-                                    {
-                                        if (r.IsNewRow) continue;
-
-                                        // Determine MaHoa: if numeric provided use it, otherwise lookup by TenHoa
-                                        int maHoa = 0;
-                                        string prodCell = r.Cells.Count > 0 && r.Cells[0].Value != null ? r.Cells[0].Value.ToString() : string.Empty;
-
-                                        if (int.TryParse(prodCell, out int parsedId))
-                                        {
-                                            maHoa = parsedId;
-                                        }
-                                        else if (!string.IsNullOrWhiteSpace(prodCell))
-                                        {
-                                            using (var cmdFindHoa = new MySqlCommand("SELECT MaHoa FROM Hoa WHERE TenHoa = @ten LIMIT 1", conn, tx))
-                                            {
-                                                cmdFindHoa.Parameters.AddWithValue("@ten", prodCell);
-                                                var obj = cmdFindHoa.ExecuteScalar();
-                                                if (obj != null && int.TryParse(obj.ToString(), out int h)) maHoa = h;
-                                            }
-
-                                            if (maHoa == 0)
-                                            {
-                                                // If product name not found, try to create? here we throw to avoid inconsistent data
-                                                throw new Exception($"Không tìm thấy sản phẩm '{prodCell}' trong bảng Hoa.");
-                                            }
-                                        }
-
-                                        int soLuong = 0;
-                                        decimal donGia = 0m;
-
-                                        if (r.Cells.Count > 1 && r.Cells[1].Value != null)
-                                            int.TryParse(r.Cells[1].Value.ToString(), out soLuong);
-
-                                        if (r.Cells.Count > 2 && r.Cells[2].Value != null)
-                                            decimal.TryParse(r.Cells[2].Value.ToString(), NumberStyles.Any, CultureInfo.CurrentCulture, out donGia);
-
-                                        decimal thanhTien = soLuong * donGia;
-
-                                        cmdCt.Parameters["@MaDH"].Value = maDH;
-                                        cmdCt.Parameters["@MaHoa"].Value = maHoa;
-                                        cmdCt.Parameters["@SoLuong"].Value = soLuong;
-                                        cmdCt.Parameters["@ThanhTien"].Value = thanhTien;
-                                        cmdCt.Parameters["@MaNV"].Value = maNV;
-
-                                        cmdCt.ExecuteNonQuery();
-                                    }
-                                }
+                                cmdCt.Parameters.AddWithValue("@MaDH", maDH);
+                                cmdCt.Parameters.AddWithValue("@MaHoa", maHoa);
+                                cmdCt.Parameters.AddWithValue("@SoLuong", soLuong);
+                                cmdCt.Parameters.AddWithValue("@ThanhTien", thanhTien);
+                                cmdCt.Parameters.AddWithValue("@MaNV", maNV);
+                                cmdCt.ExecuteNonQuery();
                             }
 
                             tx.Commit();
 
-                            // Update dgvDonHang immediately
-                            if (dgvDonHang != null)
-                            {
-                                string ngayStr = dtpNgay.Value.ToString("g");
-                                string firstProduct = string.Empty;
-                                if (hasChiTiet && dgvChiTiet.Rows.Count > 0 && dgvChiTiet.Rows[0].Cells.Count > 0 && dgvChiTiet.Rows[0].Cells[0].Value != null)
-                                    firstProduct = dgvChiTiet.Rows[0].Cells[0].Value.ToString();
+                            MessageBox.Show($"Thêm đơn hàng thành công (Mã: {maDH}).\nĐã thêm {tenHoa} ({soLuong}).", 
+                                "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                                dgvDonHang.Rows.Add(maDH, ngayStr, txtTenKhach.Text.Trim(), txtSdt.Text.Trim(), maNV.ToString(), firstProduct, tongSoLuong, tongTien.ToString("N2"));
-                            }
-
-                            MessageBox.Show($"Thêm đơn hàng thành công (Mã: {maDH}).", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                            // Clear inputs
+                            // Reload and clear
+                            LoadDonHang();
+                            
+                            // Clear all inputs để sẵn sàng nhập đơn mới
+                            txtMaDon.Clear();
                             txtTenKhach.Clear();
                             txtSdt.Clear();
                             txtMaNV.Clear();
-                            txtMaKM.Clear();
-                            if (nudTongSoLuong != null) nudTongSoLuong.Value = nudTongSoLuong.Minimum;
-                            if (dgvChiTiet != null) dgvChiTiet.Rows.Clear();
+                            cboTenHoa.SelectedIndex = -1;
+                            txtMaHoa.Clear();
+                            nudTongSoLuong.Value = 1;
                         }
                         catch (Exception ex)
                         {
@@ -544,45 +493,23 @@ namespace QuanLyBanHoa_CSharp.Forms
                     return;
                 }
 
-                // MaKM chưa triển khai -> luôn NULL
                 object maKmDb = DBNull.Value;
 
-                // Recompute totals from dgvChiTiet if present
-                int tongSoLuong = 0;
+                // Get totals from database
                 decimal tongTien = 0m;
-                bool hasChiTiet = false;
-
-                if (dgvChiTiet != null && dgvChiTiet.Rows.Count > 0)
-                {
-                    foreach (DataGridViewRow r in dgvChiTiet.Rows)
-                    {
-                        if (r.IsNewRow) continue;
-                        hasChiTiet = true;
-
-                        int soLuong = 0;
-                        decimal donGia = 0m;
-                        if (r.Cells.Count > 1 && r.Cells[1].Value != null) int.TryParse(r.Cells[1].Value.ToString(), out soLuong);
-                        if (r.Cells.Count > 2 && r.Cells[2].Value != null) decimal.TryParse(r.Cells[2].Value.ToString(), NumberStyles.Any, CultureInfo.CurrentCulture, out donGia);
-
-                        tongSoLuong += soLuong;
-                        tongTien += soLuong * donGia;
-                    }
-                }
-
-                // If no chi tiết rows, keep existing tongTien from selected grid
-                if (!hasChiTiet)
-                {
-                    var sel = dgvDonHang.SelectedRows.Count > 0 ? dgvDonHang.SelectedRows[0] : null;
-                    if (sel != null)
-                    {
-                        string sTong = Convert.ToString(sel.Cells["colGia"].Value ?? "0");
-                        decimal.TryParse(sTong, NumberStyles.Any, CultureInfo.CurrentCulture, out tongTien);
-                    }
-                }
 
                 using (var conn = Database.GetConnection())
                 {
                     conn.Open();
+                    
+                    // Recalculate total from ChiTietDonHang
+                    using (var cmdSum = new MySqlCommand("SELECT COALESCE(SUM(ThanhTien), 0) FROM ChiTietDonHang WHERE MaDH = @MaDH", conn))
+                    {
+                        cmdSum.Parameters.AddWithValue("@MaDH", maDH);
+                        var result = cmdSum.ExecuteScalar();
+                        if (result != null) tongTien = Convert.ToDecimal(result);
+                    }
+                    
                     using (var tx = conn.BeginTransaction())
                     {
                         try
@@ -596,62 +523,6 @@ namespace QuanLyBanHoa_CSharp.Forms
                                 cmd.Parameters.AddWithValue("@MaKM", maKmDb);
                                 cmd.Parameters.AddWithValue("@MaDH", maDH);
                                 cmd.ExecuteNonQuery();
-                            }
-
-                            // If chi tiết provided, delete existing chi tiết and re-insert
-                            if (hasChiTiet)
-                            {
-                                using (var cmdDel = new MySqlCommand("DELETE FROM ChiTietDonHang WHERE MaDH = @MaDH", conn, tx))
-                                {
-                                    cmdDel.Parameters.AddWithValue("@MaDH", maDH);
-                                    cmdDel.ExecuteNonQuery();
-                                }
-
-                                string insertCt = @"INSERT INTO ChiTietDonHang (MaDH, MaHoa, SoLuong, ThanhTien, MaNV) VALUES (@MaDH, @MaHoa, @SoLuong, @ThanhTien, @MaNV);";
-                                using (var cmdCt = new MySqlCommand(insertCt, conn, tx))
-                                {
-                                    cmdCt.Parameters.Add("@MaDH", MySqlDbType.Int32);
-                                    cmdCt.Parameters.Add("@MaHoa", MySqlDbType.Int32);
-                                    cmdCt.Parameters.Add("@SoLuong", MySqlDbType.Int32);
-                                    cmdCt.Parameters.Add("@ThanhTien", MySqlDbType.Decimal);
-                                    cmdCt.Parameters.Add("@MaNV", MySqlDbType.Int32);
-
-                                    foreach (DataGridViewRow r in dgvChiTiet.Rows)
-                                    {
-                                        if (r.IsNewRow) continue;
-
-                                        int maHoa = 0;
-                                        string prodCell = r.Cells.Count > 0 && r.Cells[0].Value != null ? r.Cells[0].Value.ToString() : string.Empty;
-
-                                        if (int.TryParse(prodCell, out int parsedId)) maHoa = parsedId;
-                                        else if (!string.IsNullOrWhiteSpace(prodCell))
-                                        {
-                                            using (var cmdFindHoa = new MySqlCommand("SELECT MaHoa FROM Hoa WHERE TenHoa = @ten LIMIT 1", conn, tx))
-                                            {
-                                                cmdFindHoa.Parameters.AddWithValue("@ten", prodCell);
-                                                var obj = cmdFindHoa.ExecuteScalar();
-                                                if (obj != null && int.TryParse(obj.ToString(), out int h)) maHoa = h;
-                                            }
-
-                                            if (maHoa == 0) throw new Exception($"Không tìm thấy sản phẩm '{prodCell}' trong bảng Hoa.");
-                                        }
-
-                                        int soLuong = 0;
-                                        decimal donGia = 0m;
-                                        if (r.Cells.Count > 1 && r.Cells[1].Value != null) int.TryParse(r.Cells[1].Value.ToString(), out soLuong);
-                                        if (r.Cells.Count > 2 && r.Cells[2].Value != null) decimal.TryParse(r.Cells[2].Value.ToString(), NumberStyles.Any, CultureInfo.CurrentCulture, out donGia);
-
-                                        decimal thanhTien = soLuong * donGia;
-
-                                        cmdCt.Parameters["@MaDH"].Value = maDH;
-                                        cmdCt.Parameters["@MaHoa"].Value = maHoa;
-                                        cmdCt.Parameters["@SoLuong"].Value = soLuong;
-                                        cmdCt.Parameters["@ThanhTien"].Value = thanhTien;
-                                        cmdCt.Parameters["@MaNV"].Value = maNV;
-
-                                        cmdCt.ExecuteNonQuery();
-                                    }
-                                }
                             }
 
                             tx.Commit();
@@ -731,6 +602,45 @@ namespace QuanLyBanHoa_CSharp.Forms
             {
                 MessageBox.Show($"Lỗi khi xóa đơn hàng:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        /// <summary>
+        /// Event handler for cell formatting in dgvDonHang - adds tooltip for long text
+        /// </summary>
+        private void dgvDonHang_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            try
+            {
+                if (e.Value != null && dgvDonHang.Columns[e.ColumnIndex].Name == "colTenKhach" || 
+                    dgvDonHang.Columns[e.ColumnIndex].Name == "colTenHoa")
+                {
+                    string cellText = e.Value.ToString();
+                    if (!string.IsNullOrEmpty(cellText))
+                    {
+                        dgvDonHang.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = cellText;
+                    }
+                }
+            }
+            catch { }
+        }
+
+        /// <summary>
+        /// Event handler for cell formatting in dgvChiTiet - adds tooltip for long text
+        /// </summary>
+        private void dgvChiTiet_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            try
+            {
+                if (e.Value != null && dgvChiTiet.Columns[e.ColumnIndex].Name == "colCT_SanPham")
+                {
+                    string cellText = e.Value.ToString();
+                    if (!string.IsNullOrEmpty(cellText))
+                    {
+                        dgvChiTiet.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = cellText;
+                    }
+                }
+            }
+            catch { }
         }
     }
 }
