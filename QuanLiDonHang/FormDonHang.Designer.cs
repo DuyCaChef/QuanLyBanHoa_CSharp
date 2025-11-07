@@ -50,12 +50,17 @@
             txtMaDon = new TextBox();
             lblSdt = new Label();
             txtSdt = new TextBox();
-            lblMaKM = new Label();
-            txtMaKM = new TextBox();
-            lblMaNV = new Label();
-            txtMaNV = new TextBox();
             lblNgay = new Label();
             dtpNgay = new DateTimePicker();
+            lblMaNV = new Label();
+            txtMaNV = new TextBox();
+            lblMaKM = new Label();
+            txtMaKM = new TextBox();
+            tlpProduct = new TableLayoutPanel();
+            lblTenHoa = new Label();
+            cboTenHoa = new ComboBox();
+            lblMaHoa = new Label();
+            txtMaHoa = new TextBox();
             lblTongSoLuong = new Label();
             nudTongSoLuong = new NumericUpDown();
             splitMain = new SplitContainer();
@@ -87,6 +92,7 @@
             mnuDangXuat = new ToolStripMenuItem();
             headerPanel.SuspendLayout();
             tlpInfo.SuspendLayout();
+            tlpProduct.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudTongSoLuong).BeginInit();
             ((System.ComponentModel.ISupportInitialize)splitMain).BeginInit();
             splitMain.Panel1.SuspendLayout();
@@ -127,34 +133,31 @@
             // tlpInfo
             // 
             tlpInfo.ColumnCount = 4;
-            tlpInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
-            tlpInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35F));
-            tlpInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
-            tlpInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35F));
+            tlpInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18F));
+            tlpInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 32F));
+            tlpInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18F));
+            tlpInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 32F));
             tlpInfo.Controls.Add(lblTenKhach, 0, 0);
             tlpInfo.Controls.Add(txtTenKhach, 1, 0);
             tlpInfo.Controls.Add(lblMaDon, 2, 0);
             tlpInfo.Controls.Add(txtMaDon, 3, 0);
             tlpInfo.Controls.Add(lblSdt, 0, 1);
             tlpInfo.Controls.Add(txtSdt, 1, 1);
-            tlpInfo.Controls.Add(lblMaKM, 2, 1);
-            tlpInfo.Controls.Add(txtMaKM, 3, 1);
+            tlpInfo.Controls.Add(lblNgay, 2, 1);
+            tlpInfo.Controls.Add(dtpNgay, 3, 1);
             tlpInfo.Controls.Add(lblMaNV, 0, 2);
             tlpInfo.Controls.Add(txtMaNV, 1, 2);
-            tlpInfo.Controls.Add(lblNgay, 2, 2);
-            tlpInfo.Controls.Add(dtpNgay, 3, 2);
-            tlpInfo.Controls.Add(lblTongSoLuong, 0, 3);
-            tlpInfo.Controls.Add(nudTongSoLuong, 1, 3);
+            tlpInfo.Controls.Add(lblMaKM, 2, 2);
+            tlpInfo.Controls.Add(txtMaKM, 3, 2);
             tlpInfo.Dock = DockStyle.Top;
             tlpInfo.Location = new Point(0, 88);
             tlpInfo.Name = "tlpInfo";
-            tlpInfo.Padding = new Padding(16, 12, 16, 12);
-            tlpInfo.RowCount = 4;
-            tlpInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            tlpInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            tlpInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            tlpInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            tlpInfo.Size = new Size(1280, 188);
+            tlpInfo.Padding = new Padding(16, 12, 16, 4);
+            tlpInfo.RowCount = 3;
+            tlpInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
+            tlpInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
+            tlpInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
+            tlpInfo.Size = new Size(1280, 142);
             tlpInfo.TabIndex = 1;
             // 
             // lblTenKhach
@@ -162,7 +165,7 @@
             lblTenKhach.Anchor = AnchorStyles.Left;
             lblTenKhach.AutoSize = true;
             lblTenKhach.Font = new Font("Segoe UI", 10F);
-            lblTenKhach.Location = new Point(19, 20);
+            lblTenKhach.Location = new Point(19, 21);
             lblTenKhach.Name = "lblTenKhach";
             lblTenKhach.Size = new Size(130, 23);
             lblTenKhach.TabIndex = 0;
@@ -172,10 +175,10 @@
             // 
             txtTenKhach.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             txtTenKhach.Font = new Font("Segoe UI", 10F);
-            txtTenKhach.Location = new Point(206, 17);
+            txtTenKhach.Location = new Point(243, 18);
             txtTenKhach.Margin = new Padding(3, 3, 16, 3);
             txtTenKhach.Name = "txtTenKhach";
-            txtTenKhach.Size = new Size(417, 30);
+            txtTenKhach.Size = new Size(380, 30);
             txtTenKhach.TabIndex = 1;
             // 
             // lblMaDon
@@ -183,7 +186,7 @@
             lblMaDon.Anchor = AnchorStyles.Left;
             lblMaDon.AutoSize = true;
             lblMaDon.Font = new Font("Segoe UI", 10F);
-            lblMaDon.Location = new Point(642, 20);
+            lblMaDon.Location = new Point(642, 21);
             lblMaDon.Name = "lblMaDon";
             lblMaDon.Size = new Size(69, 23);
             lblMaDon.TabIndex = 2;
@@ -193,10 +196,10 @@
             // 
             txtMaDon.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             txtMaDon.Font = new Font("Segoe UI", 10F);
-            txtMaDon.Location = new Point(829, 17);
+            txtMaDon.Location = new Point(866, 18);
             txtMaDon.Margin = new Padding(3, 3, 16, 3);
             txtMaDon.Name = "txtMaDon";
-            txtMaDon.Size = new Size(419, 30);
+            txtMaDon.Size = new Size(382, 30);
             txtMaDon.TabIndex = 3;
             // 
             // lblSdt
@@ -204,7 +207,7 @@
             lblSdt.Anchor = AnchorStyles.Left;
             lblSdt.AutoSize = true;
             lblSdt.Font = new Font("Segoe UI", 10F);
-            lblSdt.Location = new Point(19, 60);
+            lblSdt.Location = new Point(19, 63);
             lblSdt.Name = "lblSdt";
             lblSdt.Size = new Size(134, 23);
             lblSdt.TabIndex = 4;
@@ -214,60 +217,18 @@
             // 
             txtSdt.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             txtSdt.Font = new Font("Segoe UI", 10F);
-            txtSdt.Location = new Point(206, 57);
+            txtSdt.Location = new Point(243, 60);
             txtSdt.Margin = new Padding(3, 3, 16, 3);
             txtSdt.Name = "txtSdt";
-            txtSdt.Size = new Size(417, 30);
+            txtSdt.Size = new Size(380, 30);
             txtSdt.TabIndex = 5;
-            // 
-            // lblMaKM
-            // 
-            lblMaKM.Anchor = AnchorStyles.Left;
-            lblMaKM.AutoSize = true;
-            lblMaKM.Font = new Font("Segoe UI", 10F);
-            lblMaKM.Location = new Point(642, 60);
-            lblMaKM.Name = "lblMaKM";
-            lblMaKM.Size = new Size(127, 23);
-            lblMaKM.TabIndex = 6;
-            lblMaKM.Text = "Mã khuyến mãi";
-            // 
-            // txtMaKM
-            // 
-            txtMaKM.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            txtMaKM.Font = new Font("Segoe UI", 10F);
-            txtMaKM.Location = new Point(829, 57);
-            txtMaKM.Margin = new Padding(3, 3, 16, 3);
-            txtMaKM.Name = "txtMaKM";
-            txtMaKM.Size = new Size(419, 30);
-            txtMaKM.TabIndex = 7;
-            // 
-            // lblMaNV
-            // 
-            lblMaNV.Anchor = AnchorStyles.Left;
-            lblMaNV.AutoSize = true;
-            lblMaNV.Font = new Font("Segoe UI", 10F);
-            lblMaNV.Location = new Point(19, 100);
-            lblMaNV.Name = "lblMaNV";
-            lblMaNV.Size = new Size(114, 23);
-            lblMaNV.TabIndex = 8;
-            lblMaNV.Text = "Mã nhân viên";
-            // 
-            // txtMaNV
-            // 
-            txtMaNV.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-            txtMaNV.Font = new Font("Segoe UI", 10F);
-            txtMaNV.Location = new Point(206, 97);
-            txtMaNV.Margin = new Padding(3, 3, 16, 3);
-            txtMaNV.Name = "txtMaNV";
-            txtMaNV.Size = new Size(417, 30);
-            txtMaNV.TabIndex = 9;
             // 
             // lblNgay
             // 
             lblNgay.Anchor = AnchorStyles.Left;
             lblNgay.AutoSize = true;
             lblNgay.Font = new Font("Segoe UI", 10F);
-            lblNgay.Location = new Point(642, 100);
+            lblNgay.Location = new Point(642, 63);
             lblNgay.Name = "lblNgay";
             lblNgay.Size = new Size(50, 23);
             lblNgay.TabIndex = 10;
@@ -280,40 +241,148 @@
             dtpNgay.CustomFormat = "dddd, dd/MM/yyyy";
             dtpNgay.Font = new Font("Segoe UI", 10F);
             dtpNgay.Format = DateTimePickerFormat.Custom;
-            dtpNgay.Location = new Point(829, 97);
+            dtpNgay.Location = new Point(866, 60);
             dtpNgay.Margin = new Padding(3, 3, 16, 3);
             dtpNgay.Name = "dtpNgay";
-            dtpNgay.Size = new Size(419, 30);
+            dtpNgay.Size = new Size(382, 30);
             dtpNgay.TabIndex = 11;
+            // 
+            // lblMaNV
+            // 
+            lblMaNV.Anchor = AnchorStyles.Left;
+            lblMaNV.AutoSize = true;
+            lblMaNV.Font = new Font("Segoe UI", 10F);
+            lblMaNV.Location = new Point(19, 105);
+            lblMaNV.Name = "lblMaNV";
+            lblMaNV.Size = new Size(114, 23);
+            lblMaNV.TabIndex = 8;
+            lblMaNV.Text = "Mã nhân viên";
+            // 
+            // txtMaNV
+            // 
+            txtMaNV.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            txtMaNV.Font = new Font("Segoe UI", 10F);
+            txtMaNV.Location = new Point(243, 102);
+            txtMaNV.Margin = new Padding(3, 3, 16, 3);
+            txtMaNV.Name = "txtMaNV";
+            txtMaNV.Size = new Size(380, 30);
+            txtMaNV.TabIndex = 9;
+            // 
+            // lblMaKM
+            // 
+            lblMaKM.Anchor = AnchorStyles.Left;
+            lblMaKM.AutoSize = true;
+            lblMaKM.Font = new Font("Segoe UI", 10F);
+            lblMaKM.Location = new Point(642, 105);
+            lblMaKM.Name = "lblMaKM";
+            lblMaKM.Size = new Size(127, 23);
+            lblMaKM.TabIndex = 6;
+            lblMaKM.Text = "Mã khuyến mãi";
+            // 
+            // txtMaKM
+            // 
+            txtMaKM.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            txtMaKM.Font = new Font("Segoe UI", 10F);
+            txtMaKM.Location = new Point(866, 102);
+            txtMaKM.Margin = new Padding(3, 3, 16, 3);
+            txtMaKM.Name = "txtMaKM";
+            txtMaKM.Size = new Size(382, 30);
+            txtMaKM.TabIndex = 7;
+            // 
+            // tlpProduct
+            // 
+            tlpProduct.ColumnCount = 6;
+            tlpProduct.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12F));
+            tlpProduct.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 22F));
+            tlpProduct.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12F));
+            tlpProduct.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 18F));
+            tlpProduct.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 12F));
+            tlpProduct.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 24F));
+            tlpProduct.Controls.Add(lblTenHoa, 0, 0);
+            tlpProduct.Controls.Add(cboTenHoa, 1, 0);
+            tlpProduct.Controls.Add(lblMaHoa, 2, 0);
+            tlpProduct.Controls.Add(txtMaHoa, 3, 0);
+            tlpProduct.Controls.Add(lblTongSoLuong, 4, 0);
+            tlpProduct.Controls.Add(nudTongSoLuong, 5, 0);
+            tlpProduct.Dock = DockStyle.Top;
+            tlpProduct.Location = new Point(0, 230);
+            tlpProduct.Name = "tlpProduct";
+            tlpProduct.Padding = new Padding(16, 4, 16, 8);
+            tlpProduct.RowCount = 1;
+            tlpProduct.RowStyles.Add(new RowStyle(SizeType.Absolute, 46F));
+            tlpProduct.Size = new Size(1280, 58);
+            tlpProduct.TabIndex = 2;
+            // 
+            // lblTenHoa
+            // 
+            lblTenHoa.Anchor = AnchorStyles.Left;
+            lblTenHoa.AutoSize = true;
+            lblTenHoa.Font = new Font("Segoe UI", 10F);
+            lblTenHoa.Location = new Point(19, 15);
+            lblTenHoa.Name = "lblTenHoa";
+            lblTenHoa.Size = new Size(70, 23);
+            lblTenHoa.TabIndex = 0;
+            lblTenHoa.Text = "Tên hoa";
+            // 
+            // cboTenHoa
+            // 
+            cboTenHoa.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            cboTenHoa.DropDownStyle = ComboBoxStyle.DropDownList;
+            cboTenHoa.Font = new Font("Segoe UI", 10F);
+            cboTenHoa.Location = new Point(168, 11);
+            cboTenHoa.Name = "cboTenHoa";
+            cboTenHoa.Size = new Size(268, 31);
+            cboTenHoa.TabIndex = 1;
+            cboTenHoa.SelectedIndexChanged += cboTenHoa_SelectedIndexChanged;
+            // 
+            // lblMaHoa
+            // 
+            lblMaHoa.Anchor = AnchorStyles.Left;
+            lblMaHoa.AutoSize = true;
+            lblMaHoa.Font = new Font("Segoe UI", 10F);
+            lblMaHoa.Location = new Point(442, 15);
+            lblMaHoa.Name = "lblMaHoa";
+            lblMaHoa.Size = new Size(68, 23);
+            lblMaHoa.TabIndex = 2;
+            lblMaHoa.Text = "Mã hoa";
+            // 
+            // txtMaHoa
+            // 
+            txtMaHoa.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            txtMaHoa.Font = new Font("Segoe UI", 10F);
+            txtMaHoa.Location = new Point(591, 12);
+            txtMaHoa.Name = "txtMaHoa";
+            txtMaHoa.ReadOnly = true;
+            txtMaHoa.Size = new Size(218, 30);
+            txtMaHoa.TabIndex = 3;
             // 
             // lblTongSoLuong
             // 
             lblTongSoLuong.Anchor = AnchorStyles.Left;
             lblTongSoLuong.AutoSize = true;
             lblTongSoLuong.Font = new Font("Segoe UI", 10F);
-            lblTongSoLuong.Location = new Point(19, 142);
+            lblTongSoLuong.Location = new Point(815, 15);
             lblTongSoLuong.Name = "lblTongSoLuong";
             lblTongSoLuong.Size = new Size(120, 23);
-            lblTongSoLuong.TabIndex = 12;
+            lblTongSoLuong.TabIndex = 4;
             lblTongSoLuong.Text = "Tổng số lượng";
             // 
             // nudTongSoLuong
             // 
             nudTongSoLuong.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             nudTongSoLuong.Font = new Font("Segoe UI", 10F);
-            nudTongSoLuong.Location = new Point(206, 139);
-            nudTongSoLuong.Margin = new Padding(3, 3, 16, 3);
+            nudTongSoLuong.Location = new Point(964, 12);
             nudTongSoLuong.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             nudTongSoLuong.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nudTongSoLuong.Name = "nudTongSoLuong";
-            nudTongSoLuong.Size = new Size(417, 30);
-            nudTongSoLuong.TabIndex = 13;
+            nudTongSoLuong.Size = new Size(297, 30);
+            nudTongSoLuong.TabIndex = 5;
             nudTongSoLuong.Value = new decimal(new int[] { 1, 0, 0, 0 });
             // 
             // splitMain
             // 
             splitMain.Dock = DockStyle.Fill;
-            splitMain.Location = new Point(0, 276);
+            splitMain.Location = new Point(0, 288);
             splitMain.Name = "splitMain";
             // 
             // splitMain.Panel1
@@ -323,7 +392,7 @@
             // splitMain.Panel2
             // 
             splitMain.Panel2.Controls.Add(gbChiTiet);
-            splitMain.Size = new Size(1280, 484);
+            splitMain.Size = new Size(1280, 472);
             splitMain.SplitterDistance = 760;
             splitMain.TabIndex = 2;
             // 
@@ -336,7 +405,7 @@
             gbDonHang.Location = new Point(0, 0);
             gbDonHang.Name = "gbDonHang";
             gbDonHang.Padding = new Padding(12, 8, 12, 12);
-            gbDonHang.Size = new Size(760, 484);
+            gbDonHang.Size = new Size(760, 472);
             gbDonHang.TabIndex = 0;
             gbDonHang.TabStop = false;
             gbDonHang.Text = "Danh sách đơn hàng";
@@ -381,7 +450,7 @@
             dgvDonHang.RowHeadersWidth = 51;
             dgvDonHang.RowTemplate.Height = 32;
             dgvDonHang.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvDonHang.Size = new Size(736, 381);
+            dgvDonHang.Size = new Size(736, 369);
             dgvDonHang.TabIndex = 0;
             dgvDonHang.SelectionChanged += dgvDonHang_SelectionChanged;
             // 
@@ -475,7 +544,7 @@
             flpDonButtons.Controls.Add(btnSua);
             flpDonButtons.Controls.Add(btnXoa);
             flpDonButtons.Dock = DockStyle.Bottom;
-            flpDonButtons.Location = new Point(12, 412);
+            flpDonButtons.Location = new Point(12, 400);
             flpDonButtons.Name = "flpDonButtons";
             flpDonButtons.Padding = new Padding(0, 8, 0, 0);
             flpDonButtons.Size = new Size(736, 60);
@@ -537,7 +606,7 @@
             gbChiTiet.Location = new Point(0, 0);
             gbChiTiet.Name = "gbChiTiet";
             gbChiTiet.Padding = new Padding(12, 8, 12, 12);
-            gbChiTiet.Size = new Size(516, 484);
+            gbChiTiet.Size = new Size(516, 472);
             gbChiTiet.TabIndex = 0;
             gbChiTiet.TabStop = false;
             gbChiTiet.Text = "Chi tiết đơn hàng";
@@ -580,7 +649,7 @@
             dgvChiTiet.RowHeadersWidth = 51;
             dgvChiTiet.RowTemplate.Height = 32;
             dgvChiTiet.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvChiTiet.Size = new Size(492, 441);
+            dgvChiTiet.Size = new Size(492, 429);
             dgvChiTiet.TabIndex = 2;
             // 
             // colCT_SanPham
@@ -672,6 +741,7 @@
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(1280, 760);
             Controls.Add(splitMain);
+            Controls.Add(tlpProduct);
             Controls.Add(tlpInfo);
             Controls.Add(menuStrip1);
             Controls.Add(headerPanel);
@@ -686,6 +756,8 @@
             headerPanel.PerformLayout();
             tlpInfo.ResumeLayout(false);
             tlpInfo.PerformLayout();
+            tlpProduct.ResumeLayout(false);
+            tlpProduct.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nudTongSoLuong).EndInit();
             splitMain.Panel1.ResumeLayout(false);
             splitMain.Panel2.ResumeLayout(false);
@@ -721,6 +793,11 @@
         private System.Windows.Forms.TextBox txtMaNV;
         private System.Windows.Forms.Label lblNgay;
         private System.Windows.Forms.DateTimePicker dtpNgay;
+        private System.Windows.Forms.TableLayoutPanel tlpProduct;
+        private System.Windows.Forms.Label lblTenHoa;
+        private System.Windows.Forms.ComboBox cboTenHoa;
+        private System.Windows.Forms.Label lblMaHoa;
+        private System.Windows.Forms.TextBox txtMaHoa;
         private System.Windows.Forms.Label lblTongSoLuong;
         private System.Windows.Forms.NumericUpDown nudTongSoLuong;
         private System.Windows.Forms.SplitContainer splitMain;

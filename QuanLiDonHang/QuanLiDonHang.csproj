@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\QuanLyBanHoa.Data\QuanLyBanHoa.Data.csproj" />
+    <ProjectReference Include="..\QuanLiHoa\QLHoa.csproj" />
   </ItemGroup>
 
   <ItemGroup>

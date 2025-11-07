@@ -8,6 +8,7 @@
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\QuanLyBanHoa.Data\QuanLyBanHoa.Data.csproj" />
+    <ProjectReference Include="..\QuanLiHoa\QLHoa.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="MySql.Data" Version="9.5.0" />

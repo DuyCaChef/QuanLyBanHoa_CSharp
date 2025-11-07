@@ -28,12 +28,30 @@ namespace QuanLyBanHoa_CSharp.Forms
             dtpTo.ValueChanged += DtpRange_ValueChanged;
             txtSearch.TextChanged += TxtSearch_TextChanged;
 
+            // Subscribe to flower data change event for potential future use
+            FrmHoa.HoaDataChanged += FrmHoa_HoaDataChanged;
+
             // sensible defaults
             dtpTo.Value = DateTime.Today;
             dtpFrom.Value = DateTime.Today.AddDays(-30);
 
             dtAllData = new DataTable();
             LoadStatistics();
+        }
+
+        // Handle flower data change event (for future extensibility)
+        private void FrmHoa_HoaDataChanged(object sender, EventArgs e)
+        {
+            // Optionally reload statistics if needed when flower data changes
+            // For now, we just acknowledge the event
+            // LoadStatistics(); // Uncomment if statistics depend on flower data
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            // Unsubscribe from event when form closes
+            FrmHoa.HoaDataChanged -= FrmHoa_HoaDataChanged;
+            base.OnFormClosing(e);
         }
 
         private void DtpRange_ValueChanged(object sender, EventArgs e)

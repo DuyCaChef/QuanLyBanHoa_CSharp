@@ -9,16 +9,23 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
 using QuanLyBanHoa.Data;
+using System.Collections.Generic;
 
 namespace QuanLyBanHoa_CSharp.Forms
 {
     public partial class FormDonHang : Form
     {
+        // Dictionary to store flower data: TenHoa -> (MaHoa, Gia)
+        private Dictionary<string, (int MaHoa, decimal Gia)> flowerData = new Dictionary<string, (int, decimal)>();
+
         public FormDonHang()
         {
             try
             {
                 InitializeComponent();
+                
+                // Subscribe to flower data change event
+                FrmHoa.HoaDataChanged += FrmHoa_HoaDataChanged;
             }
             catch (Exception ex)
             {
@@ -26,6 +33,13 @@ namespace QuanLyBanHoa_CSharp.Forms
                     "Lỗi khởi tạo", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 throw; // Re-throw để caller biết có lỗi
             }
+        }
+
+        // Handle flower data change event from FrmHoa
+        private void FrmHoa_HoaDataChanged(object sender, EventArgs e)
+        {
+            // Reload flower list when data changes in FrmHoa
+            LoadHoaToComboBox();
         }
 
         // Khởi tạo mặc định: chi tiết trống, chờ chọn đơn
@@ -45,14 +59,96 @@ namespace QuanLyBanHoa_CSharp.Forms
                     dgvDonHang.ClearSelection();
                 }
 
-                // Load initial orders from database
+                // Load initial orders and flowers from database
+                LoadHoaToComboBox();
                 LoadDonHang();
+
+                // Ẩn khu vực mã khuyến mãi vì chưa triển khai
+                if (lblMaKM != null) lblMaKM.Visible = false;
+                if (txtMaKM != null) { txtMaKM.Visible = false; txtMaKM.TabStop = false; }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Lỗi khi load form Đơn Hàng:\n{ex.Message}\n\nChi tiết:\n{ex.StackTrace}",
                     "Lỗi Load", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        /// <summary>
+        /// Load flowers from database to ComboBox
+        /// </summary>
+        private void LoadHoaToComboBox()
+        {
+            try
+            {
+                flowerData.Clear();
+                cboTenHoa.Items.Clear();
+
+                using (var conn = Database.GetConnection())
+                {
+                    conn.Open();
+                    string sql = "SELECT MaHoa, TenHoa, Gia FROM Hoa ORDER BY TenHoa";
+                    
+                    using (var cmd = new MySqlCommand(sql, conn))
+                    {
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                int maHoa = rdr.GetInt32(0);
+                                string tenHoa = rdr.GetString(1);
+                                decimal gia = rdr.GetDecimal(2);
+
+                                flowerData[tenHoa] = (maHoa, gia);
+                                cboTenHoa.Items.Add(tenHoa);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tải danh sách hoa:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Handle flower selection change in ComboBox
+        /// </summary>
+        private void cboTenHoa_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (cboTenHoa.SelectedItem != null)
+                {
+                    string tenHoa = cboTenHoa.SelectedItem.ToString();
+                    
+                    if (flowerData.ContainsKey(tenHoa))
+                    {
+                        var (maHoa, gia) = flowerData[tenHoa];
+                        txtMaHoa.Text = maHoa.ToString();
+                    }
+                    else
+                    {
+                        txtMaHoa.Clear();
+                    }
+                }
+                else
+                {
+                    txtMaHoa.Clear();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi chọn hoa:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            // Unsubscribe from event when form closes
+            FrmHoa.HoaDataChanged -= FrmHoa_HoaDataChanged;
+            base.OnFormClosing(e);
         }
 
         /// <summary>
@@ -313,10 +409,8 @@ namespace QuanLyBanHoa_CSharp.Forms
                                 }
                             }
 
-                            // 2) Prepare MaKM (nullable)
+                            // 2) MaKM hiện chưa triển khai -> luôn NULL
                             object maKmDb = DBNull.Value;
-                            if (!string.IsNullOrWhiteSpace(txtMaKM.Text) && int.TryParse(txtMaKM.Text.Trim(), out int maKmParsed))
-                                maKmDb = maKmParsed;
 
                             // 3) Insert DonHang
                             string insertDon = @"INSERT INTO DonHang (MaKH, MaNV, NgayDatHang, TongTien, MaKM) VALUES (@MaKH, @MaNV, @NgayDatHang, @TongTien, @MaKM); SELECT LAST_INSERT_ID();";
@@ -450,9 +544,8 @@ namespace QuanLyBanHoa_CSharp.Forms
                     return;
                 }
 
+                // MaKM chưa triển khai -> luôn NULL
                 object maKmDb = DBNull.Value;
-                if (!string.IsNullOrWhiteSpace(txtMaKM.Text) && int.TryParse(txtMaKM.Text.Trim(), out int maKmParsed))
-                    maKmDb = maKmParsed;
 
                 // Recompute totals from dgvChiTiet if present
                 int tongSoLuong = 0;

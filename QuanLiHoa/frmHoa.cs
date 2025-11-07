@@ -9,6 +9,15 @@ namespace QuanLyBanHoa_CSharp.Forms
 {
     public partial class FrmHoa : Form
     {
+        // Static event to notify other forms when flower data changes
+        public static event EventHandler HoaDataChanged;
+
+        // Method to raise the event
+        protected static void OnHoaDataChanged()
+        {
+            HoaDataChanged?.Invoke(null, EventArgs.Empty);
+        }
+
         public FrmHoa()
         {
             InitializeComponent();
@@ -145,6 +154,9 @@ namespace QuanLyBanHoa_CSharp.Forms
                     MessageBox.Show("Thêm hoa thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadDataToDataGridView();
                     ClearInputFields();
+                    
+                    // Notify other forms that flower data has changed
+                    OnHoaDataChanged();
                 }
                 else
                 {
@@ -218,9 +230,14 @@ namespace QuanLyBanHoa_CSharp.Forms
                 {
                     MessageBox.Show("Xóa hoa thành công!");
                     LoadDataToDataGridView(); 
-                    ClearInputFields(); 
+                    ClearInputFields();
+                    
+                    // Notify other forms that flower data has changed
+                    OnHoaDataChanged();
                 }
             }
         }
+        
+        // Note: Add similar OnHoaDataChanged() call in btnSua_Click when it's implemented
     }
 }
