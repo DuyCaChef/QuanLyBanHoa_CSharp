@@ -9,11 +9,15 @@ namespace QuanLyBanHoa_CSharp
         [STAThread]
         static void Main()
         {
+            // High DPI support for .NET 6+ / .NET 8
+            Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
+
             // Thêm xử lý lỗi toàn cục
             Application.SetUnhandledExceptionMode(UnhandledExceptionMode.CatchException);
             Application.ThreadException += Application_ThreadException;
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
+            // Visual styles and text rendering
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 

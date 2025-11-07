@@ -214,14 +214,14 @@
             // kháchHàngToolStripMenuItem
             // 
             kháchHàngToolStripMenuItem.Name = "kháchHàngToolStripMenuItem";
-            kháchHàngToolStripMenuItem.Size = new Size(270, 34);
+            kháchHàngToolStripMenuItem.Size = new Size(264, 34);
             kháchHàngToolStripMenuItem.Text = "Khách Hàng";
             kháchHàngToolStripMenuItem.Click += kháchHàngToolStripMenuItem_Click_1;
             // 
             // đơnHàngToolStripMenuItem
             // 
             đơnHàngToolStripMenuItem.Name = "đơnHàngToolStripMenuItem";
-            đơnHàngToolStripMenuItem.Size = new Size(270, 34);
+            đơnHàngToolStripMenuItem.Size = new Size(264, 34);
             đơnHàngToolStripMenuItem.Text = "Đơn Hàng";
             đơnHàngToolStripMenuItem.Click += đơnHàngToolStripMenuItem_Click;
             // 
@@ -229,7 +229,7 @@
             // 
             thốngKêBáoCáoToolStripMenuItem.BackColor = SystemColors.Control;
             thốngKêBáoCáoToolStripMenuItem.Name = "thốngKêBáoCáoToolStripMenuItem";
-            thốngKêBáoCáoToolStripMenuItem.Size = new Size(270, 34);
+            thốngKêBáoCáoToolStripMenuItem.Size = new Size(264, 34);
             thốngKêBáoCáoToolStripMenuItem.Text = "Thống Kê, Báo Cáo";
             thốngKêBáoCáoToolStripMenuItem.Click += thốngKêBáoCáoToolStripMenuItem_Click;
             // 

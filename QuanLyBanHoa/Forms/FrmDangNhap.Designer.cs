@@ -166,8 +166,7 @@
             // FrmDangNhap
             // 
             AcceptButton = btnDangNhap;
-            AutoScaleDimensions = new SizeF(10F, 25F);
-            AutoScaleMode = AutoScaleMode.Font;
+            AutoScaleMode = AutoScaleMode.None;
             ClientSize = new Size(674, 567);
             Controls.Add(panel1);
             Name = "FrmDangNhap";
