@@ -348,6 +348,7 @@
             dgvDonHang.AllowUserToOrderColumns = true;
             dataGridViewCellStyle1.BackColor = Color.FromArgb(242, 242, 242);
             dgvDonHang.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dgvDonHang.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvDonHang.BackgroundColor = Color.White;
             dgvDonHang.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
@@ -391,7 +392,7 @@
             colMaDon.MinimumWidth = 6;
             colMaDon.Name = "colMaDon";
             colMaDon.ReadOnly = true;
-            colMaDon.Width = 80;
+            colMaDon.Width = 118;
             // 
             // colNgay
             // 
@@ -400,7 +401,7 @@
             colNgay.MinimumWidth = 6;
             colNgay.Name = "colNgay";
             colNgay.ReadOnly = true;
-            colNgay.Width = 120;
+            colNgay.Width = 96;
             // 
             // colTenKhach
             // 
@@ -412,7 +413,7 @@
             colTenKhach.MinimumWidth = 6;
             colTenKhach.Name = "colTenKhach";
             colTenKhach.ReadOnly = true;
-            colTenKhach.Width = 220;
+            colTenKhach.Width = 133;
             // 
             // colSDT
             // 
@@ -421,7 +422,7 @@
             colSDT.MinimumWidth = 6;
             colSDT.Name = "colSDT";
             colSDT.ReadOnly = true;
-            colSDT.Width = 120;
+            colSDT.Width = 87;
             // 
             // colMaNV
             // 
@@ -430,7 +431,7 @@
             colMaNV.MinimumWidth = 6;
             colMaNV.Name = "colMaNV";
             colMaNV.ReadOnly = true;
-            colMaNV.Width = 80;
+            colMaNV.Width = 108;
             // 
             // colTenHoa
             // 
@@ -442,7 +443,7 @@
             colTenHoa.MinimumWidth = 6;
             colTenHoa.Name = "colTenHoa";
             colTenHoa.ReadOnly = true;
-            colTenHoa.Width = 260;
+            colTenHoa.Width = 129;
             // 
             // colSoLuong
             // 
@@ -453,7 +454,7 @@
             colSoLuong.MinimumWidth = 6;
             colSoLuong.Name = "colSoLuong";
             colSoLuong.ReadOnly = true;
-            colSoLuong.Width = 80;
+            colSoLuong.Width = 131;
             // 
             // colGia
             // 
@@ -464,7 +465,7 @@
             colGia.MinimumWidth = 6;
             colGia.Name = "colGia";
             colGia.ReadOnly = true;
-            colGia.Width = 120;
+            colGia.Width = 131;
             // 
             // flpDonButtons
             // 
@@ -510,6 +511,7 @@
             btnSua.TabIndex = 1;
             btnSua.Text = "Sửa";
             btnSua.UseVisualStyleBackColor = false;
+            btnSua.Click += btnSua_Click;
             // 
             // btnXoa
             // 
@@ -525,6 +527,7 @@
             btnXoa.TabIndex = 2;
             btnXoa.Text = "Xóa";
             btnXoa.UseVisualStyleBackColor = false;
+            btnXoa.Click += btnXoa_Click;
             // 
             // gbChiTiet
             // 

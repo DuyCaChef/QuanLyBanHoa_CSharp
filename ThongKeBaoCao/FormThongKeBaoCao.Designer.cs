@@ -28,601 +28,639 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
-            this.headerPanel = new System.Windows.Forms.Panel();
-            this.lblTitle = new System.Windows.Forms.Label();
-            this.tlpFilters = new System.Windows.Forms.TableLayoutPanel();
-            this.lblFrom = new System.Windows.Forms.Label();
-            this.dtpFrom = new System.Windows.Forms.DateTimePicker();
-            this.lblTo = new System.Windows.Forms.Label();
-            this.dtpTo = new System.Windows.Forms.DateTimePicker();
-            this.gbOverview = new System.Windows.Forms.GroupBox();
-            this.tlpCards = new System.Windows.Forms.TableLayoutPanel();
-            this.cardRevenue = new System.Windows.Forms.Panel();
-            this.panelRevenueAccent = new System.Windows.Forms.Panel();
-            this.lblRevenue = new System.Windows.Forms.Label();
-            this.lblRevenueTitle = new System.Windows.Forms.Label();
-            this.cardOrders = new System.Windows.Forms.Panel();
-            this.panelOrdersAccent = new System.Windows.Forms.Panel();
-            this.lblOrders = new System.Windows.Forms.Label();
-            this.lblOrdersTitle = new System.Windows.Forms.Label();
-            this.cardDiscount = new System.Windows.Forms.Panel();
-            this.panelDiscountAccent = new System.Windows.Forms.Panel();
-            this.lblDiscount = new System.Windows.Forms.Label();
-            this.lblDiscountTitle = new System.Windows.Forms.Label();
-            this.cardCancelRate = new System.Windows.Forms.Panel();
-            this.panelCancelAccent = new System.Windows.Forms.Panel();
-            this.lblCancelRate = new System.Windows.Forms.Label();
-            this.lblCancelRateTitle = new System.Windows.Forms.Label();
-            this.dgvThongKe = new System.Windows.Forms.DataGridView();
-            this.colNgay = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colSoDon = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colDoanhThu = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colKmDaDung = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.colNhanVien = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.flpActions = new System.Windows.Forms.FlowLayoutPanel();
-            this.btnRefresh = new System.Windows.Forms.Button();
-            this.btnExport = new System.Windows.Forms.Button();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.mnuTrangChu = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuQuanLy = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuKhachHang = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuDonHang = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuThongKeMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuDangXuat = new System.Windows.Forms.ToolStripMenuItem();
-            this.headerPanel.SuspendLayout();
-            this.tlpFilters.SuspendLayout();
-            this.gbOverview.SuspendLayout();
-            this.tlpCards.SuspendLayout();
-            this.cardRevenue.SuspendLayout();
-            this.cardOrders.SuspendLayout();
-            this.cardDiscount.SuspendLayout();
-            this.cardCancelRate.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvThongKe)).BeginInit();
-            this.flpActions.SuspendLayout();
-            this.menuStrip1.SuspendLayout();
-            this.SuspendLayout();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            headerPanel = new Panel();
+            lblTitle = new Label();
+            tlpFilters = new TableLayoutPanel();
+            lblFrom = new Label();
+            dtpFrom = new DateTimePicker();
+            lblTo = new Label();
+            dtpTo = new DateTimePicker();
+            lblSearch = new Label();
+            txtSearch = new TextBox();
+            gbOverview = new GroupBox();
+            tlpCards = new TableLayoutPanel();
+            cardRevenue = new Panel();
+            panelRevenueAccent = new Panel();
+            lblRevenue = new Label();
+            lblRevenueTitle = new Label();
+            cardOrders = new Panel();
+            panelOrdersAccent = new Panel();
+            lblOrders = new Label();
+            lblOrdersTitle = new Label();
+            cardDiscount = new Panel();
+            panelDiscountAccent = new Panel();
+            lblDiscount = new Label();
+            lblDiscountTitle = new Label();
+            cardCancelRate = new Panel();
+            panelCancelAccent = new Panel();
+            lblCancelRate = new Label();
+            lblCancelRateTitle = new Label();
+            dgvThongKe = new DataGridView();
+            colMaDH = new DataGridViewTextBoxColumn();
+            colNgay = new DataGridViewTextBoxColumn();
+            colSoDon = new DataGridViewTextBoxColumn();
+            colDoanhThu = new DataGridViewTextBoxColumn();
+            colKmDaDung = new DataGridViewTextBoxColumn();
+            colNhanVien = new DataGridViewTextBoxColumn();
+            flpActions = new FlowLayoutPanel();
+            btnRefresh = new Button();
+            btnXoaDon = new Button();
+            btnExport = new Button();
+            menuStrip1 = new MenuStrip();
+            mnuTrangChu = new ToolStripMenuItem();
+            mnuQuanLy = new ToolStripMenuItem();
+            mnuKhachHang = new ToolStripMenuItem();
+            mnuDonHang = new ToolStripMenuItem();
+            mnuThongKeMenu = new ToolStripMenuItem();
+            mnuDangXuat = new ToolStripMenuItem();
+            headerPanel.SuspendLayout();
+            tlpFilters.SuspendLayout();
+            gbOverview.SuspendLayout();
+            tlpCards.SuspendLayout();
+            cardRevenue.SuspendLayout();
+            cardOrders.SuspendLayout();
+            cardDiscount.SuspendLayout();
+            cardCancelRate.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvThongKe).BeginInit();
+            flpActions.SuspendLayout();
+            menuStrip1.SuspendLayout();
+            SuspendLayout();
             // 
             // headerPanel
             // 
-            this.headerPanel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.headerPanel.Controls.Add(this.lblTitle);
-            this.headerPanel.Dock = System.Windows.Forms.DockStyle.Top;
-            this.headerPanel.Location = new System.Drawing.Point(0, 0);
-            this.headerPanel.Name = "headerPanel";
-            this.headerPanel.Padding = new System.Windows.Forms.Padding(24, 12, 24, 12);
-            this.headerPanel.Size = new System.Drawing.Size(1280, 60);
-            this.headerPanel.TabIndex = 0;
+            headerPanel.BackColor = Color.FromArgb(52, 152, 219);
+            headerPanel.Controls.Add(lblTitle);
+            headerPanel.Dock = DockStyle.Top;
+            headerPanel.Location = new Point(0, 0);
+            headerPanel.Name = "headerPanel";
+            headerPanel.Padding = new Padding(24, 12, 24, 12);
+            headerPanel.Size = new Size(1280, 60);
+            headerPanel.TabIndex = 0;
             // 
             // lblTitle
             // 
-            this.lblTitle.AutoSize = true;
-            this.lblTitle.Dock = System.Windows.Forms.DockStyle.Left;
-            this.lblTitle.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
-            this.lblTitle.ForeColor = System.Drawing.Color.White;
-            this.lblTitle.Location = new System.Drawing.Point(24, 12);
-            this.lblTitle.Name = "lblTitle";
-            this.lblTitle.Size = new System.Drawing.Size(313, 45);
-            this.lblTitle.TabIndex = 0;
-            this.lblTitle.Text = "Thống kê đơn hàng";
+            lblTitle.AutoSize = true;
+            lblTitle.Dock = DockStyle.Left;
+            lblTitle.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.White;
+            lblTitle.Location = new Point(24, 12);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(264, 37);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "Thống kê đơn hàng";
             // 
             // tlpFilters
             // 
-            this.tlpFilters.ColumnCount = 4;
-            this.tlpFilters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tlpFilters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpFilters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-            this.tlpFilters.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tlpFilters.Controls.Add(this.lblFrom, 0, 0);
-            this.tlpFilters.Controls.Add(this.dtpFrom, 1, 0);
-            this.tlpFilters.Controls.Add(this.lblTo, 2, 0);
-            this.tlpFilters.Controls.Add(this.dtpTo, 3, 0);
-            this.tlpFilters.Dock = System.Windows.Forms.DockStyle.Top;
-            this.tlpFilters.Location = new System.Drawing.Point(0, 93);
-            this.tlpFilters.Name = "tlpFilters";
-            this.tlpFilters.Padding = new System.Windows.Forms.Padding(16, 12, 16, 12);
-            this.tlpFilters.RowCount = 1;
-            this.tlpFilters.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 40F));
-            this.tlpFilters.Size = new System.Drawing.Size(1280, 64);
-            this.tlpFilters.TabIndex = 1;
+            tlpFilters.ColumnCount = 6;
+            tlpFilters.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
+            tlpFilters.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+            tlpFilters.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 100F));
+            tlpFilters.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33F));
+            tlpFilters.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 120F));
+            tlpFilters.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.34F));
+            tlpFilters.Controls.Add(lblFrom, 0, 0);
+            tlpFilters.Controls.Add(dtpFrom, 1, 0);
+            tlpFilters.Controls.Add(lblTo, 2, 0);
+            tlpFilters.Controls.Add(dtpTo, 3, 0);
+            tlpFilters.Controls.Add(lblSearch, 4, 0);
+            tlpFilters.Controls.Add(txtSearch, 5, 0);
+            tlpFilters.Dock = DockStyle.Top;
+            tlpFilters.Location = new Point(0, 88);
+            tlpFilters.Name = "tlpFilters";
+            tlpFilters.Padding = new Padding(16, 12, 16, 12);
+            tlpFilters.RowCount = 1;
+            tlpFilters.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tlpFilters.Size = new Size(1280, 64);
+            tlpFilters.TabIndex = 1;
             // 
             // lblFrom
             // 
-            this.lblFrom.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblFrom.AutoSize = true;
-            this.lblFrom.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblFrom.Location = new System.Drawing.Point(19, 18);
-            this.lblFrom.Name = "lblFrom";
-            this.lblFrom.Size = new System.Drawing.Size(83, 28);
-            this.lblFrom.TabIndex = 0;
-            this.lblFrom.Text = "Ngày từ";
+            lblFrom.Anchor = AnchorStyles.Left;
+            lblFrom.AutoSize = true;
+            lblFrom.Font = new Font("Segoe UI", 10F);
+            lblFrom.Location = new Point(19, 20);
+            lblFrom.Name = "lblFrom";
+            lblFrom.Size = new Size(71, 23);
+            lblFrom.TabIndex = 0;
+            lblFrom.Text = "Ngày từ";
             // 
             // dtpFrom
             // 
-            this.dtpFrom.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.dtpFrom.CustomFormat = "dddd, dd/MM/yyyy";
-            this.dtpFrom.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.dtpFrom.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpFrom.Location = new System.Drawing.Point(116, 15);
-            this.dtpFrom.Margin = new System.Windows.Forms.Padding(0, 3, 16, 3);
-            this.dtpFrom.Name = "dtpFrom";
-            this.dtpFrom.Size = new System.Drawing.Size(508, 34);
-            this.dtpFrom.TabIndex = 1;
+            dtpFrom.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            dtpFrom.CustomFormat = "dddd, dd/MM/yyyy";
+            dtpFrom.Font = new Font("Segoe UI", 10F);
+            dtpFrom.Format = DateTimePickerFormat.Custom;
+            dtpFrom.Location = new Point(116, 17);
+            dtpFrom.Margin = new Padding(0, 3, 16, 3);
+            dtpFrom.Name = "dtpFrom";
+            dtpFrom.Size = new Size(293, 30);
+            dtpFrom.TabIndex = 1;
             // 
             // lblTo
             // 
-            this.lblTo.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lblTo.AutoSize = true;
-            this.lblTo.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblTo.Location = new System.Drawing.Point(643, 12);
-            this.lblTo.Name = "lblTo";
-            this.lblTo.Size = new System.Drawing.Size(55, 40);
-            this.lblTo.TabIndex = 2;
-            this.lblTo.Text = "Đến ngày";
+            lblTo.Anchor = AnchorStyles.Left;
+            lblTo.AutoSize = true;
+            lblTo.Font = new Font("Segoe UI", 10F);
+            lblTo.Location = new Point(428, 20);
+            lblTo.Name = "lblTo";
+            lblTo.Size = new Size(83, 23);
+            lblTo.TabIndex = 2;
+            lblTo.Text = "Đến ngày";
             // 
             // dtpTo
             // 
-            this.dtpTo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.dtpTo.CustomFormat = "dddd, dd/MM/yyyy";
-            this.dtpTo.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.dtpTo.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
-            this.dtpTo.Location = new System.Drawing.Point(740, 15);
-            this.dtpTo.Margin = new System.Windows.Forms.Padding(0, 3, 16, 3);
-            this.dtpTo.Name = "dtpTo";
-            this.dtpTo.Size = new System.Drawing.Size(508, 34);
-            this.dtpTo.TabIndex = 3;
+            dtpTo.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            dtpTo.CustomFormat = "dddd, dd/MM/yyyy";
+            dtpTo.Font = new Font("Segoe UI", 10F);
+            dtpTo.Format = DateTimePickerFormat.Custom;
+            dtpTo.Location = new Point(525, 17);
+            dtpTo.Margin = new Padding(0, 3, 16, 3);
+            dtpTo.Name = "dtpTo";
+            dtpTo.Size = new Size(293, 30);
+            dtpTo.TabIndex = 3;
+            // 
+            // lblSearch
+            // 
+            lblSearch.Anchor = AnchorStyles.Left;
+            lblSearch.AutoSize = true;
+            lblSearch.Font = new Font("Segoe UI", 10F);
+            lblSearch.Location = new Point(837, 20);
+            lblSearch.Name = "lblSearch";
+            lblSearch.Size = new Size(106, 23);
+            lblSearch.TabIndex = 4;
+            lblSearch.Text = "Tìm mã đơn:";
+            // 
+            // txtSearch
+            // 
+            txtSearch.Anchor = AnchorStyles.Left | AnchorStyles.Right;
+            txtSearch.Font = new Font("Segoe UI", 10F);
+            txtSearch.Location = new Point(954, 17);
+            txtSearch.Margin = new Padding(0, 3, 16, 3);
+            txtSearch.Name = "txtSearch";
+            txtSearch.PlaceholderText = "Nhập mã đơn hàng...";
+            txtSearch.Size = new Size(294, 30);
+            txtSearch.TabIndex = 5;
             // 
             // gbOverview
             // 
-            this.gbOverview.Controls.Add(this.tlpCards);
-            this.gbOverview.Dock = System.Windows.Forms.DockStyle.Top;
-            this.gbOverview.Font = new System.Drawing.Font("Segoe UI", 11F, System.Drawing.FontStyle.Bold);
-            this.gbOverview.Location = new System.Drawing.Point(0, 157);
-            this.gbOverview.Name = "gbOverview";
-            this.gbOverview.Padding = new System.Windows.Forms.Padding(12, 8, 12, 12);
-            this.gbOverview.Size = new System.Drawing.Size(1280, 140);
-            this.gbOverview.TabIndex = 2;
-            this.gbOverview.TabStop = false;
-            this.gbOverview.Text = "Tổng quan";
+            gbOverview.Controls.Add(tlpCards);
+            gbOverview.Dock = DockStyle.Top;
+            gbOverview.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
+            gbOverview.Location = new Point(0, 152);
+            gbOverview.Name = "gbOverview";
+            gbOverview.Padding = new Padding(12, 8, 12, 12);
+            gbOverview.Size = new Size(1280, 140);
+            gbOverview.TabIndex = 2;
+            gbOverview.TabStop = false;
+            gbOverview.Text = "Tổng quan";
             // 
             // tlpCards
             // 
-            this.tlpCards.ColumnCount = 4;
-            this.tlpCards.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlpCards.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlpCards.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlpCards.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tlpCards.Controls.Add(this.cardRevenue, 0, 0);
-            this.tlpCards.Controls.Add(this.cardOrders, 1, 0);
-            this.tlpCards.Controls.Add(this.cardDiscount, 2, 0);
-            this.tlpCards.Controls.Add(this.cardCancelRate, 3, 0);
-            this.tlpCards.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tlpCards.Location = new System.Drawing.Point(12, 38);
-            this.tlpCards.Name = "tlpCards";
-            this.tlpCards.Padding = new System.Windows.Forms.Padding(8);
-            this.tlpCards.RowCount = 1;
-            this.tlpCards.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tlpCards.Size = new System.Drawing.Size(1256, 90);
-            this.tlpCards.TabIndex = 0;
+            tlpCards.ColumnCount = 4;
+            tlpCards.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpCards.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpCards.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpCards.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpCards.Controls.Add(cardRevenue, 0, 0);
+            tlpCards.Controls.Add(cardOrders, 1, 0);
+            tlpCards.Controls.Add(cardDiscount, 2, 0);
+            tlpCards.Controls.Add(cardCancelRate, 3, 0);
+            tlpCards.Dock = DockStyle.Fill;
+            tlpCards.Location = new Point(12, 33);
+            tlpCards.Name = "tlpCards";
+            tlpCards.Padding = new Padding(8);
+            tlpCards.RowCount = 1;
+            tlpCards.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpCards.Size = new Size(1256, 95);
+            tlpCards.TabIndex = 0;
             // 
             // cardRevenue
             // 
-            this.cardRevenue.BackColor = System.Drawing.Color.White;
-            this.cardRevenue.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.cardRevenue.Controls.Add(this.panelRevenueAccent);
-            this.cardRevenue.Controls.Add(this.lblRevenue);
-            this.cardRevenue.Controls.Add(this.lblRevenueTitle);
-            this.cardRevenue.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cardRevenue.Location = new System.Drawing.Point(11, 11);
-            this.cardRevenue.Name = "cardRevenue";
-            this.cardRevenue.Padding = new System.Windows.Forms.Padding(12);
-            this.cardRevenue.Size = new System.Drawing.Size(304, 68);
-            this.cardRevenue.TabIndex = 0;
+            cardRevenue.BackColor = Color.White;
+            cardRevenue.BorderStyle = BorderStyle.FixedSingle;
+            cardRevenue.Controls.Add(panelRevenueAccent);
+            cardRevenue.Controls.Add(lblRevenue);
+            cardRevenue.Controls.Add(lblRevenueTitle);
+            cardRevenue.Dock = DockStyle.Fill;
+            cardRevenue.Location = new Point(11, 11);
+            cardRevenue.Name = "cardRevenue";
+            cardRevenue.Padding = new Padding(12);
+            cardRevenue.Size = new Size(304, 73);
+            cardRevenue.TabIndex = 0;
             // 
             // panelRevenueAccent
             // 
-            this.panelRevenueAccent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(39)))), ((int)(((byte)(174)))), ((int)(((byte)(96)))));
-            this.panelRevenueAccent.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelRevenueAccent.Location = new System.Drawing.Point(12, 12);
-            this.panelRevenueAccent.Name = "panelRevenueAccent";
-            this.panelRevenueAccent.Size = new System.Drawing.Size(6, 42);
-            this.panelRevenueAccent.TabIndex = 2;
+            panelRevenueAccent.BackColor = Color.FromArgb(39, 174, 96);
+            panelRevenueAccent.Dock = DockStyle.Left;
+            panelRevenueAccent.Location = new Point(12, 12);
+            panelRevenueAccent.Name = "panelRevenueAccent";
+            panelRevenueAccent.Size = new Size(6, 47);
+            panelRevenueAccent.TabIndex = 2;
             // 
             // lblRevenue
             // 
-            this.lblRevenue.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblRevenue.AutoSize = true;
-            this.lblRevenue.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
-            this.lblRevenue.ForeColor = System.Drawing.Color.Black;
-            this.lblRevenue.Location = new System.Drawing.Point(28, 29);
-            this.lblRevenue.Name = "lblRevenue";
-            this.lblRevenue.Size = new System.Drawing.Size(67, 45);
-            this.lblRevenue.TabIndex = 1;
-            this.lblRevenue.Text = "0 đ";
+            lblRevenue.AutoSize = true;
+            lblRevenue.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            lblRevenue.ForeColor = Color.Black;
+            lblRevenue.Location = new Point(28, 35);
+            lblRevenue.Name = "lblRevenue";
+            lblRevenue.Size = new Size(57, 37);
+            lblRevenue.TabIndex = 1;
+            lblRevenue.Text = "0 đ";
             // 
             // lblRevenueTitle
             // 
-            this.lblRevenueTitle.AutoSize = true;
-            this.lblRevenueTitle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblRevenueTitle.ForeColor = System.Drawing.Color.DimGray;
-            this.lblRevenueTitle.Location = new System.Drawing.Point(28, 12);
-            this.lblRevenueTitle.Name = "lblRevenueTitle";
-            this.lblRevenueTitle.Size = new System.Drawing.Size(112, 28);
-            this.lblRevenueTitle.TabIndex = 0;
-            this.lblRevenueTitle.Text = "Doanh thu";
+            lblRevenueTitle.AutoSize = true;
+            lblRevenueTitle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblRevenueTitle.ForeColor = Color.DimGray;
+            lblRevenueTitle.Location = new Point(28, 12);
+            lblRevenueTitle.Name = "lblRevenueTitle";
+            lblRevenueTitle.Size = new Size(94, 23);
+            lblRevenueTitle.TabIndex = 0;
+            lblRevenueTitle.Text = "Doanh thu";
             // 
             // cardOrders
             // 
-            this.cardOrders.BackColor = System.Drawing.Color.White;
-            this.cardOrders.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.cardOrders.Controls.Add(this.panelOrdersAccent);
-            this.cardOrders.Controls.Add(this.lblOrders);
-            this.cardOrders.Controls.Add(this.lblOrdersTitle);
-            this.cardOrders.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cardOrders.Location = new System.Drawing.Point(321, 11);
-            this.cardOrders.Name = "cardOrders";
-            this.cardOrders.Padding = new System.Windows.Forms.Padding(12);
-            this.cardOrders.Size = new System.Drawing.Size(304, 68);
-            this.cardOrders.TabIndex = 1;
+            cardOrders.BackColor = Color.White;
+            cardOrders.BorderStyle = BorderStyle.FixedSingle;
+            cardOrders.Controls.Add(panelOrdersAccent);
+            cardOrders.Controls.Add(lblOrders);
+            cardOrders.Controls.Add(lblOrdersTitle);
+            cardOrders.Dock = DockStyle.Fill;
+            cardOrders.Location = new Point(321, 11);
+            cardOrders.Name = "cardOrders";
+            cardOrders.Padding = new Padding(12);
+            cardOrders.Size = new Size(304, 73);
+            cardOrders.TabIndex = 1;
             // 
             // panelOrdersAccent
             // 
-            this.panelOrdersAccent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(41)))), ((int)(((byte)(128)))), ((int)(((byte)(185)))));
-            this.panelOrdersAccent.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelOrdersAccent.Location = new System.Drawing.Point(12, 12);
-            this.panelOrdersAccent.Name = "panelOrdersAccent";
-            this.panelOrdersAccent.Size = new System.Drawing.Size(6, 42);
-            this.panelOrdersAccent.TabIndex = 3;
+            panelOrdersAccent.BackColor = Color.FromArgb(41, 128, 185);
+            panelOrdersAccent.Dock = DockStyle.Left;
+            panelOrdersAccent.Location = new Point(12, 12);
+            panelOrdersAccent.Name = "panelOrdersAccent";
+            panelOrdersAccent.Size = new Size(6, 47);
+            panelOrdersAccent.TabIndex = 3;
             // 
             // lblOrders
             // 
-            this.lblOrders.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblOrders.AutoSize = true;
-            this.lblOrders.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
-            this.lblOrders.ForeColor = System.Drawing.Color.Black;
-            this.lblOrders.Location = new System.Drawing.Point(28, 29);
-            this.lblOrders.Name = "lblOrders";
-            this.lblOrders.Size = new System.Drawing.Size(38, 45);
-            this.lblOrders.TabIndex = 1;
-            this.lblOrders.Text = "0";
+            lblOrders.AutoSize = true;
+            lblOrders.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            lblOrders.ForeColor = Color.Black;
+            lblOrders.Location = new Point(28, 35);
+            lblOrders.Name = "lblOrders";
+            lblOrders.Size = new Size(33, 37);
+            lblOrders.TabIndex = 1;
+            lblOrders.Text = "0";
             // 
             // lblOrdersTitle
             // 
-            this.lblOrdersTitle.AutoSize = true;
-            this.lblOrdersTitle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblOrdersTitle.ForeColor = System.Drawing.Color.DimGray;
-            this.lblOrdersTitle.Location = new System.Drawing.Point(28, 12);
-            this.lblOrdersTitle.Name = "lblOrdersTitle";
-            this.lblOrdersTitle.Size = new System.Drawing.Size(132, 28);
-            this.lblOrdersTitle.TabIndex = 0;
-            this.lblOrdersTitle.Text = "Số đơn hàng";
+            lblOrdersTitle.AutoSize = true;
+            lblOrdersTitle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblOrdersTitle.ForeColor = Color.DimGray;
+            lblOrdersTitle.Location = new Point(28, 12);
+            lblOrdersTitle.Name = "lblOrdersTitle";
+            lblOrdersTitle.Size = new Size(112, 23);
+            lblOrdersTitle.TabIndex = 0;
+            lblOrdersTitle.Text = "Số đơn hàng";
             // 
             // cardDiscount
             // 
-            this.cardDiscount.BackColor = System.Drawing.Color.White;
-            this.cardDiscount.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.cardDiscount.Controls.Add(this.panelDiscountAccent);
-            this.cardDiscount.Controls.Add(this.lblDiscount);
-            this.cardDiscount.Controls.Add(this.lblDiscountTitle);
-            this.cardDiscount.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cardDiscount.Location = new System.Drawing.Point(631, 11);
-            this.cardDiscount.Name = "cardDiscount";
-            this.cardDiscount.Padding = new System.Windows.Forms.Padding(12);
-            this.cardDiscount.Size = new System.Drawing.Size(304, 68);
-            this.cardDiscount.TabIndex = 2;
+            cardDiscount.BackColor = Color.White;
+            cardDiscount.BorderStyle = BorderStyle.FixedSingle;
+            cardDiscount.Controls.Add(panelDiscountAccent);
+            cardDiscount.Controls.Add(lblDiscount);
+            cardDiscount.Controls.Add(lblDiscountTitle);
+            cardDiscount.Dock = DockStyle.Fill;
+            cardDiscount.Location = new Point(631, 11);
+            cardDiscount.Name = "cardDiscount";
+            cardDiscount.Padding = new Padding(12);
+            cardDiscount.Size = new Size(304, 73);
+            cardDiscount.TabIndex = 2;
             // 
             // panelDiscountAccent
             // 
-            this.panelDiscountAccent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(156)))), ((int)(((byte)(18)))));
-            this.panelDiscountAccent.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelDiscountAccent.Location = new System.Drawing.Point(12, 12);
-            this.panelDiscountAccent.Name = "panelDiscountAccent";
-            this.panelDiscountAccent.Size = new System.Drawing.Size(6, 42);
-            this.panelDiscountAccent.TabIndex = 3;
+            panelDiscountAccent.BackColor = Color.FromArgb(243, 156, 18);
+            panelDiscountAccent.Dock = DockStyle.Left;
+            panelDiscountAccent.Location = new Point(12, 12);
+            panelDiscountAccent.Name = "panelDiscountAccent";
+            panelDiscountAccent.Size = new Size(6, 47);
+            panelDiscountAccent.TabIndex = 3;
             // 
             // lblDiscount
             // 
-            this.lblDiscount.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblDiscount.AutoSize = true;
-            this.lblDiscount.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
-            this.lblDiscount.ForeColor = System.Drawing.Color.Black;
-            this.lblDiscount.Location = new System.Drawing.Point(28, 29);
-            this.lblDiscount.Name = "lblDiscount";
-            this.lblDiscount.Size = new System.Drawing.Size(38, 45);
-            this.lblDiscount.TabIndex = 1;
-            this.lblDiscount.Text = "0";
+            lblDiscount.AutoSize = true;
+            lblDiscount.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            lblDiscount.ForeColor = Color.Black;
+            lblDiscount.Location = new Point(28, 35);
+            lblDiscount.Name = "lblDiscount";
+            lblDiscount.Size = new Size(33, 37);
+            lblDiscount.TabIndex = 1;
+            lblDiscount.Text = "0";
             // 
             // lblDiscountTitle
             // 
-            this.lblDiscountTitle.AutoSize = true;
-            this.lblDiscountTitle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblDiscountTitle.ForeColor = System.Drawing.Color.DimGray;
-            this.lblDiscountTitle.Location = new System.Drawing.Point(28, 12);
-            this.lblDiscountTitle.Name = "lblDiscountTitle";
-            this.lblDiscountTitle.Size = new System.Drawing.Size(128, 28);
-            this.lblDiscountTitle.TabIndex = 0;
-            this.lblDiscountTitle.Text = "KM đã dùng";
+            lblDiscountTitle.AutoSize = true;
+            lblDiscountTitle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblDiscountTitle.ForeColor = Color.DimGray;
+            lblDiscountTitle.Location = new Point(28, 12);
+            lblDiscountTitle.Name = "lblDiscountTitle";
+            lblDiscountTitle.Size = new Size(109, 23);
+            lblDiscountTitle.TabIndex = 0;
+            lblDiscountTitle.Text = "KM đã dùng";
             // 
             // cardCancelRate
             // 
-            this.cardCancelRate.BackColor = System.Drawing.Color.White;
-            this.cardCancelRate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.cardCancelRate.Controls.Add(this.panelCancelAccent);
-            this.cardCancelRate.Controls.Add(this.lblCancelRate);
-            this.cardCancelRate.Controls.Add(this.lblCancelRateTitle);
-            this.cardCancelRate.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cardCancelRate.Location = new System.Drawing.Point(941, 11);
-            this.cardCancelRate.Name = "cardCancelRate";
-            this.cardCancelRate.Padding = new System.Windows.Forms.Padding(12);
-            this.cardCancelRate.Size = new System.Drawing.Size(304, 68);
-            this.cardCancelRate.TabIndex = 3;
+            cardCancelRate.BackColor = Color.White;
+            cardCancelRate.BorderStyle = BorderStyle.FixedSingle;
+            cardCancelRate.Controls.Add(panelCancelAccent);
+            cardCancelRate.Controls.Add(lblCancelRate);
+            cardCancelRate.Controls.Add(lblCancelRateTitle);
+            cardCancelRate.Dock = DockStyle.Fill;
+            cardCancelRate.Location = new Point(941, 11);
+            cardCancelRate.Name = "cardCancelRate";
+            cardCancelRate.Padding = new Padding(12);
+            cardCancelRate.Size = new Size(304, 73);
+            cardCancelRate.TabIndex = 3;
             // 
             // panelCancelAccent
             // 
-            this.panelCancelAccent.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(76)))), ((int)(((byte)(60)))));
-            this.panelCancelAccent.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panelCancelAccent.Location = new System.Drawing.Point(12, 12);
-            this.panelCancelAccent.Name = "panelCancelAccent";
-            this.panelCancelAccent.Size = new System.Drawing.Size(6, 42);
-            this.panelCancelAccent.TabIndex = 3;
+            panelCancelAccent.BackColor = Color.FromArgb(231, 76, 60);
+            panelCancelAccent.Dock = DockStyle.Left;
+            panelCancelAccent.Location = new Point(12, 12);
+            panelCancelAccent.Name = "panelCancelAccent";
+            panelCancelAccent.Size = new Size(6, 47);
+            panelCancelAccent.TabIndex = 3;
             // 
             // lblCancelRate
             // 
-            this.lblCancelRate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.lblCancelRate.AutoSize = true;
-            this.lblCancelRate.Font = new System.Drawing.Font("Segoe UI", 16F, System.Drawing.FontStyle.Bold);
-            this.lblCancelRate.ForeColor = System.Drawing.Color.Black;
-            this.lblCancelRate.Location = new System.Drawing.Point(28, 29);
-            this.lblCancelRate.Name = "lblCancelRate";
-            this.lblCancelRate.Size = new System.Drawing.Size(75, 45);
-            this.lblCancelRate.TabIndex = 1;
-            this.lblCancelRate.Text = "0 %";
+            lblCancelRate.AutoSize = true;
+            lblCancelRate.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            lblCancelRate.ForeColor = Color.Black;
+            lblCancelRate.Location = new Point(28, 35);
+            lblCancelRate.Name = "lblCancelRate";
+            lblCancelRate.Size = new Size(63, 37);
+            lblCancelRate.TabIndex = 1;
+            lblCancelRate.Text = "0 %";
             // 
             // lblCancelRateTitle
             // 
-            this.lblCancelRateTitle.AutoSize = true;
-            this.lblCancelRateTitle.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            this.lblCancelRateTitle.ForeColor = System.Drawing.Color.DimGray;
-            this.lblCancelRateTitle.Location = new System.Drawing.Point(28, 12);
-            this.lblCancelRateTitle.Name = "lblCancelRateTitle";
-            this.lblCancelRateTitle.Size = new System.Drawing.Size(94, 28);
-            this.lblCancelRateTitle.TabIndex = 0;
-            this.lblCancelRateTitle.Text = "Tỉ lệ huỷ";
+            lblCancelRateTitle.AutoSize = true;
+            lblCancelRateTitle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblCancelRateTitle.ForeColor = Color.DimGray;
+            lblCancelRateTitle.Location = new Point(28, 12);
+            lblCancelRateTitle.Name = "lblCancelRateTitle";
+            lblCancelRateTitle.Size = new Size(78, 23);
+            lblCancelRateTitle.TabIndex = 0;
+            lblCancelRateTitle.Text = "Tỉ lệ huỷ";
             // 
             // dgvThongKe
             // 
-            this.dgvThongKe.AllowUserToAddRows = false;
-            this.dgvThongKe.AllowUserToDeleteRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(245)))), ((int)(((byte)(245)))), ((int)(((byte)(245)))));
-
-this.dgvThongKe.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
-            this.dgvThongKe.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
-            this.dgvThongKe.BackgroundColor = System.Drawing.Color.White;
-            this.dgvThongKe.ColumnHeadersBorderStyle = System.Windows.Forms.DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.Gainsboro;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
-            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.Black;
-            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.dgvThongKe.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
-            this.dgvThongKe.ColumnHeadersHeight = 38;
-            this.dgvThongKe.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            this.dgvThongKe.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.colNgay,
-            this.colSoDon,
-            this.colDoanhThu,
-            this.colKmDaDung,
-            this.colNhanVien});
-            dataGridViewCellStyle6.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = System.Drawing.SystemColors.Window;
-            dataGridViewCellStyle6.Font = new System.Drawing.Font("Segoe UI", 9F);
-            dataGridViewCellStyle6.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle6.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            dataGridViewCellStyle6.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            dataGridViewCellStyle6.SelectionForeColor = System.Drawing.Color.White;
-            dataGridViewCellStyle6.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
-            this.dgvThongKe.DefaultCellStyle = dataGridViewCellStyle6;
-            this.dgvThongKe.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.dgvThongKe.EnableHeadersVisualStyles = false;
-            this.dgvThongKe.GridColor = System.Drawing.Color.LightSteelBlue;
-            this.dgvThongKe.Location = new System.Drawing.Point(0, 297);
-            this.dgvThongKe.MultiSelect = false;
-            this.dgvThongKe.Name = "dgvThongKe";
-            this.dgvThongKe.ReadOnly = true;
-            this.dgvThongKe.RowHeadersVisible = false;
-            this.dgvThongKe.RowHeadersWidth = 51;
-            this.dgvThongKe.RowTemplate.Height = 32;
-            this.dgvThongKe.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvThongKe.Size = new System.Drawing.Size(1280, 463);
-            this.dgvThongKe.TabIndex = 3;
+            dgvThongKe.AllowUserToAddRows = false;
+            dgvThongKe.AllowUserToDeleteRows = false;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(245, 245, 245);
+            dgvThongKe.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dgvThongKe.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvThongKe.BackgroundColor = Color.White;
+            dgvThongKe.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.Gainsboro;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.Black;
+            dataGridViewCellStyle2.Padding = new Padding(8, 0, 8, 0);
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvThongKe.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
+            dgvThongKe.ColumnHeadersHeight = 38;
+            dgvThongKe.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
+            dgvThongKe.Columns.AddRange(new DataGridViewColumn[] { colMaDH, colNgay, colSoDon, colDoanhThu, colKmDaDung, colNhanVien });
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = SystemColors.Window;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.Padding = new Padding(8, 0, 8, 0);
+            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(52, 152, 219);
+            dataGridViewCellStyle6.SelectionForeColor = Color.White;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
+            dgvThongKe.DefaultCellStyle = dataGridViewCellStyle6;
+            dgvThongKe.Dock = DockStyle.Fill;
+            dgvThongKe.EnableHeadersVisualStyles = false;
+            dgvThongKe.GridColor = Color.LightSteelBlue;
+            dgvThongKe.Location = new Point(0, 292);
+            dgvThongKe.MultiSelect = false;
+            dgvThongKe.Name = "dgvThongKe";
+            dgvThongKe.ReadOnly = true;
+            dgvThongKe.RowHeadersVisible = false;
+            dgvThongKe.RowHeadersWidth = 51;
+            dgvThongKe.RowTemplate.Height = 32;
+            dgvThongKe.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvThongKe.Size = new Size(1280, 468);
+            dgvThongKe.TabIndex = 3;
+            // 
+            // colMaDH
+            // 
+            colMaDH.FillWeight = 10F;
+            colMaDH.HeaderText = "Mã ĐH";
+            colMaDH.MinimumWidth = 6;
+            colMaDH.Name = "colMaDH";
+            colMaDH.ReadOnly = true;
+            colMaDH.Visible = false;
             // 
             // colNgay
             // 
             dataGridViewCellStyle3.Format = "dd/MM/yyyy";
-            this.colNgay.DefaultCellStyle = dataGridViewCellStyle3;
-            this.colNgay.FillWeight = 16F;
-            this.colNgay.HeaderText = "Ngày";
-            this.colNgay.MinimumWidth = 6;
-            this.colNgay.Name = "colNgay";
-            this.colNgay.ReadOnly = true;
+            colNgay.DefaultCellStyle = dataGridViewCellStyle3;
+            colNgay.FillWeight = 16F;
+            colNgay.HeaderText = "Ngày";
+            colNgay.MinimumWidth = 6;
+            colNgay.Name = "colNgay";
+            colNgay.ReadOnly = true;
             // 
             // colSoDon
             // 
-            dataGridViewCellStyle4.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle4.Format = "N0";
-            this.colSoDon.DefaultCellStyle = dataGridViewCellStyle4;
-            this.colSoDon.FillWeight = 14F;
-            this.colSoDon.HeaderText = "Đơn hàng";
-            this.colSoDon.MinimumWidth = 6;
-            this.colSoDon.Name = "colSoDon";
-            this.colSoDon.ReadOnly = true;
+            colSoDon.DefaultCellStyle = dataGridViewCellStyle4;
+            colSoDon.FillWeight = 14F;
+            colSoDon.HeaderText = "Đơn hàng";
+            colSoDon.MinimumWidth = 6;
+            colSoDon.Name = "colSoDon";
+            colSoDon.ReadOnly = true;
             // 
             // colDoanhThu
             // 
-            dataGridViewCellStyle5.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleRight;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle5.Format = "N0";
-            this.colDoanhThu.DefaultCellStyle = dataGridViewCellStyle5;
-            this.colDoanhThu.FillWeight = 20F;
-            this.colDoanhThu.HeaderText = "Doanh thu";
-            this.colDoanhThu.MinimumWidth = 6;
-            this.colDoanhThu.Name = "colDoanhThu";
-            this.colDoanhThu.ReadOnly = true;
+            colDoanhThu.DefaultCellStyle = dataGridViewCellStyle5;
+            colDoanhThu.FillWeight = 20F;
+            colDoanhThu.HeaderText = "Doanh thu";
+            colDoanhThu.MinimumWidth = 6;
+            colDoanhThu.Name = "colDoanhThu";
+            colDoanhThu.ReadOnly = true;
             // 
             // colKmDaDung
             // 
-            this.colKmDaDung.FillWeight = 14F;
-            this.colKmDaDung.HeaderText = "KM đã dùng";
-            this.colKmDaDung.MinimumWidth = 6;
-            this.colKmDaDung.Name = "colKmDaDung";
-            this.colKmDaDung.ReadOnly = true;
+            colKmDaDung.FillWeight = 14F;
+            colKmDaDung.HeaderText = "KM đã dùng";
+            colKmDaDung.MinimumWidth = 6;
+            colKmDaDung.Name = "colKmDaDung";
+            colKmDaDung.ReadOnly = true;
             // 
             // colNhanVien
             // 
-            this.colNhanVien.FillWeight = 36F;
-            this.colNhanVien.HeaderText = "Nhân viên bán hàng";
-            this.colNhanVien.MinimumWidth = 6;
-            this.colNhanVien.Name = "colNhanVien";
-            this.colNhanVien.ReadOnly = true;
+            colNhanVien.FillWeight = 36F;
+            colNhanVien.HeaderText = "Nhân viên bán hàng";
+            colNhanVien.MinimumWidth = 6;
+            colNhanVien.Name = "colNhanVien";
+            colNhanVien.ReadOnly = true;
             // 
             // flpActions
             // 
-            this.flpActions.AutoSize = true;
-            this.flpActions.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.flpActions.Controls.Add(this.btnRefresh);
-            this.flpActions.Controls.Add(this.btnExport);
-            this.flpActions.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.flpActions.FlowDirection = System.Windows.Forms.FlowDirection.RightToLeft;
-            this.flpActions.Location = new System.Drawing.Point(0, 710);
-            this.flpActions.Name = "flpActions";
-            this.flpActions.Padding = new System.Windows.Forms.Padding(0, 8, 16, 8);
-            this.flpActions.Size = new System.Drawing.Size(1280, 50);
-            this.flpActions.TabIndex = 4;
+            flpActions.AutoSize = true;
+            flpActions.AutoSizeMode = AutoSizeMode.GrowAndShrink;
+            flpActions.Controls.Add(btnRefresh);
+            flpActions.Controls.Add(btnXoaDon);
+            flpActions.Controls.Add(btnExport);
+            flpActions.Dock = DockStyle.Bottom;
+            flpActions.FlowDirection = FlowDirection.RightToLeft;
+            flpActions.Location = new Point(0, 710);
+            flpActions.Name = "flpActions";
+            flpActions.Padding = new Padding(0, 8, 16, 8);
+            flpActions.Size = new Size(1280, 50);
+            flpActions.TabIndex = 4;
             // 
             // btnRefresh
             // 
-            this.btnRefresh.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(52)))), ((int)(((byte)(152)))), ((int)(((byte)(219)))));
-            this.btnRefresh.FlatAppearance.BorderSize = 0;
-            this.btnRefresh.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnRefresh.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
-            this.btnRefresh.ForeColor = System.Drawing.Color.White;
-            this.btnRefresh.Location = new System.Drawing.Point(1160, 11);
-            this.btnRefresh.Margin = new System.Windows.Forms.Padding(3, 3, 8, 3);
-            this.btnRefresh.Name = "btnRefresh";
-            this.btnRefresh.Size = new System.Drawing.Size(96, 28);
-            this.btnRefresh.TabIndex = 1;
-            this.btnRefresh.Text = "Làm mới";
-            this.btnRefresh.UseVisualStyleBackColor = false;
+            btnRefresh.BackColor = Color.FromArgb(52, 152, 219);
+            btnRefresh.FlatAppearance.BorderSize = 0;
+            btnRefresh.FlatStyle = FlatStyle.Flat;
+            btnRefresh.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            btnRefresh.ForeColor = Color.White;
+            btnRefresh.Location = new Point(1160, 11);
+            btnRefresh.Margin = new Padding(3, 3, 8, 3);
+            btnRefresh.Name = "btnRefresh";
+            btnRefresh.Size = new Size(96, 28);
+            btnRefresh.TabIndex = 1;
+            btnRefresh.Text = "Làm mới";
+            btnRefresh.UseVisualStyleBackColor = false;
+            // 
+            // btnXoaDon
+            // 
+            btnXoaDon.BackColor = Color.FromArgb(231, 76, 60);
+            btnXoaDon.FlatAppearance.BorderSize = 0;
+            btnXoaDon.FlatStyle = FlatStyle.Flat;
+            btnXoaDon.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            btnXoaDon.ForeColor = Color.White;
+            btnXoaDon.Location = new Point(1040, 11);
+            btnXoaDon.Margin = new Padding(3, 3, 8, 3);
+            btnXoaDon.Name = "btnXoaDon";
+            btnXoaDon.Size = new Size(109, 28);
+            btnXoaDon.TabIndex = 2;
+            btnXoaDon.Text = "Xóa đơn";
+            btnXoaDon.UseVisualStyleBackColor = false;
             // 
             // btnExport
             // 
-            this.btnExport.BackColor = System.Drawing.Color.Gainsboro;
-            this.btnExport.FlatAppearance.BorderSize = 0;
-            this.btnExport.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnExport.Font = new System.Drawing.Font("Segoe UI", 9.5F, System.Drawing.FontStyle.Bold);
-            this.btnExport.ForeColor = System.Drawing.Color.Black;
-            this.btnExport.Location = new System.Drawing.Point(1043, 11);
-            this.btnExport.Margin = new System.Windows.Forms.Padding(3, 3, 16, 3);
-            this.btnExport.Name = "btnExport";
-            this.btnExport.Size = new System.Drawing.Size(98, 28);
-            this.btnExport.TabIndex = 0;
-            this.btnExport.Text = "Xuất...";
-            this.btnExport.UseVisualStyleBackColor = false;
+            btnExport.BackColor = Color.Gainsboro;
+            btnExport.FlatAppearance.BorderSize = 0;
+            btnExport.FlatStyle = FlatStyle.Flat;
+            btnExport.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            btnExport.ForeColor = Color.Black;
+            btnExport.Location = new Point(923, 11);
+            btnExport.Margin = new Padding(3, 3, 16, 3);
+            btnExport.Name = "btnExport";
+            btnExport.Size = new Size(98, 28);
+            btnExport.TabIndex = 0;
+            btnExport.Text = "Xuất...";
+            btnExport.UseVisualStyleBackColor = false;
             // 
             // menuStrip1
             // 
-            this.menuStrip1.AllowItemReorder = true;
-            this.menuStrip1.BackColor = System.Drawing.Color.SkyBlue;
-            this.menuStrip1.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.menuStrip1.GripMargin = new System.Windows.Forms.Padding(2, 2, 0, 2);
-            this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuTrangChu,
-            this.mnuQuanLy,
-            this.mnuDangXuat});
-            this.menuStrip1.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            this.menuStrip1.Location = new System.Drawing.Point(0, 60);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1280, 33);
-            this.menuStrip1.TabIndex = 2;
-            this.menuStrip1.Text = "menuStrip1";
+            menuStrip1.AllowItemReorder = true;
+            menuStrip1.BackColor = Color.SkyBlue;
+            menuStrip1.Font = new Font("Segoe UI", 9F);
+            menuStrip1.ImageScalingSize = new Size(24, 24);
+            menuStrip1.Items.AddRange(new ToolStripItem[] { mnuTrangChu, mnuQuanLy, mnuDangXuat });
+            menuStrip1.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow;
+            menuStrip1.Location = new Point(0, 60);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(1280, 28);
+            menuStrip1.TabIndex = 2;
+            menuStrip1.Text = "menuStrip1";
             // 
             // mnuTrangChu
             // 
-            this.mnuTrangChu.Name = "mnuTrangChu";
-            this.mnuTrangChu.Size = new System.Drawing.Size(107, 29);
-            this.mnuTrangChu.Text = "Trang Chủ";
+            mnuTrangChu.Name = "mnuTrangChu";
+            mnuTrangChu.Size = new Size(89, 24);
+            mnuTrangChu.Text = "Trang Chủ";
             // 
             // mnuQuanLy
             // 
-            this.mnuQuanLy.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuKhachHang,
-            this.mnuDonHang,
-            this.mnuThongKeMenu});
-            this.mnuQuanLy.Name = "mnuQuanLy";
-            this.mnuQuanLy.Size = new System.Drawing.Size(89, 29);
-            this.mnuQuanLy.Text = "Quản lý";
+            mnuQuanLy.DropDownItems.AddRange(new ToolStripItem[] { mnuKhachHang, mnuDonHang, mnuThongKeMenu });
+            mnuQuanLy.Name = "mnuQuanLy";
+            mnuQuanLy.Size = new Size(73, 24);
+            mnuQuanLy.Text = "Quản lý";
             // 
             // mnuKhachHang
             // 
-            this.mnuKhachHang.Name = "mnuKhachHang";
-            this.mnuKhachHang.Size = new System.Drawing.Size(209, 34);
-            this.mnuKhachHang.Text = "Khách Hàng";
+            mnuKhachHang.Name = "mnuKhachHang";
+            mnuKhachHang.Size = new Size(172, 26);
+            mnuKhachHang.Text = "Khách Hàng";
             // 
             // mnuDonHang
             // 
-            this.mnuDonHang.Name = "mnuDonHang";
-            this.mnuDonHang.Size = new System.Drawing.Size(209, 34);
-            this.mnuDonHang.Text = "Đơn Hàng";
+            mnuDonHang.Name = "mnuDonHang";
+            mnuDonHang.Size = new Size(172, 26);
+            mnuDonHang.Text = "Đơn Hàng";
             // 
             // mnuThongKeMenu
             // 
-            this.mnuThongKeMenu.Name = "mnuThongKeMenu";
-            this.mnuThongKeMenu.Size = new System.Drawing.Size(209, 34);
-            this.mnuThongKeMenu.Text = "Thống Kê";
+            mnuThongKeMenu.Name = "mnuThongKeMenu";
+            mnuThongKeMenu.Size = new Size(172, 26);
+            mnuThongKeMenu.Text = "Thống Kê";
             // 
             // mnuDangXuat
             // 
-            this.mnuDangXuat.Name = "mnuDangXuat";
-            this.mnuDangXuat.Size = new System.Drawing.Size(109, 29);
-            this.mnuDangXuat.Text = "Đăng xuất";
+            mnuDangXuat.Name = "mnuDangXuat";
+            mnuDangXuat.Size = new Size(91, 24);
+            mnuDangXuat.Text = "Đăng xuất";
             // 
             // FormThongKeBaoCao
             // 
-            this.ClientSize = new System.Drawing.Size(1280, 760);
-            this.Controls.Add(this.flpActions);
-            this.Controls.Add(this.dgvThongKe);
-            this.Controls.Add(this.gbOverview);
-            this.Controls.Add(this.tlpFilters);
-            this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.headerPanel);
-            this.MainMenuStrip = this.menuStrip1;
-            this.Name = "FormThongKeBaoCao";
-            this.headerPanel.ResumeLayout(false);
-            this.headerPanel.PerformLayout();
-            this.tlpFilters.ResumeLayout(false);
-            this.tlpFilters.PerformLayout();
-            this.gbOverview.ResumeLayout(false);
-            this.tlpCards.ResumeLayout(false);
-            this.cardRevenue.ResumeLayout(false);
-            this.cardRevenue.PerformLayout();
-            this.cardOrders.ResumeLayout(false);
-            this.cardOrders.PerformLayout();
-            this.cardDiscount.ResumeLayout(false);
-            this.cardDiscount.PerformLayout();
-            this.cardCancelRate.ResumeLayout(false);
-            this.cardCancelRate.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvThongKe)).EndInit();
-            this.flpActions.ResumeLayout(false);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            ClientSize = new Size(1280, 760);
+            Controls.Add(flpActions);
+            Controls.Add(dgvThongKe);
+            Controls.Add(gbOverview);
+            Controls.Add(tlpFilters);
+            Controls.Add(menuStrip1);
+            Controls.Add(headerPanel);
+            MainMenuStrip = menuStrip1;
+            Name = "FormThongKeBaoCao";
+            headerPanel.ResumeLayout(false);
+            headerPanel.PerformLayout();
+            tlpFilters.ResumeLayout(false);
+            tlpFilters.PerformLayout();
+            gbOverview.ResumeLayout(false);
+            tlpCards.ResumeLayout(false);
+            cardRevenue.ResumeLayout(false);
+            cardRevenue.PerformLayout();
+            cardOrders.ResumeLayout(false);
+            cardOrders.PerformLayout();
+            cardDiscount.ResumeLayout(false);
+            cardDiscount.PerformLayout();
+            cardCancelRate.ResumeLayout(false);
+            cardCancelRate.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvThongKe).EndInit();
+            flpActions.ResumeLayout(false);
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
@@ -635,21 +673,28 @@ this.dgvThongKe.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
         private System.Windows.Forms.DateTimePicker dtpFrom;
         private System.Windows.Forms.Label lblTo;
         private System.Windows.Forms.DateTimePicker dtpTo;
+        private System.Windows.Forms.Label lblSearch;
+        private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.GroupBox gbOverview;
         private System.Windows.Forms.TableLayoutPanel tlpCards;
         private System.Windows.Forms.Panel cardRevenue;
+        private System.Windows.Forms.Panel panelRevenueAccent;
         private System.Windows.Forms.Label lblRevenueTitle;
         private System.Windows.Forms.Label lblRevenue;
         private System.Windows.Forms.Panel cardOrders;
+        private System.Windows.Forms.Panel panelOrdersAccent;
         private System.Windows.Forms.Label lblOrdersTitle;
         private System.Windows.Forms.Label lblOrders;
         private System.Windows.Forms.Panel cardDiscount;
+        private System.Windows.Forms.Panel panelDiscountAccent;
         private System.Windows.Forms.Label lblDiscountTitle;
         private System.Windows.Forms.Label lblDiscount;
         private System.Windows.Forms.Panel cardCancelRate;
+        private System.Windows.Forms.Panel panelCancelAccent;
         private System.Windows.Forms.Label lblCancelRateTitle;
         private System.Windows.Forms.Label lblCancelRate;
         private System.Windows.Forms.DataGridView dgvThongKe;
+        private System.Windows.Forms.DataGridViewTextBoxColumn colMaDH;
         private System.Windows.Forms.DataGridViewTextBoxColumn colNgay;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSoDon;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDoanhThu;
@@ -658,10 +703,7 @@ this.dgvThongKe.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
         private System.Windows.Forms.FlowLayoutPanel flpActions;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Button btnRefresh;
-        private System.Windows.Forms.Panel panelRevenueAccent;
-        private System.Windows.Forms.Panel panelOrdersAccent;
-        private System.Windows.Forms.Panel panelDiscountAccent;
-        private System.Windows.Forms.Panel panelCancelAccent;
+        private System.Windows.Forms.Button btnXoaDon;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem mnuTrangChu;
         private System.Windows.Forms.ToolStripMenuItem mnuQuanLy;

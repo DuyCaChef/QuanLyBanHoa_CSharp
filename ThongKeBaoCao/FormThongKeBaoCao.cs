@@ -14,6 +14,8 @@ namespace QuanLyBanHoa_CSharp.Forms
 {
     public partial class FormThongKeBaoCao : Form
     {
+        private DataTable dtAllData; // Store all data for filtering
+
         public FormThongKeBaoCao()
         {
             InitializeComponent();
@@ -21,13 +23,16 @@ namespace QuanLyBanHoa_CSharp.Forms
             // wire up events
             btnRefresh.Click += BtnRefresh_Click;
             btnExport.Click += BtnExport_Click;
+            btnXoaDon.Click += BtnXoaDon_Click;
             dtpFrom.ValueChanged += DtpRange_ValueChanged;
             dtpTo.ValueChanged += DtpRange_ValueChanged;
+            txtSearch.TextChanged += TxtSearch_TextChanged;
 
             // sensible defaults
             dtpTo.Value = DateTime.Today;
             dtpFrom.Value = DateTime.Today.AddDays(-30);
 
+            dtAllData = new DataTable();
             LoadStatistics();
         }
 
@@ -60,13 +65,13 @@ namespace QuanLyBanHoa_CSharp.Forms
 
                     var sb = new StringBuilder();
                     // header
-                    var cols = dgvThongKe.Columns.Cast<DataGridViewColumn>();
+                    var cols = dgvThongKe.Columns.Cast<DataGridViewColumn>().Where(c => c.Visible);
                     sb.AppendLine(string.Join(',', cols.Select(c => '"' + c.HeaderText.Replace('"', '"') + '"')));
 
                     foreach (DataGridViewRow r in dgvThongKe.Rows)
                     {
                         if (r.IsNewRow) continue;
-                        var cells = r.Cells.Cast<DataGridViewCell>().Select(c => '"' + (c.Value?.ToString()?.Replace('"', '"') ?? "") + '"');
+                        var cells = cols.Select(c => '"' + (r.Cells[c.Index].Value?.ToString()?.Replace('"', '"') ?? "") + '"');
                         sb.AppendLine(string.Join(',', cells));
                     }
 
@@ -77,6 +82,153 @@ namespace QuanLyBanHoa_CSharp.Forms
             catch (Exception ex)
             {
                 MessageBox.Show($"Lỗi khi xuất dữ liệu:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void BtnXoaDon_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgvThongKe.SelectedRows.Count == 0)
+                {
+                    MessageBox.Show("Vui lòng chọn một đơn hàng để xóa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var row = dgvThongKe.SelectedRows[0];
+                string ngayStr = row.Cells["colNgay"].Value?.ToString();
+                
+                if (string.IsNullOrEmpty(ngayStr))
+                {
+                    MessageBox.Show("Không tìm thấy thông tin đơn hàng.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                var result = MessageBox.Show($"Bạn có chắc muốn xóa tất cả đơn hàng ngày {ngayStr}?\nHành động này không thể hoàn tác.", 
+                    "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                
+                if (result != DialogResult.Yes) return;
+
+                if (!DateTime.TryParse(ngayStr, out DateTime ngay))
+                {
+                    MessageBox.Show("Định dạng ngày không hợp lệ.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                using (var conn = Database.GetConnection())
+                {
+                    conn.Open();
+                    using (var tx = conn.BeginTransaction())
+                    {
+                        try
+                        {
+                            // Get all order IDs for this date
+                            var orderIds = new List<int>();
+                            using (var cmdGetOrders = new MySqlCommand("SELECT MaDH FROM DonHang WHERE DATE(NgayDatHang) = @Ngay", conn, tx))
+                            {
+                                cmdGetOrders.Parameters.AddWithValue("@Ngay", ngay.Date);
+                                using (var rdr = cmdGetOrders.ExecuteReader())
+                                {
+                                    while (rdr.Read())
+                                    {
+                                        orderIds.Add(rdr.GetInt32(0));
+                                    }
+                                }
+                            }
+
+                            // Delete details first
+                            foreach (var orderId in orderIds)
+                            {
+                                using (var cmdDelDetails = new MySqlCommand("DELETE FROM ChiTietDonHang WHERE MaDH = @MaDH", conn, tx))
+                                {
+                                    cmdDelDetails.Parameters.AddWithValue("@MaDH", orderId);
+                                    cmdDelDetails.ExecuteNonQuery();
+                                }
+                            }
+
+                            // Delete orders
+                            using (var cmdDelOrders = new MySqlCommand("DELETE FROM DonHang WHERE DATE(NgayDatHang) = @Ngay", conn, tx))
+                            {
+                                cmdDelOrders.Parameters.AddWithValue("@Ngay", ngay.Date);
+                                int deleted = cmdDelOrders.ExecuteNonQuery();
+                                
+                                tx.Commit();
+                                MessageBox.Show($"Đã xóa {deleted} đơn hàng thành công.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                LoadStatistics();
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            try { tx.Rollback(); } catch { }
+                            throw;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi xóa đơn hàng:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void TxtSearch_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                string searchText = txtSearch.Text.Trim();
+                
+                if (string.IsNullOrEmpty(searchText))
+                {
+                    // Reload all statistics
+                    LoadStatistics();
+                    return;
+                }
+
+                // Filter by order ID - search in database for matching orders
+                DateTime from = dtpFrom.Value.Date;
+                DateTime to = dtpTo.Value.Date;
+
+                dgvThongKe.Rows.Clear();
+
+                using (var conn = Database.GetConnection())
+                {
+                    conn.Open();
+
+                    // Search for orders containing the search text
+                    string searchSql = @"SELECT d.NgayDatHang as Ngay, COUNT(d.MaDH) as SoDon, COALESCE(SUM(d.TongTien),0) as DoanhThu,
+                                          GROUP_CONCAT(DISTINCT d.MaKM SEPARATOR ',') as KMs,
+                                          (SELECT GROUP_CONCAT(DISTINCT n.TenNV SEPARATOR ', ') FROM DonHang dd JOIN NhanVien n ON dd.MaNV = n.MaNV WHERE dd.NgayDatHang = d.NgayDatHang LIMIT 1) as NhanVien
+                                       FROM DonHang d
+                                       WHERE d.NgayDatHang BETWEEN @from AND @to
+                                       AND CAST(d.MaDH AS CHAR) LIKE @search
+                                       GROUP BY d.NgayDatHang
+                                       ORDER BY d.NgayDatHang DESC";
+
+                    using (var cmd = new MySqlCommand(searchSql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@from", from);
+                        cmd.Parameters.AddWithValue("@to", to);
+                        cmd.Parameters.AddWithValue("@search", $"%{searchText}%");
+
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                DateTime ngay = rdr.IsDBNull(0) ? DateTime.MinValue : rdr.GetDateTime(0);
+                                int sodon = rdr.IsDBNull(1) ? 0 : rdr.GetInt32(1);
+                                decimal doanhthu = rdr.IsDBNull(2) ? 0m : rdr.GetDecimal(2);
+                                string km = rdr.IsDBNull(3) ? string.Empty : rdr.GetString(3);
+                                string nhanvien = rdr.IsDBNull(4) ? string.Empty : rdr.GetString(4);
+
+                                dgvThongKe.Rows.Add(ngay, sodon, doanhthu.ToString("N0"), km, nhanvien);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tìm kiếm:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
