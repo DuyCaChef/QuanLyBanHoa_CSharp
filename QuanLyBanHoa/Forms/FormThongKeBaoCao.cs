@@ -8,9 +8,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
-using QuanLyBanHoa.Data;
+using QuanLyBanHoa.Data; // update namespace
 
-namespace QuanLyBanHoa_CSharp.Forms
+namespace QuanLyBanHoa.Forms
 {
     public partial class FormThongKeBaoCao : Form
     {

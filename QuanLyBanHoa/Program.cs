@@ -1,6 +1,6 @@
-using DangNhap.Forms;
+using QuanLyBanHoa.Forms;
 
-namespace DangNhap
+namespace QuanLyBanHoa
 {
     internal static class Program
     {
@@ -13,7 +13,7 @@ namespace DangNhap
             // To customize application configuration such as set high DPI settings or default font,
             // see https://aka.ms/applicationconfiguration.
             ApplicationConfiguration.Initialize();
-            Application.Run(new FrmDangNhap());
+            Application.Run(new QuanLyBanHoa.Forms.FrmDangNhap());
         }
     }
 }

@@ -8,10 +8,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MySql.Data.MySqlClient;
-using QuanLyBanHoa.Data;
+using QuanLyBanHoa.Data; // ensure correct namespace
 using System.Collections.Generic;
 
-namespace QuanLyBanHoa_CSharp.Forms
+namespace QuanLyBanHoa.Forms
 {
     public partial class FormDonHang : Form
     {

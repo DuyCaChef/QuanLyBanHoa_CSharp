@@ -1,5 +1,4 @@
 ﻿using MySql.Data.MySqlClient;
-using Org.BouncyCastle.Bcpg.OpenPgp;
 using QuanLyBanHoa.Data;
 using System;
 using System.Collections.Generic;
@@ -10,12 +9,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using QuanLyBanHoa_CSharp;
-using QuanLiDonHang;
-using ThongKeBaoCao;
-using DangNhap.Forms;
+using QuanLyBanHoa.Forms; // local forms
 
-namespace QuanLyBanHoa_CSharp.Forms
+namespace QuanLyBanHoa.Forms
 {
     public partial class FrmQuanLiNhanVien : Form
     {

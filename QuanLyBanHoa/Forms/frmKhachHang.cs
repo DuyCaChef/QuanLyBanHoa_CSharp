@@ -1,8 +1,8 @@
 using MySql.Data.MySqlClient;
 using System.Data;
-using QuanLyBanHoa_CSharp;
+using QuanLyBanHoa.Data; // use our Database
 
-namespace QuanLyBanHoa_CSharp.Forms
+namespace QuanLyBanHoa.Forms
 {
     public partial class frmQuanLiKhachHang : Form
     {
@@ -12,12 +12,12 @@ namespace QuanLyBanHoa_CSharp.Forms
         }
         public void getData()
         {
-            string conString = "server = localhost; uid= root; pwd = Aaaaa123@; database = quanlybanhoa;";
-            MySqlConnection con = new MySqlConnection(conString);
+            // Prefer using Database connection helper
+            using var con = Database.GetConnection();
             con.Open();
-            string query = "select * from quanlybanhoa.hoa";
-            MySqlCommand cmd = new MySqlCommand(query, con);
-            MySqlDataReader reader = cmd.ExecuteReader();
+            string query = "select * from KhachHang";
+            using var cmd = new MySqlCommand(query, con);
+            using var reader = cmd.ExecuteReader();
             DataTable dt = new DataTable();
             dt.Load(reader);
             dgDSKhachHang.DataSource = dt;

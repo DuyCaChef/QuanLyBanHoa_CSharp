@@ -3,9 +3,10 @@ using System.Data;
 using System.Runtime.InteropServices;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using QuanLyBanHoa_CSharp;
+using QuanLyBanHoa.Data;
+using QuanLyBanHoa.Models;
 
-namespace QuanLyBanHoa_CSharp.Forms
+namespace QuanLyBanHoa.Forms
 {
     public partial class FrmHoa : Form
     {

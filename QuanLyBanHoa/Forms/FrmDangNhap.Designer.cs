@@ -1,4 +1,8 @@
-﻿namespace DangNhap.Forms
+﻿using System.Windows.Forms;
+using System.Drawing;
+using QuanLyBanHoa.Properties; // access Resources
+
+namespace QuanLyBanHoa.Forms
 {
     partial class FrmDangNhap
     {
@@ -44,7 +48,7 @@
             // panel1
             // 
             panel1.BackColor = Color.White;
-            panel1.BackgroundImage = Properties.Resources.Gemini_Generated_Image_jo3i8ajo3i8ajo3i;
+            panel1.BackgroundImage = Resources.Gemini_Generated_Image_jo3i8ajo3i8ajo3i;
             panel1.BackgroundImageLayout = ImageLayout.Stretch;
             panel1.Controls.Add(label5);
             panel1.Controls.Add(ckbHienMK);

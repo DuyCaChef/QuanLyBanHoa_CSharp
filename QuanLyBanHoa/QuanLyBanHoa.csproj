@@ -1,0 +1,77 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWindowsForms>true</UseWindowsForms>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MySql.Data" Version="9.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Forms\FormDonHang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\FormDonHang.Designer.cs">
+      <DependentUpon>FormDonHang.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\FormDonHang.resx">
+      <DependentUpon>FormDonHang.cs</DependentUpon>
+    </EmbeddedResource>
+
+    <Compile Update="Forms\FormThongKeBaoCao.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\FormThongKeBaoCao.Designer.cs">
+      <DependentUpon>FormThongKeBaoCao.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\FormThongKeBaoCao.resx">
+      <DependentUpon>FormThongKeBaoCao.cs</DependentUpon>
+    </EmbeddedResource>
+
+    <Compile Update="Forms\FrmDangNhap.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\FrmDangNhap.Designer.cs">
+      <DependentUpon>FrmDangNhap.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\FrmDangNhap.resx">
+      <DependentUpon>FrmDangNhap.cs</DependentUpon>
+    </EmbeddedResource>
+
+    <Compile Update="Forms\frmHoa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\frmHoa.Designer.cs">
+      <DependentUpon>frmHoa.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\frmHoa.resx">
+      <DependentUpon>frmHoa.cs</DependentUpon>
+    </EmbeddedResource>
+
+    <Compile Update="Forms\frmKhachHang.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\frmKhachHang.Designer.cs">
+      <DependentUpon>frmKhachHang.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\frmKhachHang.resx">
+      <DependentUpon>frmKhachHang.cs</DependentUpon>
+    </EmbeddedResource>
+
+    <Compile Update="Forms\FrmQuanLiNhanVien.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Forms\FrmQuanLiNhanVien.Designer.cs">
+      <DependentUpon>FrmQuanLiNhanVien.cs</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="Forms\FrmQuanLiNhanVien.resx">
+      <DependentUpon>FrmQuanLiNhanVien.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>
