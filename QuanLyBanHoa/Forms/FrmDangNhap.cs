@@ -1,8 +1,8 @@
-﻿using QuanLyBanHoa; // dùng Session
+﻿using QuanLyBanHoa;
 using System;
 using System.Windows.Forms;
 
-namespace QuanLyBanHoa.Forms // đổi namespace cho thống nhất
+namespace QuanLyBanHoa.Forms
 {
     public partial class FrmDangNhap : Form
     {
@@ -26,14 +26,28 @@ namespace QuanLyBanHoa.Forms // đổi namespace cho thống nhất
                 Session.UserName = username;
                 Session.Role = "Admin";
                 Session.IsLoggedIn = true;
+                
                 MessageBox.Show("Đăng nhập thành công với quyền Admin!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                // Mở form chính
+                this.Hide();
+                FrmMain frmMain = new FrmMain();
+                frmMain.FormClosed += (s, args) => this.Close(); // Đóng form đăng nhập khi form chính đóng
+                frmMain.Show();
             }
             else if (username == staffUsername && password == staffPassword)
             {
                 Session.UserName = username;
                 Session.Role = "Nhân viên";
                 Session.IsLoggedIn = true;
+                
                 MessageBox.Show("Đăng nhập thành công với vai trò Nhân viên!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                // Mở form chính
+                this.Hide();
+                FrmMain frmMain = new FrmMain();
+                frmMain.FormClosed += (s, args) => this.Close(); // Đóng form đăng nhập khi form chính đóng
+                frmMain.Show();
             }
             else
             {

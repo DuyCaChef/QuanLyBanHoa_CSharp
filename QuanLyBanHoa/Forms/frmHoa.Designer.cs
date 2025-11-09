@@ -56,18 +56,9 @@
             btnXoa = new Button();
             btnLuu = new Button();
             btnThoat = new Button();
-            menuStrip1 = new MenuStrip();
-            trangChủToolStripMenuItem = new ToolStripMenuItem();
-            tsmQuanLy = new ToolStripMenuItem();
-            kháchHàngToolStripMenuItem = new ToolStripMenuItem();
-            hoaToolStripMenuItem = new ToolStripMenuItem();
-            thốngKêBáoCáoToolStripMenuItem = new ToolStripMenuItem();
-            hoaToolStripMenuItem1 = new ToolStripMenuItem();
-            đăngXuấtToolStripMenuItem = new ToolStripMenuItem();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgDSHoa).BeginInit();
             groupBox2.SuspendLayout();
-            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
@@ -351,61 +342,6 @@
             btnThoat.UseVisualStyleBackColor = false;
             btnThoat.Click += btnThoat_Click;
             // 
-            // menuStrip1
-            // 
-            menuStrip1.BackColor = Color.SkyBlue;
-            menuStrip1.ImageScalingSize = new Size(20, 20);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { trangChủToolStripMenuItem, tsmQuanLy, đăngXuấtToolStripMenuItem });
-            menuStrip1.Location = new Point(0, 0);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1582, 28);
-            menuStrip1.TabIndex = 8;
-            // 
-            // trangChủToolStripMenuItem
-            // 
-            trangChủToolStripMenuItem.Name = "trangChủToolStripMenuItem";
-            trangChủToolStripMenuItem.Size = new Size(89, 24);
-            trangChủToolStripMenuItem.Text = "Trang Chủ";
-            // 
-            // tsmQuanLy
-            // 
-            tsmQuanLy.DropDownItems.AddRange(new ToolStripItem[] { kháchHàngToolStripMenuItem, hoaToolStripMenuItem, thốngKêBáoCáoToolStripMenuItem, hoaToolStripMenuItem1 });
-            tsmQuanLy.Name = "tsmQuanLy";
-            tsmQuanLy.Size = new Size(75, 24);
-            tsmQuanLy.Text = "Quản Lý";
-            tsmQuanLy.Click += toolStripMenuItem1_Click;
-            // 
-            // kháchHàngToolStripMenuItem
-            // 
-            kháchHàngToolStripMenuItem.Name = "kháchHàngToolStripMenuItem";
-            kháchHàngToolStripMenuItem.Size = new Size(218, 26);
-            kháchHàngToolStripMenuItem.Text = "Khách Hàng";
-            // 
-            // hoaToolStripMenuItem
-            // 
-            hoaToolStripMenuItem.Name = "hoaToolStripMenuItem";
-            hoaToolStripMenuItem.Size = new Size(218, 26);
-            hoaToolStripMenuItem.Text = "Đơn Hàng";
-            hoaToolStripMenuItem.Click += hoaToolStripMenuItem_Click;
-            // 
-            // thốngKêBáoCáoToolStripMenuItem
-            // 
-            thốngKêBáoCáoToolStripMenuItem.Name = "thốngKêBáoCáoToolStripMenuItem";
-            thốngKêBáoCáoToolStripMenuItem.Size = new Size(218, 26);
-            thốngKêBáoCáoToolStripMenuItem.Text = "Thống Kê, Báo Cáo";
-            // 
-            // hoaToolStripMenuItem1
-            // 
-            hoaToolStripMenuItem1.Name = "hoaToolStripMenuItem1";
-            hoaToolStripMenuItem1.Size = new Size(218, 26);
-            hoaToolStripMenuItem1.Text = "Hoa";
-            // 
-            // đăngXuấtToolStripMenuItem
-            // 
-            đăngXuấtToolStripMenuItem.Name = "đăngXuấtToolStripMenuItem";
-            đăngXuấtToolStripMenuItem.Size = new Size(93, 24);
-            đăngXuấtToolStripMenuItem.Text = "Đăng Xuất";
-            // 
             // FrmHoa
             // 
             AutoScaleDimensions = new SizeF(13F, 26F);
@@ -419,14 +355,11 @@
             Controls.Add(lbTen);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
-            Controls.Add(menuStrip1);
             Font = new Font("Times New Roman", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
+            FormBorderStyle = FormBorderStyle.None; // Changed from FixedSingle to None for child form
             Icon = (Icon)resources.GetObject("$this.Icon");
-            MainMenuStrip = menuStrip1;
             Margin = new Padding(5, 4, 5, 4);
             Name = "FrmHoa";
-            StartPosition = FormStartPosition.CenterScreen;
             Text = "Quản Lý Hoa";
             Load += frmQuanLiHoa_Load;
             groupBox1.ResumeLayout(false);
@@ -434,8 +367,6 @@
             ((System.ComponentModel.ISupportInitialize)dgDSHoa).EndInit();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -466,13 +397,5 @@
         private TextBox txtGia;
         private TextBox txtGhichu;
         private Label lbGhichu;
-        private MenuStrip menuStrip1;
-        private ToolStripMenuItem trangChủToolStripMenuItem;
-        private ToolStripMenuItem tsmQuanLy;
-        private ToolStripMenuItem kháchHàngToolStripMenuItem;
-        private ToolStripMenuItem hoaToolStripMenuItem;
-        private ToolStripMenuItem thốngKêBáoCáoToolStripMenuItem;
-        private ToolStripMenuItem hoaToolStripMenuItem1;
-        private ToolStripMenuItem đăngXuấtToolStripMenuItem;
     }
 }
