@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using QuanLyBanHoa.UI;
 
 namespace QuanLyBanHoa.Forms
 {
@@ -12,48 +13,26 @@ namespace QuanLyBanHoa.Forms
         {
             InitializeComponent();
 
-            // Force ToolStrip rendering and a Unicode-capable font to avoid '?' on Vietnamese characters
-            try
-            {
-                ToolStripManager.RenderMode = ToolStripManagerRenderMode.Professional;
-                menuStrip1.RenderMode = ToolStripRenderMode.Professional;
-                // Prefer Segoe UI; fallback to Arial Unicode MS if necessary
-                Font menuFont;
-                try
-                {
-                    menuFont = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-                }
-                catch
-                {
-                    menuFont = new Font("Arial Unicode MS", 11F, FontStyle.Regular, GraphicsUnit.Point);
-                }
-                menuStrip1.Font = menuFont;
-                menuStrip1.Invalidate();
-            }
-            catch
-            {
-                // ignore if fails on some environments
-            }
+            // Style ToolStrip for consistency and Unicode
+            toolStripNav.RenderMode = ToolStripRenderMode.Professional;
+            toolStripNav.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
+            toolStripNav.Renderer = new FlatToolStripRenderer();
 
-            // Load form Hoa m?c ??nh khi kh?i t?o
+            // Mở form Hoa mặc định
             OpenChildForm(new FrmHoa());
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
-            // Hi?n th? th�ng tin ng??i d�ng n?u c?n
             if (Session.IsLoggedIn)
             {
-                Text = $"Qu?n L� B�n Hoa - {Session.UserName} ({Session.Role})";
+                Text = $"Quản Lý Bán Hoa - {Session.UserName} ({Session.Role})";
             }
+            lblTitle.Text = "Quản Lý Bán Hoa"; // header title
         }
 
-        /// <summary>
-        /// M? form con trong panel ch�nh
-        /// </summary>
         private void OpenChildForm(Form childForm)
         {
-            // ?�ng form con hi?n t?i n?u c�
             if (currentChildForm != null)
             {
                 currentChildForm.Close();
@@ -63,43 +42,25 @@ namespace QuanLyBanHoa.Forms
             childForm.TopLevel = false;
             childForm.FormBorderStyle = FormBorderStyle.None;
             childForm.Dock = DockStyle.Fill;
+            panelContent.Controls.Clear();
             panelContent.Controls.Add(childForm);
             panelContent.Tag = childForm;
             childForm.BringToFront();
             childForm.Show();
         }
 
-        // Menu item click handlers
-        private void mnuHoa_Click(object sender, EventArgs e)
-        {
-            OpenChildForm(new FrmHoa());
-        }
-
-        private void mnuDonHang_Click(object sender, EventArgs e)
-        {
-            OpenChildForm(new FormDonHang());
-        }
-
-        private void mnuKhachHang_Click(object sender, EventArgs e)
-        {
-            OpenChildForm(new frmQuanLiKhachHang());
-        }
-
-        private void mnuNhanVien_Click(object sender, EventArgs e)
-        {
-            OpenChildForm(new FrmQuanLiNhanVien());
-        }
-
-        private void mnuThongKe_Click(object sender, EventArgs e)
-        {
-            OpenChildForm(new FormThongKeBaoCao());
-        }
+        // Điều hướng
+        private void mnuHoa_Click(object sender, EventArgs e) => OpenChildForm(new FrmHoa());
+        private void mnuDonHang_Click(object sender, EventArgs e) => OpenChildForm(new FormDonHang());
+        private void mnuKhachHang_Click(object sender, EventArgs e) => OpenChildForm(new frmQuanLiKhachHang());
+        private void mnuNhanVien_Click(object sender, EventArgs e) => OpenChildForm(new FrmQuanLiNhanVien());
+        private void mnuThongKe_Click(object sender, EventArgs e) => OpenChildForm(new FormThongKeBaoCao());
 
         private void mnuDangXuat_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show(
-                "B?n c� ch?c ch?n mu?n ??ng xu?t kh�ng?",
-                "X�c nh?n",
+                "Bạn có chắc chắn muốn đăng xuất không?",
+                "Xác nhận",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
             );
@@ -108,24 +69,16 @@ namespace QuanLyBanHoa.Forms
             {
                 try
                 {
-                    // Clear session
                     Session.Logout();
-
-                    // ?�ng form hi?n t?i
                     this.Hide();
-
-                    // M? l?i form ??ng nh?p
                     FrmDangNhap frmDangNhap = new FrmDangNhap();
                     frmDangNhap.ShowDialog();
-
-                    // Sau khi form ??ng nh?p ?�ng, tho�t h?n ?ng d?ng
                     this.Close();
                 }
                 catch (Exception ex)
                 {
                     this.Show();
-                    MessageBox.Show($"L?i khi ??ng xu?t:\n{ex.Message}", 
-                        "L?i", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show($"Lỗi khi đăng xuất:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
@@ -133,8 +86,8 @@ namespace QuanLyBanHoa.Forms
         private void mnuThoat_Click(object sender, EventArgs e)
         {
             DialogResult result = MessageBox.Show(
-                "B?n c� ch?c ch?n mu?n tho�t ?ng d?ng kh�ng?",
-                "X�c nh?n",
+                "Bạn có chắc chắn muốn thoát ứng dụng không?",
+                "Xác nhận",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
             );

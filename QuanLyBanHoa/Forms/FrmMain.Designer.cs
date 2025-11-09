@@ -1,19 +1,12 @@
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace QuanLyBanHoa.Forms
 {
     partial class FrmMain
     {
-        /// <summary>
-        /// Required designer variable.
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
-        /// Clean up any resources being used.
-        /// </summary>
-        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -25,174 +18,193 @@ namespace QuanLyBanHoa.Forms
 
         #region Windows Form Designer generated code
 
-        /// <summary>
-        /// Required method for Designer support - do not modify
-        /// the contents of this method with the code editor.
-        /// </summary>
         private void InitializeComponent()
         {
-            this.menuStrip1 = new MenuStrip();
-            this.mnuHoa = new ToolStripMenuItem();
-            this.mnuDonHang = new ToolStripMenuItem();
-            this.mnuKhachHang = new ToolStripMenuItem();
-            this.mnuNhanVien = new ToolStripMenuItem();
-            this.mnuThongKe = new ToolStripMenuItem();
-            this.mnuHeThong = new ToolStripMenuItem();
-            this.mnuDangXuat = new ToolStripMenuItem();
-            this.mnuThoat = new ToolStripMenuItem();
-            this.panelContent = new Panel();
-            this.statusStrip1 = new StatusStrip();
-            this.toolStripStatusLabel1 = new ToolStripStatusLabel();
-            this.menuStrip1.SuspendLayout();
-            this.statusStrip1.SuspendLayout();
-            this.SuspendLayout();
+            headerPanel = new Panel();
+            lblTitle = new Label();
+            toolStripNav = new ToolStrip();
+            tsHoa = new ToolStripButton();
+            tsDonHang = new ToolStripButton();
+            tsKhachHang = new ToolStripButton();
+            tsNhanVien = new ToolStripButton();
+            tsThongKe = new ToolStripButton();
+            tsHeThong = new ToolStripDropDownButton();
+            tsDangXuat = new ToolStripMenuItem();
+            tsThoat = new ToolStripMenuItem();
+            panelContent = new Panel();
+            headerPanel.SuspendLayout();
+            toolStripNav.SuspendLayout();
+            SuspendLayout();
             // 
-            // menuStrip1
+            // headerPanel
             // 
-            this.menuStrip1.ImageScalingSize = new Size(24, 24);
-            this.menuStrip1.Items.AddRange(new ToolStripItem[] {
-            this.mnuHoa,
-            this.mnuDonHang,
-            this.mnuKhachHang,
-            this.mnuNhanVien,
-            this.mnuThongKe,
-            this.mnuHeThong});
-            this.menuStrip1.Location = new Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new Size(1200, 33);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
-            this.menuStrip1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            this.menuStrip1.RenderMode = ToolStripRenderMode.System;
+            headerPanel.BackColor = Color.FromArgb(52, 152, 219);
+            headerPanel.Controls.Add(lblTitle);
+            headerPanel.Dock = DockStyle.Top;
+            headerPanel.Location = new Point(0, 0);
+            headerPanel.Name = "headerPanel";
+            headerPanel.Padding = new Padding(24, 12, 24, 12);
+            headerPanel.Size = new Size(1200, 60);
+            headerPanel.TabIndex = 0;
             // 
-            // mnuHoa
+            // lblTitle
             // 
-            this.mnuHoa.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            this.mnuHoa.Name = "mnuHoa";
-            this.mnuHoa.Size = new Size(56, 29);
-            this.mnuHoa.Text = "Hoa";
-            this.mnuHoa.Click += new System.EventHandler(this.mnuHoa_Click);
+            lblTitle.AutoSize = true;
+            lblTitle.Dock = DockStyle.Left;
+            lblTitle.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            lblTitle.ForeColor = Color.White;
+            lblTitle.Location = new Point(24, 12);
+            lblTitle.Name = "lblTitle";
+            lblTitle.Size = new Size(234, 37);
+            lblTitle.TabIndex = 0;
+            lblTitle.Text = "Quản Lý Bán Hoa";
             // 
-            // mnuDonHang
+            // toolStripNav
             // 
-            this.mnuDonHang.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            this.mnuDonHang.Name = "mnuDonHang";
-            this.mnuDonHang.Size = new Size(110, 29);
-            this.mnuDonHang.Text = "??n H�ng";
-            this.mnuDonHang.Click += new System.EventHandler(this.mnuDonHang_Click);
+            toolStripNav.AutoSize = false;
+            toolStripNav.BackColor = Color.FromArgb(41, 128, 185);
+            toolStripNav.GripStyle = ToolStripGripStyle.Hidden;
+            toolStripNav.ImageScalingSize = new Size(20, 20);
+            toolStripNav.Items.AddRange(new ToolStripItem[] { tsHoa, tsDonHang, tsKhachHang, tsNhanVien, tsThongKe, tsHeThong });
+            toolStripNav.Location = new Point(0, 60);
+            toolStripNav.Name = "toolStripNav";
+            toolStripNav.Padding = new Padding(10, 6, 10, 4);
+            toolStripNav.Size = new Size(1200, 46);
+            toolStripNav.TabIndex = 1;
+            toolStripNav.Text = "toolStripNav";
             // 
-            // mnuKhachHang
+            // tsHoa
             // 
-            this.mnuKhachHang.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            this.mnuKhachHang.Name = "mnuKhachHang";
-            this.mnuKhachHang.Size = new Size(128, 29);
-            this.mnuKhachHang.Text = "Kh�ch H�ng";
-            this.mnuKhachHang.Click += new System.EventHandler(this.mnuKhachHang_Click);
+            tsHoa.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            tsHoa.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+            tsHoa.ForeColor = Color.White;
+            tsHoa.Margin = new Padding(2, 0, 2, 0);
+            tsHoa.Name = "tsHoa";
+            tsHoa.Padding = new Padding(8, 0, 8, 0);
+            tsHoa.Size = new Size(67, 36);
+            tsHoa.Text = "Hoa";
+            tsHoa.Click += mnuHoa_Click;
             // 
-            // mnuNhanVien
+            // tsDonHang
             // 
-            this.mnuNhanVien.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            this.mnuNhanVien.Name = "mnuNhanVien";
-            this.mnuNhanVien.Size = new Size(112, 29);
-            this.mnuNhanVien.Text = "Nh�n Vi�n";
-            this.mnuNhanVien.Click += new System.EventHandler(this.mnuNhanVien_Click);
+            tsDonHang.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            tsDonHang.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+            tsDonHang.ForeColor = Color.White;
+            tsDonHang.Margin = new Padding(2, 0, 2, 0);
+            tsDonHang.Name = "tsDonHang";
+            tsDonHang.Padding = new Padding(8, 0, 8, 0);
+            tsDonHang.Size = new Size(118, 36);
+            tsDonHang.Text = "Đơn Hàng";
+            tsDonHang.Click += mnuDonHang_Click;
             // 
-            // mnuThongKe
+            // tsKhachHang
             // 
-            this.mnuThongKe.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            this.mnuThongKe.Name = "mnuThongKe";
-            this.mnuThongKe.Size = new Size(103, 29);
-            this.mnuThongKe.Text = "Th?ng K�";
-            this.mnuThongKe.Click += new System.EventHandler(this.mnuThongKe_Click);
+            tsKhachHang.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            tsKhachHang.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+            tsKhachHang.ForeColor = Color.White;
+            tsKhachHang.Margin = new Padding(2, 0, 2, 0);
+            tsKhachHang.Name = "tsKhachHang";
+            tsKhachHang.Padding = new Padding(8, 0, 8, 0);
+            tsKhachHang.Size = new Size(136, 36);
+            tsKhachHang.Text = "Khách Hàng";
+            tsKhachHang.Click += mnuKhachHang_Click;
             // 
-            // mnuHeThong
+            // tsNhanVien
             // 
-            this.mnuHeThong.DropDownItems.AddRange(new ToolStripItem[] {
-            this.mnuDangXuat,
-            this.mnuThoat});
-            this.mnuHeThong.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            this.mnuHeThong.Name = "mnuHeThong";
-            this.mnuHeThong.Size = new Size(109, 29);
-            this.mnuHeThong.Text = "H? Th?ng";
+            tsNhanVien.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            tsNhanVien.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+            tsNhanVien.ForeColor = Color.White;
+            tsNhanVien.Margin = new Padding(2, 0, 2, 0);
+            tsNhanVien.Name = "tsNhanVien";
+            tsNhanVien.Padding = new Padding(8, 0, 8, 0);
+            tsNhanVien.Size = new Size(121, 36);
+            tsNhanVien.Text = "Nhân Viên";
+            tsNhanVien.Click += mnuNhanVien_Click;
             // 
-            // mnuDangXuat
+            // tsThongKe
             // 
-            this.mnuDangXuat.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            this.mnuDangXuat.Name = "mnuDangXuat";
-            this.mnuDangXuat.Size = new Size(180, 30);
-            this.mnuDangXuat.Text = "??ng Xu?t";
-            this.mnuDangXuat.Click += new System.EventHandler(this.mnuDangXuat_Click);
+            tsThongKe.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            tsThongKe.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+            tsThongKe.ForeColor = Color.White;
+            tsThongKe.Margin = new Padding(2, 0, 2, 0);
+            tsThongKe.Name = "tsThongKe";
+            tsThongKe.Padding = new Padding(8, 0, 8, 0);
+            tsThongKe.Size = new Size(114, 36);
+            tsThongKe.Text = "Thống Kê";
+            tsThongKe.Click += mnuThongKe_Click;
             // 
-            // mnuThoat
+            // tsHeThong
             // 
-            this.mnuThoat.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            this.mnuThoat.Name = "mnuThoat";
-            this.mnuThoat.Size = new Size(180, 30);
-            this.mnuThoat.Text = "Tho�t";
-            this.mnuThoat.Click += new System.EventHandler(this.mnuThoat_Click);
+            tsHeThong.DisplayStyle = ToolStripItemDisplayStyle.Text;
+            tsHeThong.DropDownItems.AddRange(new ToolStripItem[] { tsDangXuat, tsThoat });
+            tsHeThong.Font = new Font("Segoe UI", 10.5F, FontStyle.Bold);
+            tsHeThong.ForeColor = Color.White;
+            tsHeThong.Margin = new Padding(2, 0, 2, 0);
+            tsHeThong.Name = "tsHeThong";
+            tsHeThong.Padding = new Padding(8, 0, 8, 0);
+            tsHeThong.Size = new Size(126, 36);
+            tsHeThong.Text = "Hệ Thống";
+            // 
+            // tsDangXuat
+            // 
+            tsDangXuat.Font = new Font("Segoe UI", 10F);
+            tsDangXuat.Name = "tsDangXuat";
+            tsDangXuat.Size = new Size(177, 28);
+            tsDangXuat.Text = "Đăng Xuất";
+            tsDangXuat.Click += mnuDangXuat_Click;
+            // 
+            // tsThoat
+            // 
+            tsThoat.Font = new Font("Segoe UI", 10F);
+            tsThoat.Name = "tsThoat";
+            tsThoat.Size = new Size(177, 28);
+            tsThoat.Text = "Thoát";
+            tsThoat.Click += mnuThoat_Click;
             // 
             // panelContent
             // 
-            this.panelContent.Dock = DockStyle.Fill;
-            this.panelContent.Location = new Point(0, 33);
-            this.panelContent.Name = "panelContent";
-            this.panelContent.Size = new Size(1200, 617);
-            this.panelContent.TabIndex = 1;
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.ImageScalingSize = new Size(24, 24);
-            this.statusStrip1.Items.AddRange(new ToolStripItem[] {
-            this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new Point(0, 650);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new Size(1200, 30);
-            this.statusStrip1.TabIndex = 2;
-            this.statusStrip1.Text = "statusStrip1";
-            // 
-            // toolStripStatusLabel1
-            // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new Size(223, 25);
-            this.toolStripStatusLabel1.Text = "H? Th?ng Qu?n L� B�n Hoa";
+            panelContent.BackColor = Color.White;
+            panelContent.Dock = DockStyle.Fill;
+            panelContent.Location = new Point(0, 106);
+            panelContent.Name = "panelContent";
+            panelContent.Size = new Size(1200, 574);
+            panelContent.TabIndex = 2;
             // 
             // FrmMain
             // 
-            this.AutoScaleDimensions = new SizeF(10F, 25F);
-            this.AutoScaleMode = AutoScaleMode.Font;
-            this.ClientSize = new Size(1200, 680);
-            this.Controls.Add(this.panelContent);
-            this.Controls.Add(this.statusStrip1);
-            this.Controls.Add(this.menuStrip1);
-            this.MainMenuStrip = this.menuStrip1;
-            this.Name = "FrmMain";
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.Text = "Qu?n L� B�n Hoa";
-            this.WindowState = FormWindowState.Maximized;
-            this.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
-            this.Load += new System.EventHandler(this.FrmMain_Load);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
-            this.statusStrip1.ResumeLayout(false);
-            this.statusStrip1.PerformLayout();
-            this.ResumeLayout(false);
-            this.PerformLayout();
-
+            AutoScaleDimensions = new SizeF(9F, 23F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.WhiteSmoke;
+            ClientSize = new Size(1200, 680);
+            Controls.Add(panelContent);
+            Controls.Add(toolStripNav);
+            Controls.Add(headerPanel);
+            Font = new Font("Segoe UI", 10F);
+            Name = "FrmMain";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Quản Lý Bán Hoa";
+            WindowState = FormWindowState.Maximized;
+            Load += FrmMain_Load;
+            headerPanel.ResumeLayout(false);
+            headerPanel.PerformLayout();
+            toolStripNav.ResumeLayout(false);
+            toolStripNav.PerformLayout();
+            ResumeLayout(false);
         }
 
         #endregion
 
-        private MenuStrip menuStrip1;
-        private ToolStripMenuItem mnuHoa;
-        private ToolStripMenuItem mnuDonHang;
-        private ToolStripMenuItem mnuKhachHang;
-        private ToolStripMenuItem mnuNhanVien;
-        private ToolStripMenuItem mnuThongKe;
-        private ToolStripMenuItem mnuHeThong;
-        private ToolStripMenuItem mnuDangXuat;
-        private ToolStripMenuItem mnuThoat;
+        private Panel headerPanel;
+        private Label lblTitle;
+        private ToolStrip toolStripNav;
+        private ToolStripButton tsHoa;
+        private ToolStripButton tsDonHang;
+        private ToolStripButton tsKhachHang;
+        private ToolStripButton tsNhanVien;
+        private ToolStripButton tsThongKe;
+        private ToolStripDropDownButton tsHeThong;
+        private ToolStripMenuItem tsDangXuat;
+        private ToolStripMenuItem tsThoat;
         private Panel panelContent;
-        private StatusStrip statusStrip1;
-        private ToolStripStatusLabel toolStripStatusLabel1;
     }
 }

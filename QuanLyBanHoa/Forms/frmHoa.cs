@@ -170,11 +170,6 @@ namespace QuanLyBanHoa.Forms
             }
         }
 
-        private void btnThoat_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
         private void btnLuu_Click(object sender, EventArgs e)
         {
            
