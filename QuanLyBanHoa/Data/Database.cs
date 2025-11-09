@@ -4,26 +4,37 @@ using System.Data.SqlClient;
 
 namespace QuanLyBanHoa.Data
 {
-    public static class Database
+    public class Database
     {
-        // ✅ Connection string: nên dùng chữ thường hoặc thống nhất theo tên DB trong MySQL
+        // Đã thêm 'charset=utf8mb4' để hỗ trợ tốt tiếng Việt
         private static readonly string connectionString =
-            "server = localhost; uid= root; pwd =1234; database = quanlybanhoa;";
+            "server=localhost;uid=root;pwd=Duy@2005;database=quanlybanhoa;charset=utf8mb4;";
 
         /// <summary>
-        /// Trả về một kết nối MySQL đã cấu hình sẵn.
+        /// Trả về một kết nối MySQL mới.
         /// </summary>
-        /// <returns>MySqlConnection object</returns>
         public static MySqlConnection GetConnection()
         {
-            try
+            return new MySqlConnection(connectionString);
+        }
+
+        /// <summary>
+        /// Kiểm tra xem thông tin kết nối có đúng không.
+        /// </summary>
+        public static bool TestConnection()
+        {
+            using (var conn = GetConnection())
             {
-                return new MySqlConnection(connectionString);
-            }
-            catch (Exception ex)
-            {
-                // ❗ Có thể log hoặc hiện thông báo khi lỗi (phục vụ debug)
-                throw new Exception("Không thể tạo kết nối tới MySQL: " + ex.Message);
+                try
+                {
+                    conn.Open();
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Kết nối thất bại: " + ex.Message, "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
             }
         }
     }

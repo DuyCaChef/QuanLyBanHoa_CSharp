@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using QuanLyBanHoa.Models;
 using QuanLyBanHoa.UI;
 
 namespace QuanLyBanHoa.Forms
@@ -19,7 +20,7 @@ namespace QuanLyBanHoa.Forms
             toolStripNav.Renderer = new FlatToolStripRenderer();
 
             // Mở form Hoa mặc định
-            OpenChildForm(new FrmHoa());
+            OpenChildForm(new frmHoa());
         }
 
         private void FrmMain_Load(object sender, EventArgs e)
@@ -50,7 +51,7 @@ namespace QuanLyBanHoa.Forms
         }
 
         // Điều hướng
-        private void mnuHoa_Click(object sender, EventArgs e) => OpenChildForm(new FrmHoa());
+        private void mnuHoa_Click(object sender, EventArgs e) => OpenChildForm(new frmHoa());
         private void mnuDonHang_Click(object sender, EventArgs e) => OpenChildForm(new FormDonHang());
         private void mnuKhachHang_Click(object sender, EventArgs e) => OpenChildForm(new frmQuanLiKhachHang());
         private void mnuNhanVien_Click(object sender, EventArgs e) => OpenChildForm(new FrmQuanLiNhanVien());
@@ -69,7 +70,7 @@ namespace QuanLyBanHoa.Forms
             {
                 try
                 {
-                    Session.Logout();
+                    Session.Clear();
                     this.Hide();
                     FrmDangNhap frmDangNhap = new FrmDangNhap();
                     frmDangNhap.ShowDialog();

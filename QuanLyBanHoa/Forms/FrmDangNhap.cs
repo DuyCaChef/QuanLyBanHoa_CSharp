@@ -1,4 +1,4 @@
-﻿using QuanLyBanHoa;
+﻿using QuanLyBanHoa.Models;
 using System;
 using System.Windows.Forms;
 
@@ -16,8 +16,8 @@ namespace QuanLyBanHoa.Forms
             string username = txtEmail.Text.Trim();
             string password = txtPass.Text.Trim();
 
-            string adminUsername = "admin";
-            string adminPassword = "123";
+            string adminUsername = "admin123@gmail.com";
+            string adminPassword = "admin@123";
             string staffUsername = "staff123@gmail.com";
             string staffPassword = "staff@123";
 
@@ -28,12 +28,11 @@ namespace QuanLyBanHoa.Forms
                 Session.IsLoggedIn = true;
                 
                 MessageBox.Show("Đăng nhập thành công với quyền Admin!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                
-                // Mở form chính
-                this.Hide();
-                FrmMain frmMain = new FrmMain();
-                frmMain.FormClosed += (s, args) => this.Close(); // Đóng form đăng nhập khi form chính đóng
-                frmMain.Show();
+
+                // Mở form Hoa
+                frmHoa main = new frmHoa();
+                main.Show();
+                this.Hide(); // Ẩn form đăng nhập
             }
             else if (username == staffUsername && password == staffPassword)
             {
@@ -42,12 +41,11 @@ namespace QuanLyBanHoa.Forms
                 Session.IsLoggedIn = true;
                 
                 MessageBox.Show("Đăng nhập thành công với vai trò Nhân viên!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                
-                // Mở form chính
-                this.Hide();
-                FrmMain frmMain = new FrmMain();
-                frmMain.FormClosed += (s, args) => this.Close(); // Đóng form đăng nhập khi form chính đóng
-                frmMain.Show();
+
+                // Mở form Hoa
+                frmHoa main = new frmHoa();
+                main.Show();
+                this.Hide(); // Ẩn form đăng nhập
             }
             else
             {
@@ -58,6 +56,17 @@ namespace QuanLyBanHoa.Forms
         private void ckbHienMK_CheckedChanged(object sender, EventArgs e)
         {
             txtPass.UseSystemPasswordChar = !ckbHienMK.Checked;
+        }
+
+        protected override void OnFormClosing(FormClosingEventArgs e)
+        {
+            base.OnFormClosing(e);
+
+            // Nếu đang đăng nhập và đóng form đăng nhập thì thoát ứng dụng
+            if (!Session.IsLoggedIn)
+            {
+                Application.Exit();
+            }
         }
     }
 }

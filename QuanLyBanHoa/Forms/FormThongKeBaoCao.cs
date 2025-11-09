@@ -29,7 +29,7 @@ namespace QuanLyBanHoa.Forms
             txtSearch.TextChanged += TxtSearch_TextChanged;
 
             // Subscribe to flower data change event for potential future use
-            FrmHoa.HoaDataChanged += FrmHoa_HoaDataChanged;
+            frmHoa.HoaDataChanged += FrmHoa_HoaDataChanged;
 
             // sensible defaults
             dtpTo.Value = DateTime.Today;
@@ -50,7 +50,7 @@ namespace QuanLyBanHoa.Forms
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             // Unsubscribe from event when form closes
-            FrmHoa.HoaDataChanged -= FrmHoa_HoaDataChanged;
+            frmHoa.HoaDataChanged -= FrmHoa_HoaDataChanged;
             base.OnFormClosing(e);
         }
 

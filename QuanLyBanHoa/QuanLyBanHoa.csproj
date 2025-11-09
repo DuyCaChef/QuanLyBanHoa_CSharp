@@ -43,16 +43,6 @@
       <DependentUpon>FrmDangNhap.cs</DependentUpon>
     </EmbeddedResource>
 
-    <Compile Update="Forms\frmHoa.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Forms\frmHoa.Designer.cs">
-      <DependentUpon>frmHoa.cs</DependentUpon>
-    </Compile>
-    <EmbeddedResource Update="Forms\frmHoa.resx">
-      <DependentUpon>frmHoa.cs</DependentUpon>
-    </EmbeddedResource>
-
     <Compile Update="Forms\frmKhachHang.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +62,10 @@
     <EmbeddedResource Update="Forms\FrmQuanLiNhanVien.resx">
       <DependentUpon>FrmQuanLiNhanVien.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Classes\" />
   </ItemGroup>
 
 </Project>

@@ -25,7 +25,7 @@ namespace QuanLyBanHoa.Forms
                 InitializeComponent();
                 
                 // Subscribe to flower data change event
-                FrmHoa.HoaDataChanged += FrmHoa_HoaDataChanged;
+                frmHoa.HoaDataChanged += FrmHoa_HoaDataChanged;
             }
             catch (Exception ex)
             {
@@ -141,7 +141,7 @@ namespace QuanLyBanHoa.Forms
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             // Unsubscribe from event when form closes
-            FrmHoa.HoaDataChanged -= FrmHoa_HoaDataChanged;
+            frmHoa.HoaDataChanged -= FrmHoa_HoaDataChanged;
             base.OnFormClosing(e);
         }
 
