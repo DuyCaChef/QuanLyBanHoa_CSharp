@@ -72,13 +72,6 @@
             btnRefresh = new Button();
             btnXoaDon = new Button();
             btnExport = new Button();
-            menuStrip1 = new MenuStrip();
-            mnuTrangChu = new ToolStripMenuItem();
-            mnuQuanLy = new ToolStripMenuItem();
-            mnuKhachHang = new ToolStripMenuItem();
-            mnuDonHang = new ToolStripMenuItem();
-            mnuThongKeMenu = new ToolStripMenuItem();
-            mnuDangXuat = new ToolStripMenuItem();
             headerPanel.SuspendLayout();
             tlpFilters.SuspendLayout();
             gbOverview.SuspendLayout();
@@ -89,7 +82,6 @@
             cardCancelRate.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvThongKe).BeginInit();
             flpActions.SuspendLayout();
-            menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // headerPanel
@@ -131,7 +123,7 @@
             tlpFilters.Controls.Add(lblSearch, 4, 0);
             tlpFilters.Controls.Add(txtSearch, 5, 0);
             tlpFilters.Dock = DockStyle.Top;
-            tlpFilters.Location = new Point(0, 88);
+            tlpFilters.Location = new Point(0, 60);
             tlpFilters.Name = "tlpFilters";
             tlpFilters.Padding = new Padding(16, 12, 16, 12);
             tlpFilters.RowCount = 1;
@@ -212,7 +204,7 @@
             gbOverview.Controls.Add(tlpCards);
             gbOverview.Dock = DockStyle.Top;
             gbOverview.Font = new Font("Segoe UI", 11F, FontStyle.Bold);
-            gbOverview.Location = new Point(0, 152);
+            gbOverview.Location = new Point(0, 124);
             gbOverview.Name = "gbOverview";
             gbOverview.Padding = new Padding(12, 8, 12, 12);
             gbOverview.Size = new Size(1280, 140);
@@ -451,7 +443,7 @@
             dgvThongKe.Dock = DockStyle.Fill;
             dgvThongKe.EnableHeadersVisualStyles = false;
             dgvThongKe.GridColor = Color.LightSteelBlue;
-            dgvThongKe.Location = new Point(0, 292);
+            dgvThongKe.Location = new Point(0, 264);
             dgvThongKe.MultiSelect = false;
             dgvThongKe.Name = "dgvThongKe";
             dgvThongKe.ReadOnly = true;
@@ -459,7 +451,7 @@
             dgvThongKe.RowHeadersWidth = 51;
             dgvThongKe.RowTemplate.Height = 32;
             dgvThongKe.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvThongKe.Size = new Size(1280, 468);
+            dgvThongKe.Size = new Size(1280, 496);
             dgvThongKe.TabIndex = 3;
             // 
             // colMaDH
@@ -579,57 +571,6 @@
             btnExport.Text = "Xuất...";
             btnExport.UseVisualStyleBackColor = false;
             // 
-            // menuStrip1
-            // 
-            menuStrip1.AllowItemReorder = true;
-            menuStrip1.BackColor = Color.SkyBlue;
-            menuStrip1.Font = new Font("Segoe UI", 9F);
-            menuStrip1.ImageScalingSize = new Size(24, 24);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { mnuTrangChu, mnuQuanLy, mnuDangXuat });
-            menuStrip1.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            menuStrip1.Location = new Point(0, 60);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1280, 28);
-            menuStrip1.TabIndex = 2;
-            menuStrip1.Text = "menuStrip1";
-            // 
-            // mnuTrangChu
-            // 
-            mnuTrangChu.Name = "mnuTrangChu";
-            mnuTrangChu.Size = new Size(89, 24);
-            mnuTrangChu.Text = "Trang Chủ";
-            // 
-            // mnuQuanLy
-            // 
-            mnuQuanLy.DropDownItems.AddRange(new ToolStripItem[] { mnuKhachHang, mnuDonHang, mnuThongKeMenu });
-            mnuQuanLy.Name = "mnuQuanLy";
-            mnuQuanLy.Size = new Size(73, 24);
-            mnuQuanLy.Text = "Quản lý";
-            // 
-            // mnuKhachHang
-            // 
-            mnuKhachHang.Name = "mnuKhachHang";
-            mnuKhachHang.Size = new Size(172, 26);
-            mnuKhachHang.Text = "Khách Hàng";
-            // 
-            // mnuDonHang
-            // 
-            mnuDonHang.Name = "mnuDonHang";
-            mnuDonHang.Size = new Size(172, 26);
-            mnuDonHang.Text = "Đơn Hàng";
-            // 
-            // mnuThongKeMenu
-            // 
-            mnuThongKeMenu.Name = "mnuThongKeMenu";
-            mnuThongKeMenu.Size = new Size(172, 26);
-            mnuThongKeMenu.Text = "Thống Kê";
-            // 
-            // mnuDangXuat
-            // 
-            mnuDangXuat.Name = "mnuDangXuat";
-            mnuDangXuat.Size = new Size(91, 24);
-            mnuDangXuat.Text = "Đăng xuất";
-            // 
             // FormThongKeBaoCao
             // 
             ClientSize = new Size(1280, 760);
@@ -637,9 +578,7 @@
             Controls.Add(dgvThongKe);
             Controls.Add(gbOverview);
             Controls.Add(tlpFilters);
-            Controls.Add(menuStrip1);
             Controls.Add(headerPanel);
-            MainMenuStrip = menuStrip1;
             Name = "FormThongKeBaoCao";
             headerPanel.ResumeLayout(false);
             headerPanel.PerformLayout();
@@ -657,8 +596,6 @@
             cardCancelRate.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvThongKe).EndInit();
             flpActions.ResumeLayout(false);
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
 
@@ -704,13 +641,6 @@
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Button btnXoaDon;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem mnuTrangChu;
-        private System.Windows.Forms.ToolStripMenuItem mnuQuanLy;
-        private System.Windows.Forms.ToolStripMenuItem mnuDangXuat;
-        private System.Windows.Forms.ToolStripMenuItem mnuKhachHang;
-        private System.Windows.Forms.ToolStripMenuItem mnuDonHang;
-        private System.Windows.Forms.ToolStripMenuItem mnuThongKeMenu;
     }
 }
 

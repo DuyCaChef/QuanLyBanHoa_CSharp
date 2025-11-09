@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace QuanLyBanHoa.Forms
@@ -10,7 +11,30 @@ namespace QuanLyBanHoa.Forms
         public FrmMain()
         {
             InitializeComponent();
-            
+
+            // Force ToolStrip rendering and a Unicode-capable font to avoid '?' on Vietnamese characters
+            try
+            {
+                ToolStripManager.RenderMode = ToolStripManagerRenderMode.Professional;
+                menuStrip1.RenderMode = ToolStripRenderMode.Professional;
+                // Prefer Segoe UI; fallback to Arial Unicode MS if necessary
+                Font menuFont;
+                try
+                {
+                    menuFont = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+                }
+                catch
+                {
+                    menuFont = new Font("Arial Unicode MS", 11F, FontStyle.Regular, GraphicsUnit.Point);
+                }
+                menuStrip1.Font = menuFont;
+                menuStrip1.Invalidate();
+            }
+            catch
+            {
+                // ignore if fails on some environments
+            }
+
             // Load form Hoa m?c ??nh khi kh?i t?o
             OpenChildForm(new FrmHoa());
         }

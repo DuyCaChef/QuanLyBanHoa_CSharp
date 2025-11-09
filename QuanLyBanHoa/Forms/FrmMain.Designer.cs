@@ -62,44 +62,46 @@ namespace QuanLyBanHoa.Forms
             this.menuStrip1.Size = new Size(1200, 33);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
+            this.menuStrip1.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            this.menuStrip1.RenderMode = ToolStripRenderMode.System;
             // 
             // mnuHoa
             // 
-            this.mnuHoa.Font = new Font("Segoe UI", 11F);
+            this.mnuHoa.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             this.mnuHoa.Name = "mnuHoa";
-            this.mnuHoa.Size = new Size(59, 29);
+            this.mnuHoa.Size = new Size(56, 29);
             this.mnuHoa.Text = "Hoa";
             this.mnuHoa.Click += new System.EventHandler(this.mnuHoa_Click);
             // 
             // mnuDonHang
             // 
-            this.mnuDonHang.Font = new Font("Segoe UI", 11F);
+            this.mnuDonHang.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             this.mnuDonHang.Name = "mnuDonHang";
-            this.mnuDonHang.Size = new Size(115, 29);
+            this.mnuDonHang.Size = new Size(110, 29);
             this.mnuDonHang.Text = "??n Hàng";
             this.mnuDonHang.Click += new System.EventHandler(this.mnuDonHang_Click);
             // 
             // mnuKhachHang
             // 
-            this.mnuKhachHang.Font = new Font("Segoe UI", 11F);
+            this.mnuKhachHang.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             this.mnuKhachHang.Name = "mnuKhachHang";
-            this.mnuKhachHang.Size = new Size(133, 29);
+            this.mnuKhachHang.Size = new Size(128, 29);
             this.mnuKhachHang.Text = "Khách Hàng";
             this.mnuKhachHang.Click += new System.EventHandler(this.mnuKhachHang_Click);
             // 
             // mnuNhanVien
             // 
-            this.mnuNhanVien.Font = new Font("Segoe UI", 11F);
+            this.mnuNhanVien.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             this.mnuNhanVien.Name = "mnuNhanVien";
-            this.mnuNhanVien.Size = new Size(117, 29);
+            this.mnuNhanVien.Size = new Size(112, 29);
             this.mnuNhanVien.Text = "Nhân Viên";
             this.mnuNhanVien.Click += new System.EventHandler(this.mnuNhanVien_Click);
             // 
             // mnuThongKe
             // 
-            this.mnuThongKe.Font = new Font("Segoe UI", 11F);
+            this.mnuThongKe.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             this.mnuThongKe.Name = "mnuThongKe";
-            this.mnuThongKe.Size = new Size(108, 29);
+            this.mnuThongKe.Size = new Size(103, 29);
             this.mnuThongKe.Text = "Th?ng Kê";
             this.mnuThongKe.Click += new System.EventHandler(this.mnuThongKe_Click);
             // 
@@ -108,22 +110,24 @@ namespace QuanLyBanHoa.Forms
             this.mnuHeThong.DropDownItems.AddRange(new ToolStripItem[] {
             this.mnuDangXuat,
             this.mnuThoat});
-            this.mnuHeThong.Font = new Font("Segoe UI", 11F);
+            this.mnuHeThong.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             this.mnuHeThong.Name = "mnuHeThong";
-            this.mnuHeThong.Size = new Size(114, 29);
+            this.mnuHeThong.Size = new Size(109, 29);
             this.mnuHeThong.Text = "H? Th?ng";
             // 
             // mnuDangXuat
             // 
+            this.mnuDangXuat.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             this.mnuDangXuat.Name = "mnuDangXuat";
-            this.mnuDangXuat.Size = new Size(196, 30);
+            this.mnuDangXuat.Size = new Size(180, 30);
             this.mnuDangXuat.Text = "??ng Xu?t";
             this.mnuDangXuat.Click += new System.EventHandler(this.mnuDangXuat_Click);
             // 
             // mnuThoat
             // 
+            this.mnuThoat.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
             this.mnuThoat.Name = "mnuThoat";
-            this.mnuThoat.Size = new Size(196, 30);
+            this.mnuThoat.Size = new Size(180, 30);
             this.mnuThoat.Text = "Thoát";
             this.mnuThoat.Click += new System.EventHandler(this.mnuThoat_Click);
             // 
@@ -165,6 +169,7 @@ namespace QuanLyBanHoa.Forms
             this.StartPosition = FormStartPosition.CenterScreen;
             this.Text = "Qu?n Lý Bán Hoa";
             this.WindowState = FormWindowState.Maximized;
+            this.Font = new Font("Segoe UI", 10F, FontStyle.Regular, GraphicsUnit.Point);
             this.Load += new System.EventHandler(this.FrmMain_Load);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();

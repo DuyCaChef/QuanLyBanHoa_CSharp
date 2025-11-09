@@ -42,13 +42,6 @@
             DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
             headerPanel = new Panel();
             lblTitle = new Label();
-            menuStrip1 = new MenuStrip();
-            mnuTrangChu = new ToolStripMenuItem();
-            mnuQuanLy = new ToolStripMenuItem();
-            mnuKhachHang = new ToolStripMenuItem();
-            mnuDonHang = new ToolStripMenuItem();
-            mnuThongKe = new ToolStripMenuItem();
-            mnuDangXuat = new ToolStripMenuItem();
             mainScrollPanel = new Panel();
             splitMain = new SplitContainer();
             gbDonHang = new GroupBox();
@@ -91,7 +84,6 @@
             lblTongSoLuong = new Label();
             nudTongSoLuong = new NumericUpDown();
             headerPanel.SuspendLayout();
-            menuStrip1.SuspendLayout();
             mainScrollPanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)splitMain).BeginInit();
             splitMain.Panel1.SuspendLayout();
@@ -132,66 +124,15 @@
             lblTitle.TabIndex = 0;
             lblTitle.Text = "Quản lý đơn hàng";
             // 
-            // menuStrip1
-            // 
-            menuStrip1.AllowItemReorder = true;
-            menuStrip1.BackColor = Color.SkyBlue;
-            menuStrip1.Font = new Font("Segoe UI", 9F);
-            menuStrip1.ImageScalingSize = new Size(24, 24);
-            menuStrip1.Items.AddRange(new ToolStripItem[] { mnuTrangChu, mnuQuanLy, mnuDangXuat });
-            menuStrip1.LayoutStyle = ToolStripLayoutStyle.HorizontalStackWithOverflow;
-            menuStrip1.Location = new Point(0, 60);
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1280, 28);
-            menuStrip1.TabIndex = 3;
-            menuStrip1.Text = "menuStrip1";
-            // 
-            // mnuTrangChu
-            // 
-            mnuTrangChu.Name = "mnuTrangChu";
-            mnuTrangChu.Size = new Size(89, 24);
-            mnuTrangChu.Text = "Trang Chủ";
-            // 
-            // mnuQuanLy
-            // 
-            mnuQuanLy.DropDownItems.AddRange(new ToolStripItem[] { mnuKhachHang, mnuDonHang, mnuThongKe });
-            mnuQuanLy.Name = "mnuQuanLy";
-            mnuQuanLy.Size = new Size(73, 24);
-            mnuQuanLy.Text = "Quản lý";
-            // 
-            // mnuKhachHang
-            // 
-            mnuKhachHang.Name = "mnuKhachHang";
-            mnuKhachHang.Size = new Size(218, 26);
-            mnuKhachHang.Text = "Khách Hàng";
-            // 
-            // mnuDonHang
-            // 
-            mnuDonHang.Name = "mnuDonHang";
-            mnuDonHang.Size = new Size(218, 26);
-            mnuDonHang.Text = "Đơn Hàng";
-            // 
-            // mnuThongKe
-            // 
-            mnuThongKe.Name = "mnuThongKe";
-            mnuThongKe.Size = new Size(218, 26);
-            mnuThongKe.Text = "Thống Kê, Báo Cáo";
-            // 
-            // mnuDangXuat
-            // 
-            mnuDangXuat.Name = "mnuDangXuat";
-            mnuDangXuat.Size = new Size(91, 24);
-            mnuDangXuat.Text = "Đăng xuất";
-            // 
             // mainScrollPanel
             // 
             mainScrollPanel.AutoScroll = true;
             mainScrollPanel.Controls.Add(splitMain);
             mainScrollPanel.Controls.Add(gbThongTin);
             mainScrollPanel.Dock = DockStyle.Fill;
-            mainScrollPanel.Location = new Point(0, 88);
+            mainScrollPanel.Location = new Point(0, 60);
             mainScrollPanel.Name = "mainScrollPanel";
-            mainScrollPanel.Size = new Size(1280, 672);
+            mainScrollPanel.Size = new Size(1280, 700);
             mainScrollPanel.TabIndex = 5;
             // 
             // splitMain
@@ -759,10 +700,8 @@
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(1280, 760);
             Controls.Add(mainScrollPanel);
-            Controls.Add(menuStrip1);
             Controls.Add(headerPanel);
             Font = new Font("Segoe UI", 9F);
-            MainMenuStrip = menuStrip1;
             MinimumSize = new Size(1000, 700);
             Name = "FormDonHang";
             StartPosition = FormStartPosition.CenterScreen;
@@ -770,8 +709,6 @@
             Load += FormDonHang_Load;
             headerPanel.ResumeLayout(false);
             headerPanel.PerformLayout();
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
             mainScrollPanel.ResumeLayout(false);
             splitMain.Panel1.ResumeLayout(false);
             splitMain.Panel2.ResumeLayout(false);
@@ -789,7 +726,6 @@
             tlpInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nudTongSoLuong).EndInit();
             ResumeLayout(false);
-            PerformLayout();
 
         }
 
@@ -797,13 +733,6 @@
 
         private System.Windows.Forms.Panel headerPanel;
         private System.Windows.Forms.Label lblTitle;
-        private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem mnuTrangChu;
-        private System.Windows.Forms.ToolStripMenuItem mnuQuanLy;
-        private System.Windows.Forms.ToolStripMenuItem mnuKhachHang;
-        private System.Windows.Forms.ToolStripMenuItem mnuDonHang;
-        private System.Windows.Forms.ToolStripMenuItem mnuThongKe;
-        private System.Windows.Forms.ToolStripMenuItem mnuDangXuat;
         private System.Windows.Forms.Panel mainScrollPanel;
         private System.Windows.Forms.GroupBox gbThongTin;
         private System.Windows.Forms.TableLayoutPanel tlpInfo;
