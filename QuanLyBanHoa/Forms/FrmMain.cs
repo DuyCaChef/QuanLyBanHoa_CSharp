@@ -18,7 +18,7 @@ namespace QuanLyBanHoa.Forms
             toolStripNav.RenderMode = ToolStripRenderMode.Professional;
             toolStripNav.Font = new Font("Segoe UI", 11F, FontStyle.Regular, GraphicsUnit.Point);
             toolStripNav.Renderer = new FlatToolStripRenderer();
-
+            this.AutoScaleMode = AutoScaleMode.Dpi;
             // Mở form Hoa mặc định
             OpenChildForm(new frmHoa());
         }
