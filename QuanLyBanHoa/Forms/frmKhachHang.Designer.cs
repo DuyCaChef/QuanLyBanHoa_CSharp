@@ -67,7 +67,7 @@
             // 
             // headerPanel
             // 
-            headerPanel.BackColor = Color.FromArgb(52, 152, 219);
+            headerPanel.BackColor = Color.FromArgb(128, 255, 128);
             headerPanel.Controls.Add(lblHeaderTitle);
             headerPanel.Dock = DockStyle.Top;
             headerPanel.Location = new Point(0, 0);
