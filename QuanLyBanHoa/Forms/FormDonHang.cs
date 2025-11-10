@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using QuanLyBanHoa.Data;
+using QuanLyBanHoa.Models;
 using System.Collections.Generic;
 
 namespace QuanLyBanHoa.Forms
@@ -17,6 +18,12 @@ namespace QuanLyBanHoa.Forms
     {
         // Dictionary to store flower data: TenHoa -> (MaHoa, Gia)
         private Dictionary<string, (int MaHoa, decimal Gia)> flowerData = new Dictionary<string, (int, decimal)>();
+        
+        // Dictionary to store employee data: DisplayText -> MaNV
+        private Dictionary<string, int> employeeData = new Dictionary<string, int>();
+        
+        // Flag để ngăn SelectionChanged khi đang nhập liệu
+        private bool isInputting = false;
 
         public FormDonHang()
         {
@@ -31,14 +38,12 @@ namespace QuanLyBanHoa.Forms
             {
                 MessageBox.Show($"Lỗi khởi tạo form Đơn Hàng:\n{ex.Message}\n\nChi tiết:\n{ex.StackTrace}",
                     "Lỗi khởi tạo", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                throw; // Re-throw để caller biết có lỗi
+                throw;
             }
         }
 
-        // Handle flower data change event from FrmHoa
         private void FrmHoa_HoaDataChanged(object sender, EventArgs e)
         {
-            // Reload flower list when data changes in FrmHoa
             LoadHoaToComboBox();
         }
 
@@ -57,14 +62,50 @@ namespace QuanLyBanHoa.Forms
                     dgvDonHang.ClearSelection();
                 }
 
-                // Load initial orders and flowers from database
+                // Load initial data
                 LoadHoaToComboBox();
+                LoadNhanVienToComboBox();
                 LoadDonHang();
+                
+                // txtMaDon cho phép nhập thủ công
+                txtMaDon.ReadOnly = false;
+                
+                // Subscribe to TextChanged events để detect khi user bắt đầu nhập
+                txtTenKhach.TextChanged += (s, ev) => { if (!isInputting && !string.IsNullOrWhiteSpace(txtTenKhach.Text)) isInputting = true; };
+                txtSdt.TextChanged += (s, ev) => { if (!isInputting && !string.IsNullOrWhiteSpace(txtSdt.Text)) isInputting = true; };
+                txtMaDon.TextChanged += (s, ev) => { if (!isInputting && !string.IsNullOrWhiteSpace(txtMaDon.Text)) isInputting = true; };
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Lỗi khi load form Đơn Hàng:\n{ex.Message}\n\nChi tiết:\n{ex.StackTrace}",
                     "Lỗi Load", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Load danh sách nhân viên vào ComboBox
+        /// </summary>
+        private void LoadNhanVienToComboBox()
+        {
+            try
+            {
+                employeeData.Clear();
+                cboMaNV.Items.Clear();
+
+                // Sử dụng class NhanVien để lấy danh sách
+                List<NhanVien> listNhanVien = NhanVien.GetAll();
+
+                foreach (var nv in listNhanVien)
+                {
+                    // Format: "Mã: 1 - Nguyễn Văn A (Quản lý)"
+                    string displayText = $"Mã: {nv.MaNV} - {nv.TenNV} ({nv.ChucVu})";
+                    employeeData[displayText] = nv.MaNV;
+                    cboMaNV.Items.Add(displayText);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tải danh sách nhân viên:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -106,9 +147,6 @@ namespace QuanLyBanHoa.Forms
             }
         }
 
-        /// <summary>
-        /// Handle flower selection change in ComboBox
-        /// </summary>
         private void cboTenHoa_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -140,14 +178,13 @@ namespace QuanLyBanHoa.Forms
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            // Unsubscribe from event when form closes
             frmHoa.HoaDataChanged -= FrmHoa_HoaDataChanged;
             base.OnFormClosing(e);
         }
 
         /// <summary>
-        /// Load orders from database and populate dgvDonHang.
-        /// Không hiển thị TongTien nữa - chỉ hiển thị khi xem chi tiết
+        /// Load chi tiết đơn hàng - hiển thị từng dòng chi tiết (mỗi lần thêm hoa)
+        /// Giúp dễ kiểm soát đơn hàng hơn
         /// </summary>
         private void LoadDonHang()
         {
@@ -158,14 +195,20 @@ namespace QuanLyBanHoa.Forms
                 using (var conn = Database.GetConnection())
                 {
                     conn.Open();
-
-                    // SQL Server: Sử dụng TOP thay vì LIMIT, subquery cho TenHoa và SumSoLuong
-                    string sql = @"SELECT TOP 500 d.MaDH, d.NgayDatHang, k.TenKH, k.SoDienThoai, d.MaNV,
-                                    (SELECT TOP 1 h.TenHoa FROM ChiTietDonHang ct JOIN Hoa h ON ct.MaHoa = h.MaHoa WHERE ct.MaDH = d.MaDH) AS TenHoa,
-                                    (SELECT SUM(SoLuong) FROM ChiTietDonHang WHERE MaDH = d.MaDH) AS SumSoLuong
-                                  FROM DonHang d
+                    // Query hiển thị CHI TIẾT từng dòng - mỗi lần thêm hoa là 1 dòng
+                    string sql = @"SELECT TOP 500 
+                                    ct.MaDH, 
+                                    d.NgayDatHang, 
+                                    k.TenKH, 
+                                    k.SoDienThoai, 
+                                    ct.MaNV,
+                                    h.TenHoa,
+                                    ct.SoLuong
+                                  FROM ChiTietDonHang ct
+                                  INNER JOIN DonHang d ON ct.MaDH = d.MaDH
                                   LEFT JOIN KhachHang k ON d.MaKH = k.MaKH
-                                  ORDER BY d.NgayDatHang DESC, d.MaDH DESC";
+                                  LEFT JOIN Hoa h ON ct.MaHoa = h.MaHoa
+                                  ORDER BY ct.MaDH DESC, h.TenHoa";
 
                     using (var cmd = new SqlCommand(sql, conn))
                     {
@@ -179,7 +222,7 @@ namespace QuanLyBanHoa.Forms
                                 string sdt = rdr.IsDBNull(3) ? string.Empty : rdr.GetString(3);
                                 int maNV = rdr.IsDBNull(4) ? 0 : rdr.GetInt32(4);
                                 string tenHoa = rdr.IsDBNull(5) ? string.Empty : rdr.GetString(5);
-                                int soLuong = rdr.IsDBNull(6) ? 0 : Convert.ToInt32(rdr.GetValue(6));
+                                int soLuong = rdr.IsDBNull(6) ? 0 : rdr.GetInt32(6);
 
                                 dgvDonHang.Rows.Add(maDH, ngay.ToString("g"), tenKH, sdt, maNV.ToString(), tenHoa, soLuong);
                             }
@@ -193,21 +236,22 @@ namespace QuanLyBanHoa.Forms
             }
         }
 
-        // Khi chọn một đơn ở danh sách -> hiển thị chi tiết đầy đủ và tính tổng tiền
+        /// <summary>
+        /// Khi chọn đơn hàng -> hiển thị chi tiết và tính tổng tiền theo MaDon
+        /// </summary>
         private void dgvDonHang_SelectionChanged(object sender, EventArgs e)
         {
             try
             {
+                // KHÔNG load dữ liệu nếu đang trong quá trình nhập liệu mới
+                if (isInputting)
+                    return;
+
                 if (dgvDonHang.SelectedRows.Count == 0)
                 {
                     if (dgvChiTiet != null)
                         dgvChiTiet.Rows.Clear();
 
-                    txtMaDon.Clear();
-                    txtTenKhach.Clear();
-                    txtSdt.Clear();
-                    txtMaNV.Clear();
-                    if (nudTongSoLuong != null) nudTongSoLuong.Value = nudTongSoLuong.Minimum;
                     if (lblTongTienValue != null) lblTongTienValue.Text = "0 đ";
                     
                     return;
@@ -229,72 +273,21 @@ namespace QuanLyBanHoa.Forms
 
                 txtTenKhach.Text = tenKH;
                 txtSdt.Text = sdt;
-                txtMaNV.Text = sMaNV;
+                
+                // Set selected employee in ComboBox
+                if (int.TryParse(sMaNV, out int maNV))
+                {
+                    SetSelectedEmployee(maNV);
+                }
 
+                // Load chi tiết đơn hàng theo MaDon và tính tổng tiền
                 if (dgvChiTiet != null)
                 {
                     dgvChiTiet.Rows.Clear();
 
                     if (int.TryParse(maDonStr, out int maDH))
                     {
-                        try
-                        {
-                            int tongSoLuong = 0;
-                            decimal tongTien = 0m;
-
-                            using (var conn = Database.GetConnection())
-                            {
-                                conn.Open();
-                                string sql = @"SELECT ct.MaHoa, h.TenHoa, ct.SoLuong, ct.ThanhTien, ct.MaNV
-                                               FROM ChiTietDonHang ct
-                                               LEFT JOIN Hoa h ON ct.MaHoa = h.MaHoa
-                                               WHERE ct.MaDH = @MaDH";
-                                using (var cmd = new SqlCommand(sql, conn))
-                                {
-                                    cmd.Parameters.AddWithValue("@MaDH", maDH);
-                                    using (var rdr = cmd.ExecuteReader())
-                                    {
-                                        while (rdr.Read())
-                                        {
-                                            string tenHoa = rdr.IsDBNull(1) ? string.Empty : rdr.GetString(1);
-                                            int sl = rdr.IsDBNull(2) ? 0 : rdr.GetInt32(2);
-                                            decimal thanhTien = rdr.IsDBNull(3) ? 0m : rdr.GetDecimal(3);
-                                            decimal donGia = sl > 0 ? thanhTien / sl : 0m;
-
-                                            dgvChiTiet.Rows.Add(tenHoa, sl, donGia.ToString("N2"));
-
-                                            tongSoLuong += sl;
-                                            tongTien += thanhTien;
-                                        }
-                                    }
-                                }
-                            }
-
-                            if (nudTongSoLuong != null)
-                            {
-                                if (tongSoLuong >= (int)nudTongSoLuong.Minimum && tongSoLuong <= (int)nudTongSoLuong.Maximum)
-                                {
-                                    nudTongSoLuong.Value = tongSoLuong;
-                                }
-                                else if (tongSoLuong > (int)nudTongSoLuong.Maximum)
-                                {
-                                    nudTongSoLuong.Value = nudTongSoLuong.Maximum;
-                                }
-                                else
-                                {
-                                    nudTongSoLuong.Value = nudTongSoLuong.Minimum;
-                                }
-                            }
-
-                            if (lblTongTienValue != null)
-                            {
-                                lblTongTienValue.Text = tongTien.ToString("N0") + " đ";
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show($"Lỗi khi tải chi tiết đơn:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
+                        LoadChiTietDonHang(maDH);
                     }
                 }
             }
@@ -303,6 +296,94 @@ namespace QuanLyBanHoa.Forms
                 MessageBox.Show($"Lỗi khi xử lý selection:\n{ex.Message}",
                     "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+            finally
+            {
+                // Hủy đánh dấu nhập liệu
+                isInputting = false;
+            }
+        }
+
+        /// <summary>
+        /// Load chi tiết đơn hàng theo MaDH và tính tổng tiền
+        /// </summary>
+        private void LoadChiTietDonHang(int maDH)
+        {
+            try
+            {
+                int tongSoLuong = 0;
+                decimal tongTien = 0m;
+
+                using (var conn = Database.GetConnection())
+                {
+                    conn.Open();
+                    string sql = @"SELECT ct.MaHoa, h.TenHoa, ct.SoLuong, ct.ThanhTien, ct.MaNV
+                                   FROM ChiTietDonHang ct
+                                   LEFT JOIN Hoa h ON ct.MaHoa = h.MaHoa
+                                   WHERE ct.MaDH = @MaDH";
+                    using (var cmd = new SqlCommand(sql, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@MaDH", maDH);
+                        using (var rdr = cmd.ExecuteReader())
+                        {
+                            while (rdr.Read())
+                            {
+                                string tenHoa = rdr.IsDBNull(1) ? string.Empty : rdr.GetString(1);
+                                int sl = rdr.IsDBNull(2) ? 0 : rdr.GetInt32(2);
+                                decimal thanhTien = rdr.IsDBNull(3) ? 0m : rdr.GetDecimal(3);
+                                decimal donGia = sl > 0 ? thanhTien / sl : 0m;
+
+                                dgvChiTiet.Rows.Add(tenHoa, sl, donGia.ToString("N2"));
+
+                                tongSoLuong += sl;
+                                tongTien += thanhTien;
+                            }
+                        }
+                    }
+                }
+
+                // Cập nhật tổng số lượng
+                if (nudTongSoLuong != null)
+                {
+                    if (tongSoLuong >= (int)nudTongSoLuong.Minimum && tongSoLuong <= (int)nudTongSoLuong.Maximum)
+                    {
+                        nudTongSoLuong.Value = tongSoLuong;
+                    }
+                    else if (tongSoLuong > (int)nudTongSoLuong.Maximum)
+                    {
+                        nudTongSoLuong.Value = nudTongSoLuong.Maximum;
+                    }
+                    else
+                    {
+                        nudTongSoLuong.Value = nudTongSoLuong.Minimum;
+                    }
+                }
+
+                // Cập nhật tổng tiền
+                if (lblTongTienValue != null)
+                {
+                    lblTongTienValue.Text = tongTien.ToString("N0") + " đ";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi tải chi tiết đơn:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        /// <summary>
+        /// Set selected employee trong ComboBox theo MaNV
+        /// </summary>
+        private void SetSelectedEmployee(int maNV)
+        {
+            foreach (var item in employeeData)
+            {
+                if (item.Value == maNV)
+                {
+                    cboMaNV.SelectedItem = item.Key;
+                    return;
+                }
+            }
+            cboMaNV.SelectedIndex = -1;
         }
 
         /// <summary>
@@ -313,9 +394,24 @@ namespace QuanLyBanHoa.Forms
             try
             {
                 // Validate required fields
-                if (string.IsNullOrWhiteSpace(txtTenKhach.Text) || string.IsNullOrWhiteSpace(txtSdt.Text) || string.IsNullOrWhiteSpace(txtMaNV.Text))
+                if (string.IsNullOrWhiteSpace(txtTenKhach.Text))
                 {
-                    MessageBox.Show("Vui lòng nhập đầy đủ thông tin khách hàng và mã nhân viên.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Vui lòng nhập tên khách hàng.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtTenKhach.Focus();
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtSdt.Text))
+                {
+                    MessageBox.Show("Vui lòng nhập số điện thoại khách hàng.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtSdt.Focus();
+                    return;
+                }
+
+                if (cboMaNV.SelectedIndex == -1)
+                {
+                    MessageBox.Show("Vui lòng chọn nhân viên.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cboMaNV.Focus();
                     return;
                 }
 
@@ -323,6 +419,7 @@ namespace QuanLyBanHoa.Forms
                 if (cboTenHoa.SelectedItem == null)
                 {
                     MessageBox.Show("Vui lòng chọn loại hoa.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    cboTenHoa.Focus();
                     return;
                 }
 
@@ -334,12 +431,14 @@ namespace QuanLyBanHoa.Forms
                     return;
                 }
 
-                // Parse MaNV
-                if (!int.TryParse(txtMaNV.Text.Trim(), out int maNV))
+                // Get MaNV from ComboBox
+                string selectedEmployee = cboMaNV.SelectedItem.ToString();
+                if (!employeeData.ContainsKey(selectedEmployee))
                 {
-                    MessageBox.Show("Mã nhân viên phải là số nguyên.", "Lỗi dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Không tìm thấy thông tin nhân viên.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+                int maNV = employeeData[selectedEmployee];
 
                 var (maHoa, gia) = flowerData[tenHoa];
                 int soLuong = (int)nudTongSoLuong.Value;
@@ -347,6 +446,7 @@ namespace QuanLyBanHoa.Forms
                 if (soLuong <= 0)
                 {
                     MessageBox.Show("Số lượng phải lớn hơn 0.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    nudTongSoLuong.Focus();
                     return;
                 }
 
@@ -371,7 +471,6 @@ namespace QuanLyBanHoa.Forms
 
                             if (maKH == 0)
                             {
-                                // SQL Server: SCOPE_IDENTITY() thay vì LAST_INSERT_ID()
                                 using (var cmdInsKH = new SqlCommand("INSERT INTO KhachHang (TenKH, SoDienThoai) VALUES (@ten, @sdt); SELECT CAST(SCOPE_IDENTITY() AS INT);", conn, tx))
                                 {
                                     cmdInsKH.Parameters.AddWithValue("@ten", txtTenKhach.Text.Trim());
@@ -383,75 +482,128 @@ namespace QuanLyBanHoa.Forms
                             }
 
                             object maKmDb = DBNull.Value;
-
-                            // 2) Luôn tạo đơn hàng mới
-                            string insertDon;
-                            SqlCommand cmdDon;
-                            
-                            if (!string.IsNullOrWhiteSpace(txtMaDon.Text) && int.TryParse(txtMaDon.Text.Trim(), out int maDHInput))
-                            {
-                                insertDon = @"INSERT INTO DonHang (MaDH, MaKH, MaNV, NgayDatHang, TongTien, MaKM) 
-                                            VALUES (@MaDH, @MaKH, @MaNV, @NgayDatHang, @TongTien, @MaKM);";
-                                cmdDon = new SqlCommand(insertDon, conn, tx);
-                                cmdDon.Parameters.AddWithValue("@MaDH", maDHInput);
-                            }
-                            else
-                            {
-                                // SQL Server: SCOPE_IDENTITY()
-                                insertDon = @"INSERT INTO DonHang (MaKH, MaNV, NgayDatHang, TongTien, MaKM) 
-                                            VALUES (@MaKH, @MaNV, @NgayDatHang, @TongTien, @MaKM); 
-                                            SELECT CAST(SCOPE_IDENTITY() AS INT);";
-                                cmdDon = new SqlCommand(insertDon, conn, tx);
-                            }
-
-                            cmdDon.Parameters.AddWithValue("@MaKH", maKH);
-                            cmdDon.Parameters.AddWithValue("@MaNV", maNV);
-                            cmdDon.Parameters.AddWithValue("@NgayDatHang", dtpNgay.Value.Date);
-                            cmdDon.Parameters.AddWithValue("@TongTien", thanhTien);
-                            cmdDon.Parameters.AddWithValue("@MaKM", maKmDb);
-
                             int maDH;
-                            if (!string.IsNullOrWhiteSpace(txtMaDon.Text) && int.TryParse(txtMaDon.Text.Trim(), out int maDHInput2))
-                            {
-                                cmdDon.ExecuteNonQuery();
-                                maDH = maDHInput2;
-                            }
-                            else
-                            {
-                                var idObj = cmdDon.ExecuteScalar();
-                                if (idObj == null) throw new Exception("Không lấy được ID DonHang.");
-                                maDH = Convert.ToInt32(idObj);
-                            }
+                            bool identityInsertEnabled = false;
+                            bool isExistingOrder = false;
 
-                            // 3) Insert ChiTietDonHang
-                            string insertCt = @"INSERT INTO ChiTietDonHang (MaDH, MaHoa, SoLuong, ThanhTien, MaNV) 
-                                              VALUES (@MaDH, @MaHoa, @SoLuong, @ThanhTien, @MaNV);";
-                            using (var cmdCt = new SqlCommand(insertCt, conn, tx))
+                            try
                             {
-                                cmdCt.Parameters.AddWithValue("@MaDH", maDH);
-                                cmdCt.Parameters.AddWithValue("@MaHoa", maHoa);
-                                cmdCt.Parameters.AddWithValue("@SoLuong", soLuong);
-                                cmdCt.Parameters.AddWithValue("@ThanhTien", thanhTien);
-                                cmdCt.Parameters.AddWithValue("@MaNV", maNV);
-                                cmdCt.ExecuteNonQuery();
+                                // 2) Kiểm tra xem có nhập MaDon không
+                                if (!string.IsNullOrWhiteSpace(txtMaDon.Text) && int.TryParse(txtMaDon.Text.Trim(), out int maDHInput))
+                                {
+                                    // Kiểm tra đơn hàng đã tồn tại chưa
+                                    using (var cmdCheck = new SqlCommand("SELECT COUNT(*) FROM DonHang WHERE MaDH = @MaDH", conn, tx))
+                                    {
+                                        cmdCheck.Parameters.AddWithValue("@MaDH", maDHInput);
+                                        int count = Convert.ToInt32(cmdCheck.ExecuteScalar());
+                                        isExistingOrder = count > 0;
+                                    }
+
+                                    maDH = maDHInput;
+
+                                    if (!isExistingOrder)
+                                    {
+                                        // Bật IDENTITY_INSERT để insert MaDH thủ công
+                                        using (var cmdIdentity = new SqlCommand("SET IDENTITY_INSERT DonHang ON", conn, tx))
+                                        {
+                                            cmdIdentity.ExecuteNonQuery();
+                                            identityInsertEnabled = true;
+                                        }
+
+                                        // Tạo đơn hàng mới với MaDH được chỉ định
+                                        string insertDon = @"INSERT INTO DonHang (MaDH, MaKH, MaNV, NgayDatHang, TongTien, MaKM) 
+                                                            VALUES (@MaDH, @MaKH, @MaNV, @NgayDatHang, @TongTien, @MaKM);";
+                                        using (var cmdDon = new SqlCommand(insertDon, conn, tx))
+                                        {
+                                            cmdDon.Parameters.AddWithValue("@MaDH", maDH);
+                                            cmdDon.Parameters.AddWithValue("@MaKH", maKH);
+                                            cmdDon.Parameters.AddWithValue("@MaNV", maNV);
+                                            cmdDon.Parameters.AddWithValue("@NgayDatHang", dtpNgay.Value.Date);
+                                            cmdDon.Parameters.AddWithValue("@TongTien", thanhTien);
+                                            cmdDon.Parameters.AddWithValue("@MaKM", maKmDb);
+                                            cmdDon.ExecuteNonQuery();
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // Đơn hàng đã tồn tại - cập nhật TongTien
+                                        string updateDon = @"UPDATE DonHang 
+                                                            SET TongTien = TongTien + @ThemTien 
+                                                            WHERE MaDH = @MaDH";
+                                        using (var cmdUpdate = new SqlCommand(updateDon, conn, tx))
+                                        {
+                                            cmdUpdate.Parameters.AddWithValue("@ThemTien", thanhTien);
+                                            cmdUpdate.Parameters.AddWithValue("@MaDH", maDH);
+                                            cmdUpdate.ExecuteNonQuery();
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    // Không nhập MaDon - tạo đơn hàng mới với IDENTITY
+                                    string insertDon = @"INSERT INTO DonHang (MaKH, MaNV, NgayDatHang, TongTien, MaKM) 
+                                                        VALUES (@MaKH, @MaNV, @NgayDatHang, @TongTien, @MaKM); 
+                                                        SELECT CAST(SCOPE_IDENTITY() AS INT);";
+                                    using (var cmdDon = new SqlCommand(insertDon, conn, tx))
+                                    {
+                                        cmdDon.Parameters.AddWithValue("@MaKH", maKH);
+                                        cmdDon.Parameters.AddWithValue("@MaNV", maNV);
+                                        cmdDon.Parameters.AddWithValue("@NgayDatHang", dtpNgay.Value.Date);
+                                        cmdDon.Parameters.AddWithValue("@TongTien", thanhTien);
+                                        cmdDon.Parameters.AddWithValue("@MaKM", maKmDb);
+                                        
+                                        var idObj = cmdDon.ExecuteScalar();
+                                        if (idObj == null) throw new Exception("Không lấy được ID DonHang.");
+                                        maDH = Convert.ToInt32(idObj);
+                                    }
+                                }
+
+                                // 3) Insert ChiTietDonHang
+                                string insertCt = @"INSERT INTO ChiTietDonHang (MaDH, MaHoa, SoLuong, ThanhTien, MaNV) 
+                                                  VALUES (@MaDH, @MaHoa, @SoLuong, @ThanhTien, @MaNV);";
+                                using (var cmdCt = new SqlCommand(insertCt, conn, tx))
+                                {
+                                    cmdCt.Parameters.AddWithValue("@MaDH", maDH);
+                                    cmdCt.Parameters.AddWithValue("@MaHoa", maHoa);
+                                    cmdCt.Parameters.AddWithValue("@SoLuong", soLuong);
+                                    cmdCt.Parameters.AddWithValue("@ThanhTien", thanhTien);
+                                    cmdCt.Parameters.AddWithValue("@MaNV", maNV);
+                                    cmdCt.ExecuteNonQuery();
+                                }
+                            }
+                            finally
+                            {
+                                // Tắt IDENTITY_INSERT nếu đã bật
+                                if (identityInsertEnabled)
+                                {
+                                    try
+                                    {
+                                        using (var cmdIdentity = new SqlCommand("SET IDENTITY_INSERT DonHang OFF", conn, tx))
+                                        {
+                                            cmdIdentity.ExecuteNonQuery();
+                                        }
+                                    }
+                                    catch { }
+                                }
                             }
 
                             tx.Commit();
 
-                            MessageBox.Show($"Thêm đơn hàng thành công (Mã: {maDH}).\nĐã thêm {tenHoa} ({soLuong}).", 
-                                "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            string message = isExistingOrder 
+                                ? $"Đã thêm {tenHoa} ({soLuong}) vào đơn hàng #{maDH}."
+                                : $"Tạo đơn hàng mới (Mã: {maDH}).\nĐã thêm {tenHoa} ({soLuong}).";
+                            
+                            MessageBox.Show(message, "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                            // Reload and clear
+                            // Reload danh sách đơn hàng
                             LoadDonHang();
                             
-                            // Clear all inputs để sẵn sàng nhập đơn mới
-                            txtMaDon.Clear();
-                            txtTenKhach.Clear();
-                            txtSdt.Clear();
-                            txtMaNV.Clear();
-                            cboTenHoa.SelectedIndex = -1;
-                            txtMaHoa.Clear();
-                            nudTongSoLuong.Value = 1;
+                            // Clear TẤT CẢ các ô nhập để sẵn sàng nhập đơn mới
+                            ClearAllInputs();
+                            
+
+                            // Focus vào Tên khách hàng để bắt đầu đơn mới
+                            txtTenKhach.Focus();
                         }
                         catch (Exception ex)
                         {
@@ -467,6 +619,33 @@ namespace QuanLyBanHoa.Forms
             }
         }
 
+        /// <summary>
+        /// Clear tất cả các ô nhập liệu sau khi thêm đơn hàng thành công
+        /// </summary>
+        private void ClearAllInputs()
+        {
+            // Bật flag để ngăn SelectionChanged ghi đè dữ liệu
+            isInputting = true;
+            
+            txtMaDon.Clear();
+            txtTenKhach.Clear();
+            txtSdt.Clear();
+            cboMaNV.SelectedIndex = -1;
+            cboTenHoa.SelectedIndex = -1;
+            txtMaHoa.Clear();
+            nudTongSoLuong.Value = 1;
+            dtpNgay.Value = DateTime.Now;
+            
+            // Clear selection trong dgvDonHang để tránh conflict
+            if (dgvDonHang.Rows.Count > 0)
+            {
+                dgvDonHang.ClearSelection();
+            }
+            
+            // Tắt flag sau khi clear xong
+            isInputting = false;
+        }
+
         private void btnSua_Click(object sender, EventArgs e)
         {
             try
@@ -477,11 +656,19 @@ namespace QuanLyBanHoa.Forms
                     return;
                 }
 
-                if (!int.TryParse(txtMaNV.Text.Trim(), out int maNV))
+                if (cboMaNV.SelectedIndex == -1)
                 {
-                    MessageBox.Show("Mã nhân viên không hợp lệ.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Vui lòng chọn nhân viên.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
+
+                string selectedEmployee = cboMaNV.SelectedItem.ToString();
+                if (!employeeData.ContainsKey(selectedEmployee))
+                {
+                    MessageBox.Show("Không tìm thấy thông tin nhân viên.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                int maNV = employeeData[selectedEmployee];
 
                 object maKmDb = DBNull.Value;
                 decimal tongTien = 0m;
@@ -490,6 +677,7 @@ namespace QuanLyBanHoa.Forms
                 {
                     conn.Open();
                     
+                    // Tính lại tổng tiền từ ChiTietDonHang
                     using (var cmdSum = new SqlCommand("SELECT COALESCE(SUM(ThanhTien), 0) FROM ChiTietDonHang WHERE MaDH = @MaDH", conn))
                     {
                         cmdSum.Parameters.AddWithValue("@MaDH", maDH);
@@ -595,8 +783,8 @@ namespace QuanLyBanHoa.Forms
         {
             try
             {
-                if (e.Value != null && dgvDonHang.Columns[e.ColumnIndex].Name == "colTenKhach" || 
-                    dgvDonHang.Columns[e.ColumnIndex].Name == "colTenHoa")
+                if (e.Value != null && (dgvDonHang.Columns[e.ColumnIndex].Name == "colTenKhach" || 
+                    dgvDonHang.Columns[e.ColumnIndex].Name == "colTenHoa"))
                 {
                     string cellText = e.Value.ToString();
                     if (!string.IsNullOrEmpty(cellText))
