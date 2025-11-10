@@ -10,6 +10,7 @@ namespace QuanLyBanHoa.Data
         // Đọc connection string từ App.config
         private static readonly string connectionString = GetConnectionString();
 
+
         /// <summary>
         /// Lấy connection string từ App.config
         /// </summary>
