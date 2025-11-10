@@ -44,6 +44,7 @@
             btnSua = new Button();
             btnXoa = new Button();
             panelActions = new Panel();
+            btnTaiLai = new Button();
             headerPanel = new Panel();
             lblHeaderTitle = new Label();
             groupBox1.SuspendLayout();
@@ -127,7 +128,7 @@
             // btnTim
             // 
             btnTim.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnTim.BackColor = Color.FromArgb(52, 152, 219);
+            btnTim.BackColor = Color.FromArgb(255, 128, 128);
             btnTim.FlatAppearance.BorderSize = 0;
             btnTim.FlatStyle = FlatStyle.Flat;
             btnTim.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
@@ -370,6 +371,7 @@
             // panelActions
             // 
             panelActions.BackColor = Color.WhiteSmoke;
+            panelActions.Controls.Add(btnTaiLai);
             panelActions.Controls.Add(btnXoa);
             panelActions.Controls.Add(btnSua);
             panelActions.Controls.Add(btnThem);
@@ -380,6 +382,22 @@
             panelActions.Padding = new Padding(6);
             panelActions.Size = new Size(1262, 45);
             panelActions.TabIndex = 102;
+            // 
+            // btnTaiLai
+            // 
+            btnTaiLai.BackColor = Color.Gold;
+            btnTaiLai.FlatAppearance.BorderSize = 0;
+            btnTaiLai.FlatStyle = FlatStyle.Flat;
+            btnTaiLai.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnTaiLai.ForeColor = Color.White;
+            btnTaiLai.Location = new Point(340, 8);
+            btnTaiLai.Margin = new Padding(2);
+            btnTaiLai.Name = "btnTaiLai";
+            btnTaiLai.Size = new Size(96, 32);
+            btnTaiLai.TabIndex = 6;
+            btnTaiLai.Text = "Tải Lại";
+            btnTaiLai.UseVisualStyleBackColor = false;
+            btnTaiLai.Click += btnTaiLai_Click;
             // 
             // headerPanel
             // 
@@ -460,5 +478,6 @@
         private Label lblHeaderTitle;
         private Panel panelSearch; // new panel for search controls
         private TableLayoutPanel layoutInfo; // new field
+        private Button btnTaiLai;
     }
 }

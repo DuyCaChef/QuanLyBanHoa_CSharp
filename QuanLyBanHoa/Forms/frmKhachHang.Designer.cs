@@ -42,6 +42,7 @@
             btnSua = new Button();
             btnXoa = new Button();
             btnLuu = new Button();
+            btnTaiLai = new Button();
             groupBox1 = new GroupBox();
             tlpInfo = new TableLayoutPanel();
             lbHoTen = new Label();
@@ -165,6 +166,7 @@
             flpButtons.Controls.Add(btnSua);
             flpButtons.Controls.Add(btnXoa);
             flpButtons.Controls.Add(btnLuu);
+            flpButtons.Controls.Add(btnTaiLai);
             flpButtons.Dock = DockStyle.Bottom;
             flpButtons.Location = new Point(16, 632);
             flpButtons.Name = "flpButtons";
@@ -221,21 +223,21 @@
             btnXoa.UseVisualStyleBackColor = false;
             btnXoa.Click += btnXoa_Click;
             // 
-            // btnLuu
+            // btnTaiLai
             // 
-            btnLuu.BackColor = Color.Gainsboro;
-            btnLuu.FlatAppearance.BorderSize = 0;
-            btnLuu.FlatStyle = FlatStyle.Flat;
-            btnLuu.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
-            btnLuu.ForeColor = Color.Black;
-            btnLuu.Location = new Point(378, 11);
-            btnLuu.Margin = new Padding(3, 3, 12, 8);
-            btnLuu.Name = "btnLuu";
-            btnLuu.Size = new Size(110, 33);
-            btnLuu.TabIndex = 4;
-            btnLuu.Text = "Lưu";
-            btnLuu.UseVisualStyleBackColor = false;
-            btnLuu.Click += btnLuu_Click;
+            btnTaiLai.BackColor = Color.FromArgb(243, 156, 18);
+            btnTaiLai.FlatAppearance.BorderSize = 0;
+            btnTaiLai.FlatStyle = FlatStyle.Flat;
+            btnTaiLai.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            btnTaiLai.ForeColor = Color.White;
+            btnTaiLai.Location = new Point(503, 11);
+            btnTaiLai.Margin = new Padding(3, 3, 12, 8);
+            btnTaiLai.Name = "btnTaiLai";
+            btnTaiLai.Size = new Size(110, 33);
+            btnTaiLai.TabIndex = 5;
+            btnTaiLai.Text = "Tải Lại";
+            btnTaiLai.UseVisualStyleBackColor = false;
+            btnTaiLai.Click += btnTaiLai_Click;
             // 
             // groupBox1
             // 
@@ -471,6 +473,7 @@
         private System.Windows.Forms.Button btnSua;
         private System.Windows.Forms.Button btnXoa;
         private System.Windows.Forms.Button btnLuu;
+        private System.Windows.Forms.Button btnTaiLai;
         private System.Windows.Forms.TableLayoutPanel tlpInfo;
         private Label lbHoTen;
     }

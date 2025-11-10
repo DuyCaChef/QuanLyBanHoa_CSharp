@@ -49,7 +49,7 @@ namespace QuanLyBanHoa.Forms
                     btnXoa.Enabled = true;
                     btnLuu.Enabled = true;
                     break;
-                default:
+                default: // None
                     txtMaKH.ReadOnly = true;
                     btnThem.Enabled = true;
                     btnSua.Enabled = true;
@@ -87,7 +87,9 @@ namespace QuanLyBanHoa.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi tải dữ liệu khách hàng:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                string fullError = $"Lỗi tải dữ liệu khách hàng:\n{ex.ToString()}";
+                Console.WriteLine(fullError); // Ghi lỗi chi tiết ra console để debug
+                MessageBox.Show($"Lỗi tải dữ liệu khách hàng. Vui lòng kiểm tra lại chuỗi kết nối và câu lệnh SQL.\nChi tiết: {ex.Message}", "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -115,9 +117,51 @@ namespace QuanLyBanHoa.Forms
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-            ClearInputs();
-            SetMode(CustomerFormMode.Adding);
-            txtHoTen.Focus();
+            // Tạm thời vô hiệu hóa logic thêm để kiểm tra kết nối
+            string connectionString = Database.GetCurrentConnectionString();
+            bool isConnected = Database.TestConnection();
+
+            string message = $"Chuỗi kết nối đang dùng:\n{connectionString}\n\nTrạng thái kết nối: {(isConnected ? "Thành công" : "Thất bại")}";
+            MessageBox.Show(message, "Kiểm tra kết nối Database", MessageBoxButtons.OK, isConnected ? MessageBoxIcon.Information : MessageBoxIcon.Error);
+
+            // Nếu kết nối thất bại, không làm gì thêm
+            if (!isConnected)
+            {
+                return;
+            }
+
+            // Nếu kết nối thành công, tiếp tục với logic thêm
+            _mode = CustomerFormMode.Adding;
+            if (!ValidateInputs())
+            {
+                SetMode(CustomerFormMode.None);
+                return;
+            }
+
+            try
+            {
+                using var con = Database.GetConnection();
+                con.Open();
+                var sdt = TxtSDTBox?.Text ?? string.Empty;
+
+                string query = "INSERT INTO KhachHang (TenKH, SoDienThoai, DiaChi, Email) VALUES (@TenKH, @SoDienThoai, @DiaChi, @Email)";
+                using var cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@TenKH", txtHoTen.Text.Trim());
+                cmd.Parameters.AddWithValue("@SoDienThoai", sdt);
+                cmd.Parameters.AddWithValue("@DiaChi", txtDiaChi.Text.Trim());
+                cmd.Parameters.AddWithValue("@Email", txtEmail.Text.Trim());
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Thêm khách hàng thành công.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                getData();
+                ClearInputs();
+                SetMode(CustomerFormMode.None);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi khi thêm khách hàng:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                SetMode(CustomerFormMode.None);
+            }
         }
 
         private void btnSua_Click(object sender, EventArgs e)
@@ -188,43 +232,29 @@ namespace QuanLyBanHoa.Forms
 
         private void btnLuu_Click(object sender, EventArgs e)
         {
+            // Bây giờ nút Lưu chỉ dùng cho việc Sửa
+            if (_mode != CustomerFormMode.Editing) return;
+
             if (!ValidateInputs()) return;
+
             try
             {
                 using var con = Database.GetConnection();
                 con.Open();
-                if (_mode == CustomerFormMode.Adding)
-                {
-                    // SQL Server: SCOPE_IDENTITY() thay vì LAST_INSERT_ID()
-                    string insertSql = @"INSERT INTO KhachHang (TenKH, SoDienThoai, DiaChi, Email) VALUES (@TenKH,@SDT,@DiaChi,@Email); SELECT CAST(SCOPE_IDENTITY() AS INT);";
-                    using var cmd = new SqlCommand(insertSql, con);
-                    cmd.Parameters.AddWithValue("@TenKH", txtHoTen.Text.Trim());
-                    cmd.Parameters.AddWithValue("@SDT", (TxtSDTBox?.Text ?? string.Empty).Trim());
-                    cmd.Parameters.AddWithValue("@DiaChi", txtDiaChi.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Email", txtEmail.Text.Trim());
-                    var idObj = cmd.ExecuteScalar();
-                    int newId = idObj != null ? Convert.ToInt32(idObj) : 0;
-                    MessageBox.Show($"Đã thêm khách hàng (Mã: {newId}).", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else if (_mode == CustomerFormMode.Editing && int.TryParse(txtMaKH.Text.Trim(), out int maKH))
-                {
-                    string updateSql = @"UPDATE KhachHang SET TenKH=@TenKH, SoDienThoai=@SDT, DiaChi=@DiaChi, Email=@Email WHERE MaKH=@MaKH";
-                    using var cmd = new SqlCommand(updateSql, con);
-                    cmd.Parameters.AddWithValue("@TenKH", txtHoTen.Text.Trim());
-                    cmd.Parameters.AddWithValue("@SDT", (TxtSDTBox?.Text ?? string.Empty).Trim());
-                    cmd.Parameters.AddWithValue("@DiaChi", txtDiaChi.Text.Trim());
-                    cmd.Parameters.AddWithValue("@Email", txtEmail.Text.Trim());
-                    cmd.Parameters.AddWithValue("@MaKH", maKH);
-                    cmd.ExecuteNonQuery();
-                    MessageBox.Show("Đã cập nhật khách hàng.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("Chưa chọn chế độ thêm hoặc sửa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
+                var sdt = TxtSDTBox?.Text ?? string.Empty;
 
+                string query = "UPDATE KhachHang SET TenKH=@TenKH, SoDienThoai=@SoDienThoai, DiaChi=@DiaChi, Email=@Email WHERE MaKH=@MaKH";
+                using var cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@MaKH", Convert.ToInt32(txtMaKH.Text));
+                cmd.Parameters.AddWithValue("@TenKH", txtHoTen.Text.Trim());
+                cmd.Parameters.AddWithValue("@SoDienThoai", sdt);
+                cmd.Parameters.AddWithValue("@DiaChi", txtDiaChi.Text.Trim());
+                cmd.Parameters.AddWithValue("@Email", txtEmail.Text.Trim());
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Cập nhật khách hàng thành công.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
                 getData();
+                ClearInputs();
                 SetMode(CustomerFormMode.None);
             }
             catch (Exception ex)
@@ -233,6 +263,13 @@ namespace QuanLyBanHoa.Forms
             }
         }
 
+        private void btnTaiLai_Click(object sender, EventArgs e)
+        {
+            ClearInputs();
+            getData();
+            Focus();
+
+        }
         private void dgDSKhachHang_SelectionChanged(object sender, EventArgs e)
         {
             try

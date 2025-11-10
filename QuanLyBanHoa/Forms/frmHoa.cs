@@ -73,6 +73,7 @@ namespace QuanLyBanHoa.Forms
             txtGia.Clear();
             txtGhichu.Clear();
             cboSoLuong.SelectedIndex = -1;
+            txtTim.Clear(); // Xóa ô tìm kiếm
             isEditing = false;
             currentMaHoa = 0;
             txtMaHoa.ReadOnly = true;
@@ -84,7 +85,7 @@ namespace QuanLyBanHoa.Forms
             btnThem.Enabled = !editing;
             btnSua.Enabled = !editing && dgDSHoa.SelectedRows.Count > 0;
             btnXoa.Enabled = !editing && dgDSHoa.SelectedRows.Count > 0;
-            btnLuu.Enabled = editing;
+
         }
 
         private void dgDSHoa_SelectionChanged(object sender, EventArgs e)
@@ -298,9 +299,9 @@ namespace QuanLyBanHoa.Forms
                 catch (SqlException ex)
                 {
                     // SQL Server Foreign Key Constraint Error Numbers: 547
-                    if (ex.Number == 547) 
+                    if (ex.Number == 547)
                     {
-                        MessageBox.Show("Không thể xóa hoa này vì đã có đơn hàng liên quan!", 
+                        MessageBox.Show("Không thể xóa hoa này vì đã có đơn hàng liên quan!",
                             "Lỗi ràng buộc dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
@@ -361,6 +362,13 @@ namespace QuanLyBanHoa.Forms
         private void txtGhichu_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnTaiLai_Click(object sender, EventArgs e)
+        {
+            ClearInputFields();
+            LoadDataToDataGridView(); 
+            Focus();
         }
     }
 }

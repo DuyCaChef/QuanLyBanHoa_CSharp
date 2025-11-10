@@ -19,7 +19,7 @@ namespace QuanLyBanHoa.Data
             try
             {
                 // Đọc từ App.config
-                string connStr = ConfigurationManager.ConnectionStrings["QuanLyBanHoaDB"]?.ConnectionString;
+                string connStr = ConfigurationManager.ConnectionStrings["QuanLyBanHoa"]?.ConnectionString;
                 
                 if (string.IsNullOrEmpty(connStr))
                 {
