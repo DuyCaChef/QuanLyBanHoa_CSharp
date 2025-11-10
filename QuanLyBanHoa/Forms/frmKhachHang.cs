@@ -260,5 +260,10 @@ namespace QuanLyBanHoa.Forms
             }
             SetMode(CustomerFormMode.None);
         }
+
+        private void lbMaKH_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

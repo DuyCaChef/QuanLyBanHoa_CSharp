@@ -28,9 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmHoa));
             groupBox1 = new GroupBox();
             dgDSHoa = new DataGridView();
@@ -38,6 +37,8 @@
             txtTim = new TextBox();
             label8 = new Label();
             groupBox2 = new GroupBox();
+            txtPhanLoai = new TextBox();
+            lbPhanLoai = new Label();
             txtGhichu = new TextBox();
             lbGhichu = new Label();
             txtTenHoa = new TextBox();
@@ -48,7 +49,6 @@
             lbGia = new Label();
             lbTenHoa = new Label();
             lbMaHoa = new Label();
-            lbTen = new Label();
             btnThem = new Button();
             btnSua = new Button();
             btnXoa = new Button();
@@ -62,10 +62,13 @@
             thốngKêBáoCáoToolStripMenuItem = new ToolStripMenuItem();
             hoaToolStripMenuItem1 = new ToolStripMenuItem();
             đăngXuấtToolStripMenuItem = new ToolStripMenuItem();
+            headerPanel = new Panel();
+            lblHeaderTitle = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgDSHoa).BeginInit();
             groupBox2.SuspendLayout();
             menuStrip1.SuspendLayout();
+            headerPanel.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
@@ -74,10 +77,10 @@
             groupBox1.Controls.Add(btnTim);
             groupBox1.Controls.Add(txtTim);
             groupBox1.Controls.Add(label8);
-            groupBox1.Font = new Font("Times New Roman", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            groupBox1.Location = new Point(693, 125);
+            groupBox1.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            groupBox1.Location = new Point(597, 125);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(722, 553);
+            groupBox1.Size = new Size(953, 553);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Danh Sách Hoa";
@@ -86,43 +89,35 @@
             // 
             dgDSHoa.AllowUserToAddRows = false;
             dgDSHoa.AllowUserToResizeColumns = false;
-            dataGridViewCellStyle4.BackColor = Color.LightGray;
-            dgDSHoa.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle4;
+            dataGridViewCellStyle1.BackColor = Color.LightGray;
+            dgDSHoa.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgDSHoa.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgDSHoa.BackgroundColor = Color.White;
-            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle5.BackColor = SystemColors.Control;
-            dataGridViewCellStyle5.Font = new Font("Times New Roman", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle5.ForeColor = SystemColors.WindowText;
-            dataGridViewCellStyle5.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle5.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle5.WrapMode = DataGridViewTriState.True;
-            dgDSHoa.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle5;
             dgDSHoa.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle6.BackColor = Color.White;
-            dataGridViewCellStyle6.Font = new Font("Times New Roman", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle6.SelectionBackColor = SystemColors.Highlight;
-            dataGridViewCellStyle6.SelectionForeColor = SystemColors.HighlightText;
-            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.False;
-            dgDSHoa.DefaultCellStyle = dataGridViewCellStyle6;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.White;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            dataGridViewCellStyle2.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.False;
+            dgDSHoa.DefaultCellStyle = dataGridViewCellStyle2;
             dgDSHoa.Location = new Point(23, 84);
             dgDSHoa.Name = "dgDSHoa";
             dgDSHoa.ReadOnly = true;
             dgDSHoa.RowHeadersWidth = 51;
             dgDSHoa.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgDSHoa.Size = new Size(673, 453);
+            dgDSHoa.Size = new Size(907, 453);
             dgDSHoa.TabIndex = 11;
             dgDSHoa.CellContentClick += dgDSHoa_CellContentClick;
             dgDSHoa.SelectionChanged += dgDSHoa_SelectionChanged;
             // 
             // btnTim
             // 
-            btnTim.Font = new Font("Times New Roman", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnTim.Location = new Point(591, 32);
+            btnTim.Font = new Font("Segoe UI", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnTim.Location = new Point(753, 44);
             btnTim.Name = "btnTim";
-            btnTim.Size = new Size(105, 34);
+            btnTim.Size = new Size(177, 31);
             btnTim.TabIndex = 8;
             btnTim.Text = "Tìm";
             btnTim.UseVisualStyleBackColor = true;
@@ -130,23 +125,26 @@
             // 
             // txtTim
             // 
-            txtTim.Location = new Point(147, 32);
+            txtTim.Font = new Font("Times New Roman", 13.8F);
+            txtTim.Location = new Point(168, 41);
             txtTim.Name = "txtTim";
-            txtTim.Size = new Size(438, 34);
+            txtTim.Size = new Size(541, 34);
             txtTim.TabIndex = 10;
             // 
             // label8
             // 
             label8.AutoSize = true;
-            label8.Font = new Font("Times New Roman", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            label8.Location = new Point(23, 40);
+            label8.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label8.Location = new Point(23, 44);
             label8.Name = "label8";
-            label8.Size = new Size(108, 26);
+            label8.Size = new Size(120, 31);
             label8.TabIndex = 9;
             label8.Text = "Tìm kiếm:";
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(txtPhanLoai);
+            groupBox2.Controls.Add(lbPhanLoai);
             groupBox2.Controls.Add(txtGhichu);
             groupBox2.Controls.Add(lbGhichu);
             groupBox2.Controls.Add(txtTenHoa);
@@ -157,42 +155,63 @@
             groupBox2.Controls.Add(lbGia);
             groupBox2.Controls.Add(lbTenHoa);
             groupBox2.Controls.Add(lbMaHoa);
-            groupBox2.Font = new Font("Times New Roman", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            groupBox2.Location = new Point(148, 125);
+            groupBox2.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            groupBox2.Location = new Point(24, 125);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(539, 553);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "Thông Tin Hoa";
             // 
+            // txtPhanLoai
+            // 
+            txtPhanLoai.Font = new Font("Times New Roman", 13.8F);
+            txtPhanLoai.Location = new Point(146, 218);
+            txtPhanLoai.Name = "txtPhanLoai";
+            txtPhanLoai.Size = new Size(226, 34);
+            txtPhanLoai.TabIndex = 19;
+            // 
+            // lbPhanLoai
+            // 
+            lbPhanLoai.AutoSize = true;
+            lbPhanLoai.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lbPhanLoai.Location = new Point(34, 218);
+            lbPhanLoai.Name = "lbPhanLoai";
+            lbPhanLoai.Size = new Size(105, 28);
+            lbPhanLoai.TabIndex = 18;
+            lbPhanLoai.Text = "Phân loại:";
+            // 
             // txtGhichu
             // 
-            txtGhichu.Location = new Point(34, 319);
+            txtGhichu.Font = new Font("Times New Roman", 13.8F);
+            txtGhichu.Location = new Point(34, 287);
             txtGhichu.Multiline = true;
             txtGhichu.Name = "txtGhichu";
-            txtGhichu.Size = new Size(477, 218);
+            txtGhichu.Size = new Size(477, 250);
             txtGhichu.TabIndex = 17;
             // 
             // lbGhichu
             // 
             lbGhichu.AutoSize = true;
-            lbGhichu.Font = new Font("Times New Roman", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbGhichu.Location = new Point(30, 280);
+            lbGhichu.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lbGhichu.Location = new Point(34, 259);
             lbGhichu.Name = "lbGhichu";
-            lbGhichu.Size = new Size(74, 26);
+            lbGhichu.Size = new Size(89, 28);
             lbGhichu.TabIndex = 16;
-            lbGhichu.Text = "Mô tả:";
+            lbGhichu.Text = "Ghi chú:";
             // 
             // txtTenHoa
             // 
-            txtTenHoa.Location = new Point(146, 95);
+            txtTenHoa.Font = new Font("Times New Roman", 13.8F);
+            txtTenHoa.Location = new Point(146, 90);
             txtTenHoa.Name = "txtTenHoa";
             txtTenHoa.Size = new Size(365, 34);
             txtTenHoa.TabIndex = 15;
             // 
             // txtGia
             // 
-            txtGia.Location = new Point(146, 140);
+            txtGia.Font = new Font("Times New Roman", 13.8F);
+            txtGia.Location = new Point(146, 130);
             txtGia.Name = "txtGia";
             txtGia.Size = new Size(365, 34);
             txtGia.TabIndex = 14;
@@ -200,16 +219,18 @@
             // cboSoLuong
             // 
             cboSoLuong.DropDownHeight = 250;
+            cboSoLuong.Font = new Font("Times New Roman", 13.8F);
             cboSoLuong.FormattingEnabled = true;
             cboSoLuong.IntegralHeight = false;
-            cboSoLuong.Location = new Point(146, 185);
+            cboSoLuong.Location = new Point(146, 174);
             cboSoLuong.Name = "cboSoLuong";
-            cboSoLuong.Size = new Size(136, 33);
+            cboSoLuong.Size = new Size(136, 34);
             cboSoLuong.TabIndex = 8;
             cboSoLuong.SelectedIndexChanged += cboSoLuong_SelectedIndexChanged;
             // 
             // txtMaHoa
             // 
+            txtMaHoa.Font = new Font("Times New Roman", 13.8F);
             txtMaHoa.Location = new Point(146, 50);
             txtMaHoa.Name = "txtMaHoa";
             txtMaHoa.ReadOnly = true;
@@ -219,62 +240,49 @@
             // lbSoLuong
             // 
             lbSoLuong.AutoSize = true;
-            lbSoLuong.Font = new Font("Times New Roman", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbSoLuong.Location = new Point(30, 193);
+            lbSoLuong.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lbSoLuong.Location = new Point(34, 177);
             lbSoLuong.Name = "lbSoLuong";
-            lbSoLuong.Size = new Size(102, 26);
+            lbSoLuong.Size = new Size(102, 28);
             lbSoLuong.TabIndex = 6;
             lbSoLuong.Text = "Số lượng:";
             // 
             // lbGia
             // 
             lbGia.AutoSize = true;
-            lbGia.Font = new Font("Times New Roman", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbGia.Location = new Point(30, 149);
+            lbGia.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lbGia.Location = new Point(34, 136);
             lbGia.Name = "lbGia";
-            lbGia.Size = new Size(90, 26);
+            lbGia.Size = new Size(89, 28);
             lbGia.TabIndex = 5;
             lbGia.Text = "Giá bán:";
             // 
             // lbTenHoa
             // 
             lbTenHoa.AutoSize = true;
-            lbTenHoa.Font = new Font("Times New Roman", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbTenHoa.Location = new Point(30, 101);
+            lbTenHoa.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lbTenHoa.Location = new Point(34, 95);
             lbTenHoa.Name = "lbTenHoa";
-            lbTenHoa.Size = new Size(94, 26);
+            lbTenHoa.Size = new Size(91, 28);
             lbTenHoa.TabIndex = 4;
             lbTenHoa.Text = "Tên hoa:";
             // 
             // lbMaHoa
             // 
             lbMaHoa.AutoSize = true;
-            lbMaHoa.Font = new Font("Times New Roman", 13.8F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            lbMaHoa.Location = new Point(30, 53);
+            lbMaHoa.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+            lbMaHoa.Location = new Point(34, 54);
             lbMaHoa.Name = "lbMaHoa";
-            lbMaHoa.Size = new Size(87, 26);
+            lbMaHoa.Size = new Size(88, 28);
             lbMaHoa.TabIndex = 3;
             lbMaHoa.Text = "Mã hoa:";
             // 
-            // lbTen
-            // 
-            lbTen.AutoEllipsis = true;
-            lbTen.AutoSize = true;
-            lbTen.BackColor = SystemColors.Control;
-            lbTen.Font = new Font("Times New Roman", 19.8000011F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            lbTen.ForeColor = Color.Fuchsia;
-            lbTen.Location = new Point(659, 58);
-            lbTen.Name = "lbTen";
-            lbTen.Size = new Size(259, 38);
-            lbTen.TabIndex = 2;
-            lbTen.Text = "QUẢN LÝ HOA";
-            // 
             // btnThem
             // 
-            btnThem.BackColor = SystemColors.ButtonFace;
-            btnThem.Font = new Font("Times New Roman", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnThem.ForeColor = Color.Orange;
-            btnThem.Location = new Point(364, 720);
+            btnThem.BackColor = Color.FromArgb(46, 204, 113);
+            btnThem.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnThem.ForeColor = Color.White;
+            btnThem.Location = new Point(657, 703);
             btnThem.Name = "btnThem";
             btnThem.Size = new Size(127, 46);
             btnThem.TabIndex = 3;
@@ -284,10 +292,10 @@
             // 
             // btnSua
             // 
-            btnSua.BackColor = SystemColors.ButtonFace;
-            btnSua.Font = new Font("Times New Roman", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnSua.ForeColor = Color.Magenta;
-            btnSua.Location = new Point(529, 720);
+            btnSua.BackColor = Color.FromArgb(52, 152, 219);
+            btnSua.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold);
+            btnSua.ForeColor = Color.White;
+            btnSua.Location = new Point(838, 703);
             btnSua.Name = "btnSua";
             btnSua.Size = new Size(127, 46);
             btnSua.TabIndex = 4;
@@ -297,10 +305,10 @@
             // 
             // btnXoa
             // 
-            btnXoa.BackColor = SystemColors.ButtonFace;
-            btnXoa.Font = new Font("Times New Roman", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnXoa.ForeColor = Color.Red;
-            btnXoa.Location = new Point(694, 720);
+            btnXoa.BackColor = Color.FromArgb(231, 76, 60);
+            btnXoa.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold);
+            btnXoa.ForeColor = Color.White;
+            btnXoa.Location = new Point(1019, 703);
             btnXoa.Name = "btnXoa";
             btnXoa.Size = new Size(127, 46);
             btnXoa.TabIndex = 5;
@@ -310,10 +318,10 @@
             // 
             // btnLuu
             // 
-            btnLuu.BackColor = SystemColors.ButtonFace;
-            btnLuu.Font = new Font("Times New Roman", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnLuu.ForeColor = Color.Blue;
-            btnLuu.Location = new Point(859, 720);
+            btnLuu.BackColor = Color.Gold;
+            btnLuu.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold);
+            btnLuu.ForeColor = Color.White;
+            btnLuu.Location = new Point(1200, 703);
             btnLuu.Name = "btnLuu";
             btnLuu.Size = new Size(127, 46);
             btnLuu.TabIndex = 6;
@@ -324,9 +332,9 @@
             // btnThoat
             // 
             btnThoat.BackColor = SystemColors.ActiveCaptionText;
-            btnThoat.Font = new Font("Times New Roman", 13.8F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnThoat.Font = new Font("Segoe UI", 13.8F, FontStyle.Bold);
             btnThoat.ForeColor = SystemColors.ButtonHighlight;
-            btnThoat.Location = new Point(1028, 720);
+            btnThoat.Location = new Point(1385, 703);
             btnThoat.Name = "btnThoat";
             btnThoat.Size = new Size(127, 46);
             btnThoat.TabIndex = 7;
@@ -389,17 +397,41 @@
             đăngXuấtToolStripMenuItem.Size = new Size(93, 24);
             đăngXuấtToolStripMenuItem.Text = "Đăng Xuất";
             // 
-            // Hoa
+            // headerPanel
+            // 
+            headerPanel.BackColor = Color.MediumSlateBlue;
+            headerPanel.Controls.Add(lblHeaderTitle);
+            headerPanel.Dock = DockStyle.Top;
+            headerPanel.Location = new Point(0, 28);
+            headerPanel.Name = "headerPanel";
+            headerPanel.Padding = new Padding(24, 12, 24, 12);
+            headerPanel.Size = new Size(1582, 60);
+            headerPanel.TabIndex = 101;
+            // 
+            // lblHeaderTitle
+            // 
+            lblHeaderTitle.AutoSize = true;
+            lblHeaderTitle.Dock = DockStyle.Left;
+            lblHeaderTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
+            lblHeaderTitle.ForeColor = Color.White;
+            lblHeaderTitle.Location = new Point(24, 12);
+            lblHeaderTitle.Name = "lblHeaderTitle";
+            lblHeaderTitle.Size = new Size(151, 32);
+            lblHeaderTitle.TabIndex = 0;
+            lblHeaderTitle.Text = "Quản lý hoa";
+            lblHeaderTitle.Click += lblHeaderTitle_Click;
+            // 
+            // frmHoa
             // 
             AutoScaleDimensions = new SizeF(13F, 26F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1582, 853);
+            Controls.Add(headerPanel);
             Controls.Add(btnThoat);
             Controls.Add(btnLuu);
             Controls.Add(btnXoa);
             Controls.Add(btnSua);
             Controls.Add(btnThem);
-            Controls.Add(lbTen);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);
             Controls.Add(menuStrip1);
@@ -408,7 +440,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip1;
             Margin = new Padding(5, 4, 5, 4);
-            Name = "Hoa";
+            Name = "frmHoa";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Quản Lý Hoa";
             Load += frmQuanLiHoa_Load;
@@ -419,6 +451,8 @@
             groupBox2.PerformLayout();
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
+            headerPanel.ResumeLayout(false);
+            headerPanel.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -430,7 +464,6 @@
         private Label lbGia;
         private Label lbTenHoa;
         private Label lbMaHoa;
-        private Label lbTen;
         private Button btnTim;
         private TextBox txtTim;
         private Label label8;
@@ -457,5 +490,9 @@
         private ToolStripMenuItem thốngKêBáoCáoToolStripMenuItem;
         private ToolStripMenuItem hoaToolStripMenuItem1;
         private ToolStripMenuItem đăngXuấtToolStripMenuItem;
+        private TextBox txtPhanLoai;
+        private Label lbPhanLoai;
+        private Panel headerPanel;
+        private Label lblHeaderTitle;
     }
 }

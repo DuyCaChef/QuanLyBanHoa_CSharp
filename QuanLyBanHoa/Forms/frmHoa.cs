@@ -48,7 +48,7 @@ namespace QuanLyBanHoa.Forms
             {
                 // Clear session
                 Session.Clear();
-                
+
                 // Tìm và hiển thị lại form đăng nhập
                 foreach (Form form in Application.OpenForms)
                 {
@@ -73,7 +73,7 @@ namespace QuanLyBanHoa.Forms
         {
             // Hiển thị thông tin user đang đăng nhập
             this.Text = $"Quản Lý Hoa - {Session.Role}: {Session.UserName}";
-            
+
             LoadSoLuongCoSan();
             LoadDataToDataGridView();
             SetupDataGridView();
@@ -96,25 +96,29 @@ namespace QuanLyBanHoa.Forms
                 // Đặt tên hiển thị cho các cột
                 if (dgDSHoa.Columns.Contains("MaHoa"))
                     dgDSHoa.Columns["MaHoa"].HeaderText = "Mã Hoa";
-                
+
                 if (dgDSHoa.Columns.Contains("TenHoa"))
                     dgDSHoa.Columns["TenHoa"].HeaderText = "Tên Hoa";
-                
+
                 if (dgDSHoa.Columns.Contains("Gia"))
                 {
                     dgDSHoa.Columns["Gia"].HeaderText = "Giá Bán";
                     dgDSHoa.Columns["Gia"].DefaultCellStyle.Format = "N0";
                     dgDSHoa.Columns["Gia"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleRight;
                 }
-                
+
                 if (dgDSHoa.Columns.Contains("SoLuong"))
                 {
                     dgDSHoa.Columns["SoLuong"].HeaderText = "Số Lượng";
                     dgDSHoa.Columns["SoLuong"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }
-                
-                if (dgDSHoa.Columns.Contains("MoTa"))
-                    dgDSHoa.Columns["MoTa"].HeaderText = "Mô Tả";
+                if (dgDSHoa.Columns.Contains("PhanLoai"))
+                {
+                    dgDSHoa.Columns["PhanLoai"].HeaderText = "Phân Loại";
+                    dgDSHoa.Columns["PhanLoai"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
+                if (dgDSHoa.Columns.Contains("GhiChu"))
+                    dgDSHoa.Columns["GhiChu"].HeaderText = "Ghi chú";
             }
         }
 
@@ -140,7 +144,7 @@ namespace QuanLyBanHoa.Forms
 
             isEditing = false;
             currentMaHoa = 0;
-            
+
             txtMaHoa.ReadOnly = true;
             SetButtonState(false);
         }
@@ -163,13 +167,14 @@ namespace QuanLyBanHoa.Forms
             if (dgDSHoa.SelectedRows.Count > 0 && !isEditing)
             {
                 DataGridViewRow row = dgDSHoa.SelectedRows[0];
-                
+
                 txtMaHoa.Text = row.Cells["MaHoa"].Value?.ToString() ?? "";
                 txtTenHoa.Text = row.Cells["TenHoa"].Value?.ToString() ?? "";
                 txtGia.Text = row.Cells["Gia"].Value?.ToString() ?? "";
-                
-                string moTa = row.Cells["MoTa"].Value?.ToString() ?? "";
-                txtGhichu.Text = moTa;
+
+                // Read GhiChu column instead of MoTa
+                string ghiChu = row.Cells["GhiChu"].Value?.ToString() ?? "";
+                txtGhichu.Text = ghiChu;
 
                 int soLuong = Convert.ToInt32(row.Cells["SoLuong"].Value ?? 0);
                 if (soLuong > 0 && soLuong <= 100)
@@ -237,11 +242,11 @@ namespace QuanLyBanHoa.Forms
                     TenHoa = txtTenHoa.Text.Trim(),
                     Gia = gia,
                     SoLuong = soLuong,
-                    MoTa = txtGhichu.Text.Trim()
+                    GhiChu = txtGhichu.Text.Trim()
                 };
 
                 bool success = Hoa.Insert(hoaMoi);
-                
+
                 if (success)
                 {
                     MessageBox.Show("Thêm hoa thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -341,11 +346,11 @@ namespace QuanLyBanHoa.Forms
                     TenHoa = txtTenHoa.Text.Trim(),
                     Gia = gia,
                     SoLuong = soLuong,
-                    MoTa = txtGhichu.Text.Trim()
+                    GhiChu = txtGhichu.Text.Trim()
                 };
 
                 bool success = Hoa.Update(hoaCapNhat);
-                
+
                 if (success)
                 {
                     MessageBox.Show("Cập nhật hoa thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -377,7 +382,7 @@ namespace QuanLyBanHoa.Forms
             }
             else
             {
-                MessageBox.Show("Không có dữ liệu để lưu. Vui lòng nhấn 'Sửa' trước.", "Thông báo", 
+                MessageBox.Show("Không có dữ liệu để lưu. Vui lòng nhấn 'Sửa' trước.", "Thông báo",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
@@ -388,7 +393,7 @@ namespace QuanLyBanHoa.Forms
             {
                 // Sử dụng phương thức GetAll từ class Hoa
                 List<Hoa> danhSachHoa = Hoa.GetAll();
-                
+
                 // Chuyển đổi List<Hoa> sang BindingList để binding với DataGridView
                 BindingList<Hoa> bindingList = new BindingList<Hoa>(danhSachHoa);
                 dgDSHoa.DataSource = bindingList;
@@ -450,7 +455,7 @@ namespace QuanLyBanHoa.Forms
                 {
                     if (ex.Number == 1451) // Foreign key constraint fails
                     {
-                        MessageBox.Show("Không thể xóa hoa này vì đã có đơn hàng liên quan!", 
+                        MessageBox.Show("Không thể xóa hoa này vì đã có đơn hàng liên quan!",
                             "Lỗi ràng buộc dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else
@@ -479,18 +484,18 @@ namespace QuanLyBanHoa.Forms
             {
                 // Sử dụng phương thức Search từ class Hoa
                 List<Hoa> ketQuaTimKiem = Hoa.Search(keyword);
-                
+
                 if (ketQuaTimKiem.Count > 0)
                 {
                     BindingList<Hoa> bindingList = new BindingList<Hoa>(ketQuaTimKiem);
                     dgDSHoa.DataSource = bindingList;
                     SetupDataGridView();
-                    MessageBox.Show($"Tìm thấy {ketQuaTimKiem.Count} kết quả!", "Thông báo", 
+                    MessageBox.Show($"Tìm thấy {ketQuaTimKiem.Count} kết quả!", "Thông báo",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    MessageBox.Show("Không tìm thấy kết quả nào!", "Thông báo", 
+                    MessageBox.Show("Không tìm thấy kết quả nào!", "Thông báo",
                         MessageBoxButtons.OK, MessageBoxIcon.Information);
                     LoadDataToDataGridView();
                 }
@@ -499,6 +504,11 @@ namespace QuanLyBanHoa.Forms
             {
                 MessageBox.Show("Lỗi tìm kiếm: " + ex.Message, "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void lblHeaderTitle_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

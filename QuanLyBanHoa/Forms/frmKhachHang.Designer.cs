@@ -286,7 +286,7 @@
             // 
             lbHoTen.AutoSize = true;
             lbHoTen.Dock = DockStyle.Fill;
-            lbHoTen.Font = new Font("Segoe UI", 9F);
+            lbHoTen.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             lbHoTen.Location = new Point(11, 9);
             lbHoTen.Margin = new Padding(3);
             lbHoTen.Name = "lbHoTen";
@@ -308,7 +308,7 @@
             // 
             lbMaKH.AutoSize = true;
             lbMaKH.Dock = DockStyle.Fill;
-            lbMaKH.Font = new Font("Segoe UI", 9F);
+            lbMaKH.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             lbMaKH.Location = new Point(614, 9);
             lbMaKH.Margin = new Padding(3);
             lbMaKH.Name = "lbMaKH";
@@ -316,6 +316,7 @@
             lbMaKH.TabIndex = 0;
             lbMaKH.Text = "Mã KH:";
             lbMaKH.TextAlign = ContentAlignment.MiddleRight;
+            lbMaKH.Click += lbMaKH_Click;
             // 
             // txtMaKH
             // 
@@ -330,7 +331,7 @@
             // 
             lbSĐT.AutoSize = true;
             lbSĐT.Dock = DockStyle.Fill;
-            lbSĐT.Font = new Font("Segoe UI", 9F);
+            lbSĐT.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             lbSĐT.Location = new Point(11, 49);
             lbSĐT.Margin = new Padding(3);
             lbSĐT.Name = "lbSĐT";
@@ -352,7 +353,7 @@
             // 
             lbSoluong.AutoSize = true;
             lbSoluong.Dock = DockStyle.Fill;
-            lbSoluong.Font = new Font("Segoe UI", 9F);
+            lbSoluong.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             lbSoluong.Location = new Point(614, 49);
             lbSoluong.Margin = new Padding(3);
             lbSoluong.Name = "lbSoluong";
@@ -375,7 +376,7 @@
             // 
             lbDiaChi.AutoSize = true;
             lbDiaChi.Dock = DockStyle.Fill;
-            lbDiaChi.Font = new Font("Segoe UI", 9F);
+            lbDiaChi.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             lbDiaChi.Location = new Point(11, 89);
             lbDiaChi.Margin = new Padding(3);
             lbDiaChi.Name = "lbDiaChi";
@@ -398,7 +399,7 @@
             // 
             lbEmail.AutoSize = true;
             lbEmail.Dock = DockStyle.Fill;
-            lbEmail.Font = new Font("Segoe UI", 9F);
+            lbEmail.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             lbEmail.Location = new Point(11, 129);
             lbEmail.Margin = new Padding(3);
             lbEmail.Name = "lbEmail";
@@ -462,7 +463,6 @@
         private System.Windows.Forms.TextBox txtMaKH;
         private System.Windows.Forms.Label lbDiaChi;
         private System.Windows.Forms.Label lbSĐT;
-        private System.Windows.Forms.Label lbHoTen;
         private System.Windows.Forms.Label lbMaKH;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.DataGridView dgDSKhachHang;
@@ -472,5 +472,6 @@
         private System.Windows.Forms.Button btnXoa;
         private System.Windows.Forms.Button btnLuu;
         private System.Windows.Forms.TableLayoutPanel tlpInfo;
+        private Label lbHoTen;
     }
 }
