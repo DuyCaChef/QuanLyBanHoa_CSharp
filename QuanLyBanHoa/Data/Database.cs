@@ -8,7 +8,7 @@ namespace QuanLyBanHoa.Data
     {
         // Đã thêm 'charset=utf8mb4' để hỗ trợ tốt tiếng Việt
         private static readonly string connectionString =
-            "server=localhost;uid=root;pwd=Aaaaa123@;database=quanlybanhoa;charset=utf8mb4;";
+            "server=localhost;uid=root;pwd=1234;database=quanlybanhoa;charset=utf8mb4;";
 
         /// <summary>
         /// Trả về một kết nối MySQL mới.

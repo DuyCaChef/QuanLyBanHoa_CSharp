@@ -13,19 +13,17 @@ namespace QuanLyBanHoa.Models
         public string TenHoa { get; set; }
         public decimal Gia { get; set; }
         public int SoLuong { get; set; }
-        public string PhanLoai { get; set; }
         public string GhiChu { get; set; }
 
         // Parameterless constructor (needed for object initializers)
         public Hoa() { }
 
-        public Hoa(int maHoa, string tenHoa, decimal gia, int soLuong, string phanLoai, string ghiChu)
+        public Hoa(int maHoa, string tenHoa, decimal gia, int soLuong, string ghiChu)
         {
             MaHoa = maHoa;
             TenHoa = tenHoa;
             Gia = gia;
             SoLuong = soLuong;
-            PhanLoai = phanLoai;
             GhiChu = ghiChu;
         }
 
@@ -35,7 +33,7 @@ namespace QuanLyBanHoa.Models
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = "SELECT MaHoa, TenHoa, Gia, SoLuong, PhanLoai, GhiChu FROM hoa ORDER BY MaHoa DESC";
+                string query = "SELECT MaHoa, TenHoa, Gia, SoLuong, GhiChu FROM hoa ORDER BY MaHoa DESC";
                 using (var cmd = new MySqlCommand(query, conn))
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -47,7 +45,6 @@ namespace QuanLyBanHoa.Models
                             TenHoa = reader["TenHoa"] == DBNull.Value ? string.Empty : reader["TenHoa"].ToString(),
                             Gia = reader["Gia"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["Gia"]),
                             SoLuong = reader["SoLuong"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SoLuong"]),
-                            PhanLoai = reader["PhanLoai"] == DBNull.Value ? string.Empty : reader["PhanLoai"].ToString(),
                             GhiChu = reader["GhiChu"] == DBNull.Value ? string.Empty : reader["GhiChu"].ToString()
                         });
                     }
@@ -61,14 +58,13 @@ namespace QuanLyBanHoa.Models
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = @"INSERT INTO hoa (TenHoa, Gia, SoLuong, PhanLoai, GhiChu) 
-                               VALUES (@TenHoa, @Gia, @SoLuong, @PhanLoai, @GhiChu)";
+                string query = @"INSERT INTO hoa (TenHoa, Gia, SoLuong, GhiChu) 
+                               VALUES (@TenHoa, @Gia, @SoLuong, @GhiChu)";
                 using (var cmd = new MySqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@TenHoa", hoa.TenHoa ?? string.Empty);
                     cmd.Parameters.AddWithValue("@Gia", hoa.Gia);
                     cmd.Parameters.AddWithValue("@SoLuong", hoa.SoLuong);
-                    cmd.Parameters.AddWithValue("@PhanLoai", hoa.PhanLoai ?? string.Empty);
                     cmd.Parameters.AddWithValue("@GhiChu", hoa.GhiChu ?? string.Empty);
                     return cmd.ExecuteNonQuery() > 0;
                 }
@@ -81,7 +77,7 @@ namespace QuanLyBanHoa.Models
             {
                 conn.Open();
                 string query = @"UPDATE hoa 
-                               SET TenHoa = @TenHoa, Gia = @Gia, SoLuong = @SoLuong, PhanLoai = @PhanLoai, GhiChu = @GhiChu
+                               SET TenHoa = @TenHoa, Gia = @Gia, SoLuong = @SoLuong, GhiChu = @GhiChu
                                WHERE MaHoa = @MaHoa";
                 using (var cmd = new MySqlCommand(query, conn))
                 {
@@ -89,7 +85,6 @@ namespace QuanLyBanHoa.Models
                     cmd.Parameters.AddWithValue("@TenHoa", hoa.TenHoa ?? string.Empty);
                     cmd.Parameters.AddWithValue("@Gia", hoa.Gia);
                     cmd.Parameters.AddWithValue("@SoLuong", hoa.SoLuong);
-                    cmd.Parameters.AddWithValue("@PhanLoai", hoa.PhanLoai ?? string.Empty);
                     cmd.Parameters.AddWithValue("@GhiChu", hoa.GhiChu ?? string.Empty);
                     return cmd.ExecuteNonQuery() > 0;
                 }
@@ -116,7 +111,7 @@ namespace QuanLyBanHoa.Models
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = @"SELECT MaHoa, TenHoa, Gia, SoLuong, PhanLoai, GhiChu 
+                string query = @"SELECT MaHoa, TenHoa, Gia, SoLuong, GhiChu 
                                FROM hoa 
                                WHERE TenHoa LIKE @Keyword OR GhiChu LIKE @Keyword OR MaHoa LIKE @Keyword 
                                ORDER BY MaHoa DESC";
@@ -133,7 +128,6 @@ namespace QuanLyBanHoa.Models
                                 TenHoa = reader["TenHoa"] == DBNull.Value ? string.Empty : reader["TenHoa"].ToString(),
                                 Gia = reader["Gia"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["Gia"]),
                                 SoLuong = reader["SoLuong"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SoLuong"]),
-                                PhanLoai = reader["PhanLoai"] == DBNull.Value ? string.Empty : reader["PhanLoai"].ToString(),
                                 GhiChu = reader["GhiChu"] == DBNull.Value ? string.Empty : reader["GhiChu"].ToString()
                             });
                         }

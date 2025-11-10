@@ -16,36 +16,24 @@ namespace QuanLyBanHoa.Forms
             string username = txtEmail.Text.Trim();
             string password = txtPass.Text.Trim();
 
-            string adminUsername = "admin123@gmail.com";
-            string adminPassword = "admin@123";
+            string adminUsername = "admin";
+            string adminPassword = "123";
             string staffUsername = "staff123@gmail.com";
             string staffPassword = "staff@123";
 
-            if (username == adminUsername && password == adminPassword)
+            if ((username == adminUsername && password == adminPassword) ||
+                (username == staffUsername && password == staffPassword))
             {
                 Session.UserName = username;
-                Session.Role = "Admin";
+                Session.Role = username == adminUsername ? "Admin" : "Nhân viên";
                 Session.IsLoggedIn = true;
-                
-                MessageBox.Show("Đăng nhập thành công với quyền Admin!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Mở form Hoa
-                frmHoa main = new frmHoa();
-                main.Show();
-                this.Hide(); // Ẩn form đăng nhập
-            }
-            else if (username == staffUsername && password == staffPassword)
-            {
-                Session.UserName = username;
-                Session.Role = "Nhân viên";
-                Session.IsLoggedIn = true;
-                
-                MessageBox.Show("Đăng nhập thành công với vai trò Nhân viên!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show($"Đăng nhập thành công với quyền {Session.Role}!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Mở form Hoa
-                frmHoa main = new frmHoa();
+                // Mở form Main (form chính chứa navigation). FrmMain sẽ tự mở frmHoa đầu tiên.
+                FrmMain main = new FrmMain();
                 main.Show();
-                this.Hide(); // Ẩn form đăng nhập
+                this.Hide();
             }
             else
             {
@@ -61,8 +49,6 @@ namespace QuanLyBanHoa.Forms
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             base.OnFormClosing(e);
-
-            // Nếu đang đăng nhập và đóng form đăng nhập thì thoát ứng dụng
             if (!Session.IsLoggedIn)
             {
                 Application.Exit();
