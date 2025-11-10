@@ -84,7 +84,6 @@ namespace QuanLyBanHoa.Forms
             btnThem.Enabled = !editing;
             btnSua.Enabled = !editing && dgDSHoa.SelectedRows.Count > 0;
             btnXoa.Enabled = !editing && dgDSHoa.SelectedRows.Count > 0;
-            btnLuu.Enabled = editing;
         }
 
         private void dgDSHoa_SelectionChanged(object sender, EventArgs e)
