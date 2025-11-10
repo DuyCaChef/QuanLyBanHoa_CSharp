@@ -9,10 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MySql.Data" Version="9.5.0" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Compile Update="Forms\FormDonHang.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -66,6 +62,10 @@
 
   <ItemGroup>
     <Folder Include="Classes\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.0" />
   </ItemGroup>
 
 </Project>

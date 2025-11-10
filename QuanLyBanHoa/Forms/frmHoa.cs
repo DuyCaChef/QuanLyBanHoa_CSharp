@@ -1,8 +1,8 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -112,13 +112,9 @@ namespace QuanLyBanHoa.Forms
                     dgDSHoa.Columns["SoLuong"].HeaderText = "Số Lượng";
                     dgDSHoa.Columns["SoLuong"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }
-                if (dgDSHoa.Columns.Contains("PhanLoai"))
-                {
-                    dgDSHoa.Columns["PhanLoai"].HeaderText = "Phân Loại";
-                    dgDSHoa.Columns["PhanLoai"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-                }
-                if (dgDSHoa.Columns.Contains("GhiChu"))
-                    dgDSHoa.Columns["GhiChu"].HeaderText = "Ghi chú";
+                
+                if (dgDSHoa.Columns.Contains("MoTa"))
+                    dgDSHoa.Columns["MoTa"].HeaderText = "Mô Tả";
             }
         }
 
@@ -172,9 +168,9 @@ namespace QuanLyBanHoa.Forms
                 txtTenHoa.Text = row.Cells["TenHoa"].Value?.ToString() ?? "";
                 txtGia.Text = row.Cells["Gia"].Value?.ToString() ?? "";
 
-                // Read GhiChu column instead of MoTa
-                string ghiChu = row.Cells["GhiChu"].Value?.ToString() ?? "";
-                txtGhichu.Text = ghiChu;
+                // Read MoTa column
+                string moTa = row.Cells["MoTa"].Value?.ToString() ?? "";
+                txtGhichu.Text = moTa;
 
                 int soLuong = Convert.ToInt32(row.Cells["SoLuong"].Value ?? 0);
                 if (soLuong > 0 && soLuong <= 100)
@@ -242,7 +238,7 @@ namespace QuanLyBanHoa.Forms
                     TenHoa = txtTenHoa.Text.Trim(),
                     Gia = gia,
                     SoLuong = soLuong,
-                    GhiChu = txtGhichu.Text.Trim()
+                    MoTa = txtGhichu.Text.Trim()
                 };
 
                 bool success = Hoa.Insert(hoaMoi);
@@ -346,7 +342,7 @@ namespace QuanLyBanHoa.Forms
                     TenHoa = txtTenHoa.Text.Trim(),
                     Gia = gia,
                     SoLuong = soLuong,
-                    GhiChu = txtGhichu.Text.Trim()
+                    MoTa = txtGhichu.Text.Trim()
                 };
 
                 bool success = Hoa.Update(hoaCapNhat);
@@ -451,11 +447,12 @@ namespace QuanLyBanHoa.Forms
                         MessageBox.Show("Xóa hoa không thành công.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
-                catch (MySqlException ex)
+                catch (SqlException ex)
                 {
-                    if (ex.Number == 1451) // Foreign key constraint fails
+                    // SQL Server Foreign Key Constraint Error Numbers: 547
+                    if (ex.Number == 547) 
                     {
-                        MessageBox.Show("Không thể xóa hoa này vì đã có đơn hàng liên quan!",
+                        MessageBox.Show("Không thể xóa hoa này vì đã có đơn hàng liên quan!", 
                             "Lỗi ràng buộc dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                     else

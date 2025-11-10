@@ -1,9 +1,9 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Windows.Forms;
-using QuanLyBanHoa.Data; // use our Database
+using QuanLyBanHoa.Data;
 
 namespace QuanLyBanHoa.Forms
 {
@@ -79,7 +79,7 @@ namespace QuanLyBanHoa.Forms
                                      (SELECT COUNT(*) FROM DonHang d WHERE d.MaKH = k.MaKH) AS SoLuongDon
                                   FROM KhachHang k
                                   ORDER BY k.MaKH DESC";
-                using var cmd = new MySqlCommand(query, con);
+                using var cmd = new SqlCommand(query, con);
                 using var reader = cmd.ExecuteReader();
                 DataTable dt = new DataTable();
                 dt.Load(reader);
@@ -144,9 +144,9 @@ namespace QuanLyBanHoa.Forms
 
                 using var con = Database.GetConnection();
                 con.Open();
-                // Nếu có ràng buộc khóa ngoại DonHang.MaKH cần xóa DonHang trước hoặc từ chối.
-                // Ở đây kiểm tra tồn tại đơn hàng
-                using (var checkCmd = new MySqlCommand("SELECT COUNT(*) FROM DonHang WHERE MaKH=@MaKH", con))
+                
+                // Kiểm tra tồn tại đơn hàng
+                using (var checkCmd = new SqlCommand("SELECT COUNT(*) FROM DonHang WHERE MaKH=@MaKH", con))
                 {
                     checkCmd.Parameters.AddWithValue("@MaKH", maKH);
                     var count = Convert.ToInt32(checkCmd.ExecuteScalar());
@@ -154,13 +154,14 @@ namespace QuanLyBanHoa.Forms
                     {
                         var res = MessageBox.Show("Khách hàng có đơn hàng. Vẫn xóa (sẽ xóa cả đơn)?", "Cảnh báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                         if (res != DialogResult.Yes) return;
-                        // Xóa chi tiết đơn trước
-                        using (var delCt = new MySqlCommand(@"DELETE ct FROM ChiTietDonHang ct JOIN DonHang d ON ct.MaDH = d.MaDH WHERE d.MaKH=@MaKH", con))
+                        
+                        // SQL Server: Xóa chi tiết đơn trước - dùng subquery thay vì DELETE...JOIN
+                        using (var delCt = new SqlCommand("DELETE FROM ChiTietDonHang WHERE MaDH IN (SELECT MaDH FROM DonHang WHERE MaKH=@MaKH)", con))
                         {
                             delCt.Parameters.AddWithValue("@MaKH", maKH);
                             delCt.ExecuteNonQuery();
                         }
-                        using (var delDon = new MySqlCommand("DELETE FROM DonHang WHERE MaKH=@MaKH", con))
+                        using (var delDon = new SqlCommand("DELETE FROM DonHang WHERE MaKH=@MaKH", con))
                         {
                             delDon.Parameters.AddWithValue("@MaKH", maKH);
                             delDon.ExecuteNonQuery();
@@ -168,7 +169,7 @@ namespace QuanLyBanHoa.Forms
                     }
                 }
 
-                using (var cmd = new MySqlCommand("DELETE FROM KhachHang WHERE MaKH=@MaKH", con))
+                using (var cmd = new SqlCommand("DELETE FROM KhachHang WHERE MaKH=@MaKH", con))
                 {
                     cmd.Parameters.AddWithValue("@MaKH", maKH);
                     cmd.ExecuteNonQuery();
@@ -194,8 +195,9 @@ namespace QuanLyBanHoa.Forms
                 con.Open();
                 if (_mode == CustomerFormMode.Adding)
                 {
-                    string insertSql = @"INSERT INTO KhachHang (TenKH, SoDienThoai, DiaChi, Email) VALUES (@TenKH,@SDT,@DiaChi,@Email); SELECT LAST_INSERT_ID();";
-                    using var cmd = new MySqlCommand(insertSql, con);
+                    // SQL Server: SCOPE_IDENTITY() thay vì LAST_INSERT_ID()
+                    string insertSql = @"INSERT INTO KhachHang (TenKH, SoDienThoai, DiaChi, Email) VALUES (@TenKH,@SDT,@DiaChi,@Email); SELECT CAST(SCOPE_IDENTITY() AS INT);";
+                    using var cmd = new SqlCommand(insertSql, con);
                     cmd.Parameters.AddWithValue("@TenKH", txtHoTen.Text.Trim());
                     cmd.Parameters.AddWithValue("@SDT", (TxtSDTBox?.Text ?? string.Empty).Trim());
                     cmd.Parameters.AddWithValue("@DiaChi", txtDiaChi.Text.Trim());
@@ -207,7 +209,7 @@ namespace QuanLyBanHoa.Forms
                 else if (_mode == CustomerFormMode.Editing && int.TryParse(txtMaKH.Text.Trim(), out int maKH))
                 {
                     string updateSql = @"UPDATE KhachHang SET TenKH=@TenKH, SoDienThoai=@SDT, DiaChi=@DiaChi, Email=@Email WHERE MaKH=@MaKH";
-                    using var cmd = new MySqlCommand(updateSql, con);
+                    using var cmd = new SqlCommand(updateSql, con);
                     cmd.Parameters.AddWithValue("@TenKH", txtHoTen.Text.Trim());
                     cmd.Parameters.AddWithValue("@SDT", (TxtSDTBox?.Text ?? string.Empty).Trim());
                     cmd.Parameters.AddWithValue("@DiaChi", txtDiaChi.Text.Trim());

@@ -1,21 +1,46 @@
-﻿using MySql.Data.MySqlClient;
-using System;
+﻿using System;
+using System.Configuration;
 using System.Data.SqlClient;
+using System.Windows.Forms;
 
 namespace QuanLyBanHoa.Data
 {
     public class Database
     {
-        // Đã thêm 'charset=utf8mb4' để hỗ trợ tốt tiếng Việt
-        private static readonly string connectionString =
-            "server=localhost;uid=root;pwd=Aaaaa123@;database=quanlybanhoa;charset=utf8mb4;";
+        // Đọc connection string từ App.config
+        private static readonly string connectionString = GetConnectionString();
 
         /// <summary>
-        /// Trả về một kết nối MySQL mới.
+        /// Lấy connection string từ App.config
         /// </summary>
-        public static MySqlConnection GetConnection()
+        private static string GetConnectionString()
         {
-            return new MySqlConnection(connectionString);
+            try
+            {
+                // Đọc từ App.config
+                string connStr = ConfigurationManager.ConnectionStrings["QuanLyBanHoaDB"]?.ConnectionString;
+                
+                if (string.IsNullOrEmpty(connStr))
+                {
+                    // Fallback: Connection string mặc định nếu không tìm thấy trong App.config
+                    return "Data Source=localhost;Initial Catalog=QuanLyBanHoa;Integrated Security=True;TrustServerCertificate=True;";
+                }
+                
+                return connStr;
+            }
+            catch (Exception)
+            {
+                // Fallback: Connection string mặc định nếu có lỗi
+                return "Data Source=localhost;Initial Catalog=QuanLyBanHoa;Integrated Security=True;TrustServerCertificate=True;";
+            }
+        }
+
+        /// <summary>
+        /// Trả về một kết nối SQL Server mới.
+        /// </summary>
+        public static SqlConnection GetConnection()
+        {
+            return new SqlConnection(connectionString);
         }
 
         /// <summary>
@@ -36,6 +61,14 @@ namespace QuanLyBanHoa.Data
                     return false;
                 }
             }
+        }
+
+        /// <summary>
+        /// Lấy thông tin connection string hiện tại (để debug)
+        /// </summary>
+        public static string GetCurrentConnectionString()
+        {
+            return connectionString;
         }
     }
 }

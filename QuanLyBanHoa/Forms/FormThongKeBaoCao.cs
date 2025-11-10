@@ -2,25 +2,24 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
-using QuanLyBanHoa.Data; // update namespace
+using QuanLyBanHoa.Data;
 
 namespace QuanLyBanHoa.Forms
 {
     public partial class FormThongKeBaoCao : Form
     {
-        private DataTable dtAllData; // Store all data for filtering
+        private DataTable dtAllData;
 
         public FormThongKeBaoCao()
         {
             InitializeComponent();
 
-            // wire up events
             btnRefresh.Click += BtnRefresh_Click;
             btnExport.Click += BtnExport_Click;
             btnXoaDon.Click += BtnXoaDon_Click;
@@ -28,10 +27,8 @@ namespace QuanLyBanHoa.Forms
             dtpTo.ValueChanged += DtpRange_ValueChanged;
             txtSearch.TextChanged += TxtSearch_TextChanged;
 
-            // Subscribe to flower data change event for potential future use
             frmHoa.HoaDataChanged += FrmHoa_HoaDataChanged;
 
-            // sensible defaults
             dtpTo.Value = DateTime.Today;
             dtpFrom.Value = DateTime.Today.AddDays(-30);
 
@@ -39,24 +36,19 @@ namespace QuanLyBanHoa.Forms
             LoadStatistics();
         }
 
-        // Handle flower data change event (for future extensibility)
         private void FrmHoa_HoaDataChanged(object sender, EventArgs e)
         {
-            // Optionally reload statistics if needed when flower data changes
-            // For now, we just acknowledge the event
-            // LoadStatistics(); // Uncomment if statistics depend on flower data
+            // Optionally reload statistics if needed
         }
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
-            // Unsubscribe from event when form closes
             frmHoa.HoaDataChanged -= FrmHoa_HoaDataChanged;
             base.OnFormClosing(e);
         }
 
         private void DtpRange_ValueChanged(object sender, EventArgs e)
         {
-            // keep UI responsive: reload stats when range changed
             LoadStatistics();
         }
 
@@ -82,7 +74,6 @@ namespace QuanLyBanHoa.Forms
                     if (sfd.ShowDialog() != DialogResult.OK) return;
 
                     var sb = new StringBuilder();
-                    // header
                     var cols = dgvThongKe.Columns.Cast<DataGridViewColumn>().Where(c => c.Visible);
                     sb.AppendLine(string.Join(',', cols.Select(c => '"' + c.HeaderText.Replace('"', '"') + '"')));
 
@@ -140,9 +131,9 @@ namespace QuanLyBanHoa.Forms
                     {
                         try
                         {
-                            // Get all order IDs for this date
+                            // Get all order IDs for this date - SQL Server: CAST...AS DATE thay vì DATE()
                             var orderIds = new List<int>();
-                            using (var cmdGetOrders = new MySqlCommand("SELECT MaDH FROM DonHang WHERE DATE(NgayDatHang) = @Ngay", conn, tx))
+                            using (var cmdGetOrders = new SqlCommand("SELECT MaDH FROM DonHang WHERE CAST(NgayDatHang AS DATE) = @Ngay", conn, tx))
                             {
                                 cmdGetOrders.Parameters.AddWithValue("@Ngay", ngay.Date);
                                 using (var rdr = cmdGetOrders.ExecuteReader())
@@ -157,15 +148,15 @@ namespace QuanLyBanHoa.Forms
                             // Delete details first
                             foreach (var orderId in orderIds)
                             {
-                                using (var cmdDelDetails = new MySqlCommand("DELETE FROM ChiTietDonHang WHERE MaDH = @MaDH", conn, tx))
+                                using (var cmdDelDetails = new SqlCommand("DELETE FROM ChiTietDonHang WHERE MaDH = @MaDH", conn, tx))
                                 {
                                     cmdDelDetails.Parameters.AddWithValue("@MaDH", orderId);
                                     cmdDelDetails.ExecuteNonQuery();
                                 }
                             }
 
-                            // Delete orders
-                            using (var cmdDelOrders = new MySqlCommand("DELETE FROM DonHang WHERE DATE(NgayDatHang) = @Ngay", conn, tx))
+                            // Delete orders - SQL Server: CAST...AS DATE
+                            using (var cmdDelOrders = new SqlCommand("DELETE FROM DonHang WHERE CAST(NgayDatHang AS DATE) = @Ngay", conn, tx))
                             {
                                 cmdDelOrders.Parameters.AddWithValue("@Ngay", ngay.Date);
                                 int deleted = cmdDelOrders.ExecuteNonQuery();
@@ -197,12 +188,10 @@ namespace QuanLyBanHoa.Forms
                 
                 if (string.IsNullOrEmpty(searchText))
                 {
-                    // Reload all statistics
                     LoadStatistics();
                     return;
                 }
 
-                // Filter by order ID - search in database for matching orders
                 DateTime from = dtpFrom.Value.Date;
                 DateTime to = dtpTo.Value.Date;
 
@@ -212,17 +201,17 @@ namespace QuanLyBanHoa.Forms
                 {
                     conn.Open();
 
-                    // Search for orders containing the search text
+                    // SQL Server: STRING_AGG thay vì GROUP_CONCAT, CAST thay vì CAST...AS CHAR
                     string searchSql = @"SELECT d.NgayDatHang as Ngay, COUNT(d.MaDH) as SoDon, COALESCE(SUM(d.TongTien),0) as DoanhThu,
-                                          GROUP_CONCAT(DISTINCT d.MaKM SEPARATOR ',') as KMs,
-                                          (SELECT GROUP_CONCAT(DISTINCT n.TenNV SEPARATOR ', ') FROM DonHang dd JOIN NhanVien n ON dd.MaNV = n.MaNV WHERE dd.NgayDatHang = d.NgayDatHang LIMIT 1) as NhanVien
+                                          STRING_AGG(CAST(d.MaKM AS NVARCHAR), ',') as KMs,
+                                          (SELECT TOP 1 STRING_AGG(n.TenNV, ', ') FROM DonHang dd JOIN NhanVien n ON dd.MaNV = n.MaNV WHERE dd.NgayDatHang = d.NgayDatHang GROUP BY dd.NgayDatHang) as NhanVien
                                        FROM DonHang d
                                        WHERE d.NgayDatHang BETWEEN @from AND @to
-                                       AND CAST(d.MaDH AS CHAR) LIKE @search
+                                       AND CAST(d.MaDH AS NVARCHAR) LIKE @search
                                        GROUP BY d.NgayDatHang
                                        ORDER BY d.NgayDatHang DESC";
 
-                    using (var cmd = new MySqlCommand(searchSql, conn))
+                    using (var cmd = new SqlCommand(searchSql, conn))
                     {
                         cmd.Parameters.AddWithValue("@from", from);
                         cmd.Parameters.AddWithValue("@to", to);
@@ -268,7 +257,7 @@ namespace QuanLyBanHoa.Forms
                     string overviewSql = @"SELECT COUNT(DISTINCT d.MaDH) as SoDon, COALESCE(SUM(d.TongTien),0) as DoanhThu, COALESCE(SUM(CASE WHEN d.MaKM IS NOT NULL THEN 1 ELSE 0 END),0) as KmDung
                                            FROM DonHang d
                                            WHERE d.NgayDatHang BETWEEN @from AND @to";
-                    using (var cmd = new MySqlCommand(overviewSql, conn))
+                    using (var cmd = new SqlCommand(overviewSql, conn))
                     {
                         cmd.Parameters.AddWithValue("@from", from);
                         cmd.Parameters.AddWithValue("@to", to);
@@ -283,23 +272,21 @@ namespace QuanLyBanHoa.Forms
                                 lblOrders.Text = soDon.ToString();
                                 lblRevenue.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:N0} đ", doanhThu);
                                 lblDiscount.Text = km.ToString();
-
-                                // For cancel rate, if there is no cancellation info in schema, show 0%
                                 lblCancelRate.Text = "0 %";
                             }
                         }
                     }
 
-                    // Per-day statistics
+                    // Per-day statistics - SQL Server: STRING_AGG thay vì GROUP_CONCAT
                     string daySql = @"SELECT d.NgayDatHang as Ngay, COUNT(d.MaDH) as SoDon, COALESCE(SUM(d.TongTien),0) as DoanhThu,
-                                          GROUP_CONCAT(DISTINCT d.MaKM SEPARATOR ',') as KMs,
-                                          (SELECT GROUP_CONCAT(DISTINCT n.TenNV SEPARATOR ', ') FROM DonHang dd JOIN NhanVien n ON dd.MaNV = n.MaNV WHERE dd.NgayDatHang = d.NgayDatHang LIMIT 1) as NhanVien
+                                          STRING_AGG(CAST(d.MaKM AS NVARCHAR), ',') as KMs,
+                                          (SELECT TOP 1 STRING_AGG(n.TenNV, ', ') FROM DonHang dd JOIN NhanVien n ON dd.MaNV = n.MaNV WHERE dd.NgayDatHang = d.NgayDatHang GROUP BY dd.NgayDatHang) as NhanVien
                                        FROM DonHang d
                                        WHERE d.NgayDatHang BETWEEN @from AND @to
                                        GROUP BY d.NgayDatHang
                                        ORDER BY d.NgayDatHang DESC";
 
-                    using (var cmd = new MySqlCommand(daySql, conn))
+                    using (var cmd = new SqlCommand(daySql, conn))
                     {
                         cmd.Parameters.AddWithValue("@from", from);
                         cmd.Parameters.AddWithValue("@to", to);

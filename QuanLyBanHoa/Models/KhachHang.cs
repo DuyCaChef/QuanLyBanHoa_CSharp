@@ -1,8 +1,8 @@
-﻿using MySql.Data.MySqlClient;
-using QuanLyBanHoa.Data;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
+using QuanLyBanHoa.Data;
 
 namespace QuanLyBanHoa.Models
 {
@@ -32,7 +32,7 @@ namespace QuanLyBanHoa.Models
             {
                 conn.Open();
                 string query = "SELECT MaKH, TenKH, DiaChi, SoDienThoai, Email FROM khachhang ORDER BY MaKH DESC";
-                using (var cmd = new MySqlCommand(query, conn))
+                using (var cmd = new SqlCommand(query, conn))
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -58,12 +58,12 @@ namespace QuanLyBanHoa.Models
                 conn.Open();
                 string query = @"INSERT INTO khachhang (TenKH, DiaChi, SoDienThoai, Email)
                                VALUES (@TenKH, @DiaChi, @SoDienThoai, @Email)";
-                using (var cmd = new MySqlCommand(query, conn))
+                using (var cmd = new SqlCommand(query, conn))
                 {
-                    cmd.Parameters.AddWithValue("@TenKH", kh.TenKH ?? string.Empty);
-                    cmd.Parameters.AddWithValue("@DiaChi", kh.DiaChi ?? string.Empty);
-                    cmd.Parameters.AddWithValue("@SoDienThoai", kh.SoDienThoai ?? string.Empty);
-                    cmd.Parameters.AddWithValue("@Email", kh.Email ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@TenKH", kh.TenKH ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@DiaChi", kh.DiaChi ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@SoDienThoai", kh.SoDienThoai ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Email", kh.Email ?? (object)DBNull.Value);
                     return cmd.ExecuteNonQuery() > 0;
                 }
             }
@@ -77,13 +77,13 @@ namespace QuanLyBanHoa.Models
                 string query = @"UPDATE khachhang
                                SET TenKH = @TenKH, DiaChi = @DiaChi, SoDienThoai = @SoDienThoai, Email = @Email
                                WHERE MaKH = @MaKH";
-                using (var cmd = new MySqlCommand(query, conn))
+                using (var cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@MaKH", kh.MaKH);
-                    cmd.Parameters.AddWithValue("@TenKH", kh.TenKH ?? string.Empty);
-                    cmd.Parameters.AddWithValue("@DiaChi", kh.DiaChi ?? string.Empty);
-                    cmd.Parameters.AddWithValue("@SoDienThoai", kh.SoDienThoai ?? string.Empty);
-                    cmd.Parameters.AddWithValue("@Email", kh.Email ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@TenKH", kh.TenKH ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@DiaChi", kh.DiaChi ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@SoDienThoai", kh.SoDienThoai ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Email", kh.Email ?? (object)DBNull.Value);
                     return cmd.ExecuteNonQuery() > 0;
                 }
             }
@@ -95,7 +95,7 @@ namespace QuanLyBanHoa.Models
             {
                 conn.Open();
                 string query = "DELETE FROM khachhang WHERE MaKH = @MaKH";
-                using (var cmd = new MySqlCommand(query, conn))
+                using (var cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@MaKH", maKH);
                     return cmd.ExecuteNonQuery() > 0;
@@ -111,9 +111,9 @@ namespace QuanLyBanHoa.Models
                 conn.Open();
                 string query = @"SELECT MaKH, TenKH, DiaChi, SoDienThoai, Email
                                FROM khachhang
-                               WHERE TenKH LIKE @Keyword OR DiaChi LIKE @Keyword OR SoDienThoai LIKE @Keyword OR Email LIKE @Keyword OR MaKH LIKE @Keyword
+                               WHERE TenKH LIKE @Keyword OR DiaChi LIKE @Keyword OR SoDienThoai LIKE @Keyword OR Email LIKE @Keyword OR CAST(MaKH AS NVARCHAR) LIKE @Keyword
                                ORDER BY MaKH DESC";
-                using (var cmd = new MySqlCommand(query, conn))
+                using (var cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@Keyword", "%" + keyword + "%");
                     using (var reader = cmd.ExecuteReader())

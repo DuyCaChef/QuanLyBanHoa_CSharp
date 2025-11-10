@@ -1,15 +1,15 @@
-﻿using MySql.Data.MySqlClient;
-using QuanLyBanHoa.Data;
+﻿using QuanLyBanHoa.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using QuanLyBanHoa.Forms; // local forms
+using QuanLyBanHoa.Forms;
 
 namespace QuanLyBanHoa.Forms
 {
@@ -38,8 +38,8 @@ namespace QuanLyBanHoa.Forms
                     FROM NhanVien nv
                     LEFT JOIN ChiTietDonHang ct ON nv.MaNV = ct.MaNV
                     GROUP BY nv.MaNV, nv.TenNV, nv.SoDienThoai, nv.ChucVu;";
-                    MySqlCommand cmd = new MySqlCommand(query, conn);
-                    MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+                    SqlCommand cmd = new SqlCommand(query, conn);
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                     DataTable dt = new DataTable();
                     adapter.Fill(dt);
                     dgvNhanVien.DataSource = dt;
@@ -73,7 +73,7 @@ namespace QuanLyBanHoa.Forms
 
                 //check mã nhân viên đã tồn tại chưa, không được trùng
                 string checkQuerry = "SELECT COUNT(*) FROM nhanvien WHERE MaNV = @MaNV";
-                MySqlCommand checkCmd = new MySqlCommand(checkQuerry, conn);
+                SqlCommand checkCmd = new SqlCommand(checkQuerry, conn);
                 checkCmd.Parameters.AddWithValue("@MaNV", txtMaSo.Text);
                 int count = Convert.ToInt32(checkCmd.ExecuteScalar());
                 if (count > 0)
@@ -84,7 +84,7 @@ namespace QuanLyBanHoa.Forms
 
 
                 string querry = "INSERT INTO nhanvien ( TenNV, MaNV, SoDienThoai, ChucVu) VALUES (@TenNV, @MaNV, @SoDienThoai, @ChucVu)";
-                MySqlCommand cmd = new MySqlCommand(querry, conn);
+                SqlCommand cmd = new SqlCommand(querry, conn);
                 cmd.Parameters.AddWithValue("@TenNV", txtHoTen.Text);
                 cmd.Parameters.AddWithValue("@MaNV", txtMaSo.Text);
                 cmd.Parameters.AddWithValue("@SoDienThoai", txtSDT.Text);
@@ -119,7 +119,7 @@ namespace QuanLyBanHoa.Forms
                 {
                     conn.Open();
                     string querry = "DELETE FROM nhanvien WHERE MaNV = @MaNV";
-                    MySqlCommand cmd = new MySqlCommand(querry, conn);
+                    SqlCommand cmd = new SqlCommand(querry, conn);
                     cmd.Parameters.AddWithValue("@MaNV", MaNV);
                     int rowsAffected = cmd.ExecuteNonQuery();
                     if (rowsAffected > 0)
@@ -173,7 +173,7 @@ namespace QuanLyBanHoa.Forms
                              ChucVu = @ChucVu 
                          WHERE MaNV = @MaNV";
 
-                MySqlCommand cmd = new MySqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@TenNV", txtHoTen.Text);
                 cmd.Parameters.AddWithValue("@SoDienThoai", txtSDT.Text);
                 cmd.Parameters.AddWithValue("@ChucVu", cboChucVu.Text);
@@ -233,7 +233,7 @@ namespace QuanLyBanHoa.Forms
 
                 query += " GROUP BY nv.MaNV, nv.TenNV, nv.SoDienThoai, nv.ChucVu";
 
-                MySqlCommand cmd = new MySqlCommand(query, conn);
+                SqlCommand cmd = new SqlCommand(query, conn);
 
                 // Thêm tham số động
                 if (!string.IsNullOrEmpty(maNV))
@@ -245,7 +245,7 @@ namespace QuanLyBanHoa.Forms
                 if (!string.IsNullOrEmpty(chucVu))
                     cmd.Parameters.AddWithValue("@ChucVu", "%" + chucVu + "%");
 
-                MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 adapter.Fill(dt);
 

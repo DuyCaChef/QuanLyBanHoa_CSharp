@@ -1,14 +1,14 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
-using QuanLyBanHoa.Data; // ensure correct namespace
+using QuanLyBanHoa.Data;
 using System.Collections.Generic;
 
 namespace QuanLyBanHoa.Forms
@@ -83,7 +83,7 @@ namespace QuanLyBanHoa.Forms
                     conn.Open();
                     string sql = "SELECT MaHoa, TenHoa, Gia FROM Hoa ORDER BY TenHoa";
                     
-                    using (var cmd = new MySqlCommand(sql, conn))
+                    using (var cmd = new SqlCommand(sql, conn))
                     {
                         using (var rdr = cmd.ExecuteReader())
                         {
@@ -159,15 +159,15 @@ namespace QuanLyBanHoa.Forms
                 {
                     conn.Open();
 
-                    // Query: join DonHang with KhachHang - Không lấy TongTien
-                    string sql = @"SELECT d.MaDH, d.NgayDatHang, k.TenKH, k.SoDienThoai, d.MaNV,
-                                    (SELECT h.TenHoa FROM ChiTietDonHang ct JOIN Hoa h ON ct.MaHoa = h.MaHoa WHERE ct.MaDH = d.MaDH LIMIT 1) AS TenHoa,
+                    // SQL Server: Sử dụng TOP thay vì LIMIT, subquery cho TenHoa và SumSoLuong
+                    string sql = @"SELECT TOP 500 d.MaDH, d.NgayDatHang, k.TenKH, k.SoDienThoai, d.MaNV,
+                                    (SELECT TOP 1 h.TenHoa FROM ChiTietDonHang ct JOIN Hoa h ON ct.MaHoa = h.MaHoa WHERE ct.MaDH = d.MaDH) AS TenHoa,
                                     (SELECT SUM(SoLuong) FROM ChiTietDonHang WHERE MaDH = d.MaDH) AS SumSoLuong
                                   FROM DonHang d
                                   LEFT JOIN KhachHang k ON d.MaKH = k.MaKH
-                                  ORDER BY d.NgayDatHang DESC, d.MaDH DESC LIMIT 500";
+                                  ORDER BY d.NgayDatHang DESC, d.MaDH DESC";
 
-                    using (var cmd = new MySqlCommand(sql, conn))
+                    using (var cmd = new SqlCommand(sql, conn))
                     {
                         using (var rdr = cmd.ExecuteReader())
                         {
@@ -181,7 +181,6 @@ namespace QuanLyBanHoa.Forms
                                 string tenHoa = rdr.IsDBNull(5) ? string.Empty : rdr.GetString(5);
                                 int soLuong = rdr.IsDBNull(6) ? 0 : Convert.ToInt32(rdr.GetValue(6));
 
-                                // Không thêm cột TongTien nữa
                                 dgvDonHang.Rows.Add(maDH, ngay.ToString("g"), tenKH, sdt, maNV.ToString(), tenHoa, soLuong);
                             }
                         }
@@ -204,14 +203,11 @@ namespace QuanLyBanHoa.Forms
                     if (dgvChiTiet != null)
                         dgvChiTiet.Rows.Clear();
 
-                    // Clear input fields
                     txtMaDon.Clear();
                     txtTenKhach.Clear();
                     txtSdt.Clear();
                     txtMaNV.Clear();
                     if (nudTongSoLuong != null) nudTongSoLuong.Value = nudTongSoLuong.Minimum;
-                    
-                    // Clear tổng tiền
                     if (lblTongTienValue != null) lblTongTienValue.Text = "0 đ";
                     
                     return;
@@ -219,14 +215,12 @@ namespace QuanLyBanHoa.Forms
 
                 var row = dgvDonHang.SelectedRows[0];
 
-                // Lấy dữ liệu cơ bản từ danh sách đơn
                 string maDonStr = Convert.ToString(row.Cells["colMaDon"].Value ?? "");
                 string ngayStr = Convert.ToString(row.Cells["colNgay"].Value ?? "");
                 string tenKH = Convert.ToString(row.Cells["colTenKhach"].Value ?? "");
                 string sdt = Convert.ToString(row.Cells["colSDT"].Value ?? "");
                 string sMaNV = Convert.ToString(row.Cells["colMaNV"].Value ?? "");
 
-                // Cập nhật controls
                 if (!string.IsNullOrWhiteSpace(maDonStr)) txtMaDon.Text = maDonStr;
                 else txtMaDon.Clear();
 
@@ -237,7 +231,6 @@ namespace QuanLyBanHoa.Forms
                 txtSdt.Text = sdt;
                 txtMaNV.Text = sMaNV;
 
-                // Hiển thị chi tiết đầy đủ và tính tổng tiền
                 if (dgvChiTiet != null)
                 {
                     dgvChiTiet.Rows.Clear();
@@ -256,7 +249,7 @@ namespace QuanLyBanHoa.Forms
                                                FROM ChiTietDonHang ct
                                                LEFT JOIN Hoa h ON ct.MaHoa = h.MaHoa
                                                WHERE ct.MaDH = @MaDH";
-                                using (var cmd = new MySqlCommand(sql, conn))
+                                using (var cmd = new SqlCommand(sql, conn))
                                 {
                                     cmd.Parameters.AddWithValue("@MaDH", maDH);
                                     using (var rdr = cmd.ExecuteReader())
@@ -277,7 +270,6 @@ namespace QuanLyBanHoa.Forms
                                 }
                             }
 
-                            // Cập nhật tổng số lượng
                             if (nudTongSoLuong != null)
                             {
                                 if (tongSoLuong >= (int)nudTongSoLuong.Minimum && tongSoLuong <= (int)nudTongSoLuong.Maximum)
@@ -294,7 +286,6 @@ namespace QuanLyBanHoa.Forms
                                 }
                             }
 
-                            // Hiển thị tổng tiền
                             if (lblTongTienValue != null)
                             {
                                 lblTongTienValue.Text = tongTien.ToString("N0") + " đ";
@@ -370,7 +361,7 @@ namespace QuanLyBanHoa.Forms
                         {
                             // 1) Ensure MaKH exists
                             int maKH = 0;
-                            using (var cmdFind = new MySqlCommand("SELECT MaKH FROM KhachHang WHERE SoDienThoai = @sdt LIMIT 1", conn, tx))
+                            using (var cmdFind = new SqlCommand("SELECT TOP 1 MaKH FROM KhachHang WHERE SoDienThoai = @sdt", conn, tx))
                             {
                                 cmdFind.Parameters.AddWithValue("@sdt", txtSdt.Text.Trim());
                                 var obj = cmdFind.ExecuteScalar();
@@ -380,7 +371,8 @@ namespace QuanLyBanHoa.Forms
 
                             if (maKH == 0)
                             {
-                                using (var cmdInsKH = new MySqlCommand("INSERT INTO KhachHang (TenKH, SoDienThoai) VALUES (@ten, @sdt); SELECT LAST_INSERT_ID();", conn, tx))
+                                // SQL Server: SCOPE_IDENTITY() thay vì LAST_INSERT_ID()
+                                using (var cmdInsKH = new SqlCommand("INSERT INTO KhachHang (TenKH, SoDienThoai) VALUES (@ten, @sdt); SELECT CAST(SCOPE_IDENTITY() AS INT);", conn, tx))
                                 {
                                     cmdInsKH.Parameters.AddWithValue("@ten", txtTenKhach.Text.Trim());
                                     cmdInsKH.Parameters.AddWithValue("@sdt", txtSdt.Text.Trim());
@@ -392,26 +384,24 @@ namespace QuanLyBanHoa.Forms
 
                             object maKmDb = DBNull.Value;
 
-                            // 2) Luôn tạo đơn hàng mới (không kiểm tra trùng)
-                            // Có thể nhập MaDH hoặc để auto increment
+                            // 2) Luôn tạo đơn hàng mới
                             string insertDon;
-                            MySqlCommand cmdDon;
+                            SqlCommand cmdDon;
                             
                             if (!string.IsNullOrWhiteSpace(txtMaDon.Text) && int.TryParse(txtMaDon.Text.Trim(), out int maDHInput))
                             {
-                                // Người dùng nhập MaDH (ví dụ: 001)
                                 insertDon = @"INSERT INTO DonHang (MaDH, MaKH, MaNV, NgayDatHang, TongTien, MaKM) 
                                             VALUES (@MaDH, @MaKH, @MaNV, @NgayDatHang, @TongTien, @MaKM);";
-                                cmdDon = new MySqlCommand(insertDon, conn, tx);
+                                cmdDon = new SqlCommand(insertDon, conn, tx);
                                 cmdDon.Parameters.AddWithValue("@MaDH", maDHInput);
                             }
                             else
                             {
-                                // Auto increment MaDH
+                                // SQL Server: SCOPE_IDENTITY()
                                 insertDon = @"INSERT INTO DonHang (MaKH, MaNV, NgayDatHang, TongTien, MaKM) 
                                             VALUES (@MaKH, @MaNV, @NgayDatHang, @TongTien, @MaKM); 
-                                            SELECT LAST_INSERT_ID();";
-                                cmdDon = new MySqlCommand(insertDon, conn, tx);
+                                            SELECT CAST(SCOPE_IDENTITY() AS INT);";
+                                cmdDon = new SqlCommand(insertDon, conn, tx);
                             }
 
                             cmdDon.Parameters.AddWithValue("@MaKH", maKH);
@@ -436,7 +426,7 @@ namespace QuanLyBanHoa.Forms
                             // 3) Insert ChiTietDonHang
                             string insertCt = @"INSERT INTO ChiTietDonHang (MaDH, MaHoa, SoLuong, ThanhTien, MaNV) 
                                               VALUES (@MaDH, @MaHoa, @SoLuong, @ThanhTien, @MaNV);";
-                            using (var cmdCt = new MySqlCommand(insertCt, conn, tx))
+                            using (var cmdCt = new SqlCommand(insertCt, conn, tx))
                             {
                                 cmdCt.Parameters.AddWithValue("@MaDH", maDH);
                                 cmdCt.Parameters.AddWithValue("@MaHoa", maHoa);
@@ -494,16 +484,13 @@ namespace QuanLyBanHoa.Forms
                 }
 
                 object maKmDb = DBNull.Value;
-
-                // Get totals from database
                 decimal tongTien = 0m;
 
                 using (var conn = Database.GetConnection())
                 {
                     conn.Open();
                     
-                    // Recalculate total from ChiTietDonHang
-                    using (var cmdSum = new MySqlCommand("SELECT COALESCE(SUM(ThanhTien), 0) FROM ChiTietDonHang WHERE MaDH = @MaDH", conn))
+                    using (var cmdSum = new SqlCommand("SELECT COALESCE(SUM(ThanhTien), 0) FROM ChiTietDonHang WHERE MaDH = @MaDH", conn))
                     {
                         cmdSum.Parameters.AddWithValue("@MaDH", maDH);
                         var result = cmdSum.ExecuteScalar();
@@ -514,8 +501,7 @@ namespace QuanLyBanHoa.Forms
                     {
                         try
                         {
-                            // Update DonHang
-                            using (var cmd = new MySqlCommand("UPDATE DonHang SET MaNV = @MaNV, NgayDatHang = @Ngay, TongTien = @TongTien, MaKM = @MaKM WHERE MaDH = @MaDH", conn, tx))
+                            using (var cmd = new SqlCommand("UPDATE DonHang SET MaNV = @MaNV, NgayDatHang = @Ngay, TongTien = @TongTien, MaKM = @MaKM WHERE MaDH = @MaDH", conn, tx))
                             {
                                 cmd.Parameters.AddWithValue("@MaNV", maNV);
                                 cmd.Parameters.AddWithValue("@Ngay", dtpNgay.Value.Date);
@@ -528,8 +514,6 @@ namespace QuanLyBanHoa.Forms
                             tx.Commit();
 
                             MessageBox.Show("Cập nhật đơn hàng thành công.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                            // Refresh grid
                             LoadDonHang();
                         }
                         catch (Exception ex)
@@ -573,13 +557,13 @@ namespace QuanLyBanHoa.Forms
                     {
                         try
                         {
-                            using (var cmdDelCt = new MySqlCommand("DELETE FROM ChiTietDonHang WHERE MaDH = @MaDH", conn, tx))
+                            using (var cmdDelCt = new SqlCommand("DELETE FROM ChiTietDonHang WHERE MaDH = @MaDH", conn, tx))
                             {
                                 cmdDelCt.Parameters.AddWithValue("@MaDH", maDH);
                                 cmdDelCt.ExecuteNonQuery();
                             }
 
-                            using (var cmdDel = new MySqlCommand("DELETE FROM DonHang WHERE MaDH = @MaDH", conn, tx))
+                            using (var cmdDel = new SqlCommand("DELETE FROM DonHang WHERE MaDH = @MaDH", conn, tx))
                             {
                                 cmdDel.Parameters.AddWithValue("@MaDH", maDH);
                                 cmdDel.ExecuteNonQuery();
