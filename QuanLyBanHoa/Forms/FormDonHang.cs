@@ -25,6 +25,9 @@ namespace QuanLyBanHoa.Forms
         // Flag để ngăn SelectionChanged khi đang nhập liệu
         private bool isInputting = false;
 
+        // Mã hoa của chi tiết đang chọn (dùng khi sửa chi tiết)
+        private int selectedChiTietOldMaHoa = 0;
+
         public FormDonHang()
         {
             try
@@ -203,7 +206,8 @@ namespace QuanLyBanHoa.Forms
                                     k.SoDienThoai, 
                                     ct.MaNV,
                                     h.TenHoa,
-                                    ct.SoLuong
+                                    ct.SoLuong,
+                                    ct.MaHoa
                                   FROM ChiTietDonHang ct
                                   INNER JOIN DonHang d ON ct.MaDH = d.MaDH
                                   LEFT JOIN KhachHang k ON d.MaKH = k.MaKH
@@ -223,8 +227,11 @@ namespace QuanLyBanHoa.Forms
                                 int maNV = rdr.IsDBNull(4) ? 0 : rdr.GetInt32(4);
                                 string tenHoa = rdr.IsDBNull(5) ? string.Empty : rdr.GetString(5);
                                 int soLuong = rdr.IsDBNull(6) ? 0 : rdr.GetInt32(6);
+                                int maHoa = rdr.IsDBNull(7) ? 0 : rdr.GetInt32(7);
 
-                                dgvDonHang.Rows.Add(maDH, ngay.ToString("g"), tenKH, sdt, maNV.ToString(), tenHoa, soLuong);
+                                int rowIndex = dgvDonHang.Rows.Add(maDH, ngay.ToString("g"), tenKH, sdt, maNV.ToString(), tenHoa, soLuong);
+                                // Lưu MaHoa gốc vào Tag của hàng để dùng khi sửa
+                                dgvDonHang.Rows[rowIndex].Tag = maHoa;
                             }
                         }
                     }
@@ -265,6 +272,9 @@ namespace QuanLyBanHoa.Forms
                 string sdt = Convert.ToString(row.Cells["colSDT"].Value ?? "");
                 string sMaNV = Convert.ToString(row.Cells["colMaNV"].Value ?? "");
 
+                // Lưu mã hoa gốc từ Tag của row (được set trong LoadDonHang)
+                selectedChiTietOldMaHoa = row.Tag != null ? Convert.ToInt32(row.Tag) : 0;
+
                 if (!string.IsNullOrWhiteSpace(maDonStr)) txtMaDon.Text = maDonStr;
                 else txtMaDon.Clear();
 
@@ -274,6 +284,20 @@ namespace QuanLyBanHoa.Forms
                 txtTenKhach.Text = tenKH;
                 txtSdt.Text = sdt;
                 
+                // Try set flower selection based on displayed TenHoa
+                string tenHoaDisplay = Convert.ToString(row.Cells["colTenHoa"].Value ?? "");
+                if (!string.IsNullOrEmpty(tenHoaDisplay) && cboTenHoa.Items.Contains(tenHoaDisplay))
+                {
+                    cboTenHoa.SelectedItem = tenHoaDisplay;
+                    // Ensure txtMaHoa reflects selected flower id
+                    if (flowerData.ContainsKey(tenHoaDisplay))
+                        txtMaHoa.Text = flowerData[tenHoaDisplay].MaHoa.ToString();
+                }
+                else
+                {
+                    txtMaHoa.Clear();
+                }
+
                 // Set selected employee in ComboBox
                 if (int.TryParse(sMaNV, out int maNV))
                 {
@@ -671,24 +695,59 @@ namespace QuanLyBanHoa.Forms
                 int maNV = employeeData[selectedEmployee];
 
                 object maKmDb = DBNull.Value;
-                decimal tongTien = 0m;
 
                 using (var conn = Database.GetConnection())
                 {
                     conn.Open();
-                    
-                    // Tính lại tổng tiền từ ChiTietDonHang
-                    using (var cmdSum = new SqlCommand("SELECT COALESCE(SUM(ThanhTien), 0) FROM ChiTietDonHang WHERE MaDH = @MaDH", conn))
-                    {
-                        cmdSum.Parameters.AddWithValue("@MaDH", maDH);
-                        var result = cmdSum.ExecuteScalar();
-                        if (result != null) tongTien = Convert.ToDecimal(result);
-                    }
-                    
                     using (var tx = conn.BeginTransaction())
                     {
                         try
                         {
+                            // Nếu user thay đổi thông tin chi tiết (hoa hoặc số lượng), cập nhật ChiTietDonHang
+                            int newMaHoa = 0;
+                            if (!string.IsNullOrWhiteSpace(txtMaHoa.Text) && int.TryParse(txtMaHoa.Text.Trim(), out int parsedMaHoa))
+                                newMaHoa = parsedMaHoa;
+                            else if (cboTenHoa.SelectedItem != null && flowerData.ContainsKey(cboTenHoa.SelectedItem.ToString()))
+                                newMaHoa = flowerData[cboTenHoa.SelectedItem.ToString()].MaHoa;
+
+                            int newSoLuong = (int)nudTongSoLuong.Value;
+                            decimal newThanhTien = 0m;
+                            if (newMaHoa != 0)
+                            {
+                                // Lấy đơn giá từ flowerData nếu có
+                                var match = flowerData.FirstOrDefault(f => f.Value.MaHoa == newMaHoa);
+                                if (match.Key != null)
+                                    newThanhTien = flowerData[match.Key].Gia * newSoLuong;
+                            }
+
+                            // Nếu có mã hoa cũ (selectedChiTietOldMaHoa) và khác mã mới -> cập nhật
+                            if (selectedChiTietOldMaHoa != 0)
+                            {
+                                string updateCt = @"UPDATE ChiTietDonHang 
+                                                    SET MaHoa = @NewMaHoa, SoLuong = @SoLuong, ThanhTien = @ThanhTien, MaNV = @MaNV
+                                                    WHERE MaDH = @MaDH AND MaHoa = @OldMaHoa";
+                                using (var cmdUpdateCt = new SqlCommand(updateCt, conn, tx))
+                                {
+                                    cmdUpdateCt.Parameters.AddWithValue("@NewMaHoa", newMaHoa);
+                                    cmdUpdateCt.Parameters.AddWithValue("@SoLuong", newSoLuong);
+                                    cmdUpdateCt.Parameters.AddWithValue("@ThanhTien", newThanhTien);
+                                    cmdUpdateCt.Parameters.AddWithValue("@MaNV", maNV);
+                                    cmdUpdateCt.Parameters.AddWithValue("@MaDH", maDH);
+                                    cmdUpdateCt.Parameters.AddWithValue("@OldMaHoa", selectedChiTietOldMaHoa);
+                                    cmdUpdateCt.ExecuteNonQuery();
+                                }
+                            }
+
+                            // Sau khi cập nhật chi tiết, tính lại tổng tiền từ ChiTietDonHang
+                            decimal tongTien = 0m;
+                            using (var cmdSum = new SqlCommand("SELECT COALESCE(SUM(ThanhTien), 0) FROM ChiTietDonHang WHERE MaDH = @MaDH", conn, tx))
+                            {
+                                cmdSum.Parameters.AddWithValue("@MaDH", maDH);
+                                var result = cmdSum.ExecuteScalar();
+                                if (result != null) tongTien = Convert.ToDecimal(result);
+                            }
+
+                            // Cập nhật bảng DonHang
                             using (var cmd = new SqlCommand("UPDATE DonHang SET MaNV = @MaNV, NgayDatHang = @Ngay, TongTien = @TongTien, MaKM = @MaKM WHERE MaDH = @MaDH", conn, tx))
                             {
                                 cmd.Parameters.AddWithValue("@MaNV", maNV);
