@@ -1,4 +1,5 @@
 ﻿using QuanLyBanHoa.Data;
+using QuanLyBanHoa.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -9,7 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using QuanLyBanHoa.Forms;
 
 namespace QuanLyBanHoa.Forms
 {
@@ -20,30 +20,30 @@ namespace QuanLyBanHoa.Forms
             InitializeComponent();
         }
 
-        //Kết nối với class database để lấy dữ liệu từ database
+        private void FrmQuanLiNhanVien_Load(object sender, EventArgs e)
+        {
+            // Set txtMaSo là ReadOnly vì SQL Server tự động tạo MaNV
+            txtMaSo.ReadOnly = true;
+            txtMaSo.BackColor = System.Drawing.SystemColors.Control;
+            
+            LoadNhanVien();
+        }
+
+        /// <summary>
+        /// Load danh sách nhân viên từ database sử dụng class NhanVien
+        /// </summary>
         private void LoadNhanVien()
         {
             try
             {
-                using (var conn = Database.GetConnection())
-                {
-                    conn.Open();
-                    string query = @"
-                    SELECT
-                        nv.MaNV,
-                        nv.TenNV,
-                        nv.SoDienThoai,
-                        nv.ChucVu,
-                        COUNT(ct.MaDh) AS SoLuongDonHang
-                    FROM NhanVien nv
-                    LEFT JOIN ChiTietDonHang ct ON nv.MaNV = ct.MaNV
-                    GROUP BY nv.MaNV, nv.TenNV, nv.SoDienThoai, nv.ChucVu;";
-                    SqlCommand cmd = new SqlCommand(query, conn);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    DataTable dt = new DataTable();
-                    adapter.Fill(dt);
-                    dgvNhanVien.DataSource = dt;
-                }
+                // Sử dụng phương thức GetAll từ class NhanVien
+                List<NhanVien> listNhanVien = NhanVien.GetAll();
+                
+                // Chuyển đổi List sang BindingList để binding với DataGridView
+                BindingList<NhanVien> bindingList = new BindingList<NhanVien>(listNhanVien);
+                dgvNhanVien.DataSource = bindingList;
+                
+                SetupDataGridView();
             }
             catch (Exception ex)
             {
@@ -51,109 +51,133 @@ namespace QuanLyBanHoa.Forms
             }
         }
 
-        private void FrmQuanLiNhanVien_Load(object sender, EventArgs e)
+        /// <summary>
+        /// Thiết lập hiển thị cho DataGridView
+        /// </summary>
+        private void SetupDataGridView()
         {
-            LoadNhanVien();
-        }
-
-        private void btnThem_Click(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtHoTen.Text) ||
-                string.IsNullOrWhiteSpace(txtMaSo.Text) ||
-                string.IsNullOrWhiteSpace(txtSDT.Text) ||
-                string.IsNullOrWhiteSpace(cboChucVu.Text))
+            if (dgvNhanVien.Columns.Count > 0)
             {
-                MessageBox.Show("Vui lòng điền đầy đủ thông tin nhân viên.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-            using (var conn = Database.GetConnection())
-            {
-                conn.Open();
-
-                //check mã nhân viên đã tồn tại chưa, không được trùng
-                string checkQuerry = "SELECT COUNT(*) FROM nhanvien WHERE MaNV = @MaNV";
-                SqlCommand checkCmd = new SqlCommand(checkQuerry, conn);
-                checkCmd.Parameters.AddWithValue("@MaNV", txtMaSo.Text);
-                int count = Convert.ToInt32(checkCmd.ExecuteScalar());
-                if (count > 0)
+                // Đặt tên hiển thị cho các cột
+                if (dgvNhanVien.Columns.Contains("MaNV"))
                 {
-                    MessageBox.Show("Mã nhân viên đã tồn tại. Vui lòng sử dụng mã khác.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
+                    dgvNhanVien.Columns["MaNV"].HeaderText = "Mã NV";
+                    dgvNhanVien.Columns["MaNV"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
                 }
 
+                if (dgvNhanVien.Columns.Contains("TenNV"))
+                    dgvNhanVien.Columns["TenNV"].HeaderText = "Tên Nhân Viên";
 
-                string querry = "INSERT INTO nhanvien ( TenNV, MaNV, SoDienThoai, ChucVu) VALUES (@TenNV, @MaNV, @SoDienThoai, @ChucVu)";
-                SqlCommand cmd = new SqlCommand(querry, conn);
-                cmd.Parameters.AddWithValue("@TenNV", txtHoTen.Text);
-                cmd.Parameters.AddWithValue("@MaNV", txtMaSo.Text);
-                cmd.Parameters.AddWithValue("@SoDienThoai", txtSDT.Text);
-                cmd.Parameters.AddWithValue("@ChucVu", cboChucVu.Text);
-                cmd.ExecuteNonQuery();
+                if (dgvNhanVien.Columns.Contains("SoDienThoai"))
+                {
+                    dgvNhanVien.Columns["SoDienThoai"].HeaderText = "Số Điện Thoại";
+                    dgvNhanVien.Columns["SoDienThoai"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
+
+                if (dgvNhanVien.Columns.Contains("ChucVu"))
+                {
+                    dgvNhanVien.Columns["ChucVu"].HeaderText = "Chức Vụ";
+                    dgvNhanVien.Columns["ChucVu"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                }
+
+                if (dgvNhanVien.Columns.Contains("SoLuongDonHang"))
+                {
+                    dgvNhanVien.Columns["SoLuongDonHang"].HeaderText = "Số Đơn Hàng";
+                    dgvNhanVien.Columns["SoLuongDonHang"].DefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                    dgvNhanVien.Columns["SoLuongDonHang"].DefaultCellStyle.Format = "N0";
+                }
             }
-            LoadNhanVien();
-            MessageBox.Show("Thêm nhân viên thành công!");
+        }
 
-            txtHoTen.Clear();
+        /// <summary>
+        /// Xóa các trường nhập liệu
+        /// </summary>
+        private void ClearInputFields()
+        {
             txtMaSo.Clear();
+            txtMaSo.ReadOnly = true; // Không cho nhập MaNV
+            txtHoTen.Clear();
             txtSDT.Clear();
             cboChucVu.SelectedIndex = -1;
             txtHoTen.Focus();
         }
 
-        private void btnXoa_Click(object sender, EventArgs e)
+        private void btnThem_Click(object sender, EventArgs e)
         {
-            if (dgvNhanVien.SelectedRows.Count == 0)
+            // Validate inputs
+            if (string.IsNullOrWhiteSpace(txtHoTen.Text))
             {
-                MessageBox.Show("Vui lòng chọn nhân viên để xóa.");
+                MessageBox.Show("Vui lòng nhập tên nhân viên.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtHoTen.Focus();
                 return;
             }
 
-            // Lấy mã nhân viên từ dòng được chọn
-            string MaNV = dgvNhanVien.SelectedRows[0].Cells["MaNV"].Value.ToString();
-            DialogResult result = MessageBox.Show($"Bạn có chắc chắn muốn xóa nhân viên mã {MaNV} không?", "Xác nhận xóa", MessageBoxButtons.YesNo);
-
-            if (result == DialogResult.Yes)
+            if (string.IsNullOrWhiteSpace(txtSDT.Text))
             {
-                using (var conn = Database.GetConnection())
-                {
-                    conn.Open();
-                    string querry = "DELETE FROM nhanvien WHERE MaNV = @MaNV";
-                    SqlCommand cmd = new SqlCommand(querry, conn);
-                    cmd.Parameters.AddWithValue("@MaNV", MaNV);
-                    int rowsAffected = cmd.ExecuteNonQuery();
-                    if (rowsAffected > 0)
-                    {
-                        MessageBox.Show("Xóa nhân viên thành công!");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Không tìm thấy nhan viên để xoá!");
-                    }
-                }
-                LoadNhanVien();
-
+                MessageBox.Show("Vui lòng nhập số điện thoại.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                txtSDT.Focus();
+                return;
             }
-        }
 
-        private void dgvNhanVien_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
+            if (cboChucVu.SelectedIndex == -1)
             {
-                DataGridViewRow row = dgvNhanVien.Rows[e.RowIndex];
-                txtHoTen.Text = row.Cells["TenNV"].Value.ToString();
-                txtMaSo.Text = row.Cells["MaNV"].Value.ToString();
-                txtSDT.Text = row.Cells["SoDienThoai"].Value.ToString();
-                cboChucVu.Text = row.Cells["ChucVu"].Value.ToString();
+                MessageBox.Show("Vui lòng chọn chức vụ.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                cboChucVu.Focus();
+                return;
+            }
+
+            try
+            {
+                // Tạo đối tượng NhanVien mới - KHÔNG cần nhập MaNV (SQL Server tự động tạo)
+                var nhanVienMoi = new NhanVien
+                {
+                    TenNV = txtHoTen.Text.Trim(),
+                    SoDienThoai = txtSDT.Text.Trim(),
+                    ChucVu = cboChucVu.Text.Trim()
+                };
+
+                // Sử dụng phương thức Insert từ class NhanVien - trả về MaNV mới
+                int newMaNV = NhanVien.Insert(nhanVienMoi);
+
+                if (newMaNV > 0)
+                {
+                    MessageBox.Show($"Thêm nhân viên thành công!\nMã nhân viên mới: {newMaNV}", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadNhanVien();
+                    ClearInputFields();
+                }
+                else
+                {
+                    MessageBox.Show("Thêm nhân viên không thành công.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Lỗi khi thêm nhân viên: " + ex.Message, "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi thêm nhân viên: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnSua_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(txtMaSo.Text) ||
-            string.IsNullOrWhiteSpace(txtHoTen.Text) ||
-            string.IsNullOrWhiteSpace(txtSDT.Text) ||
-            cboChucVu.SelectedIndex == -1)
+            // Validate inputs
+            if (string.IsNullOrWhiteSpace(txtMaSo.Text))
+            {
+                MessageBox.Show("Vui lòng chọn nhân viên để sửa.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (!int.TryParse(txtMaSo.Text.Trim(), out int maNV))
+            {
+                MessageBox.Show("Mã nhân viên không hợp lệ.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (string.IsNullOrWhiteSpace(txtHoTen.Text) || 
+                string.IsNullOrWhiteSpace(txtSDT.Text) || 
+                cboChucVu.SelectedIndex == -1)
             {
                 MessageBox.Show("Vui lòng nhập đầy đủ thông tin để sửa!", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
@@ -164,106 +188,148 @@ namespace QuanLyBanHoa.Forms
             if (result != DialogResult.Yes)
                 return;
 
-            using (var conn = Database.GetConnection())
+            try
             {
-                conn.Open();
-                string query = @"UPDATE nhanvien 
-                         SET TenNV = @TenNV, 
-                             SoDienThoai = @SoDienThoai, 
-                             ChucVu = @ChucVu 
-                         WHERE MaNV = @MaNV";
+                // Tạo đối tượng NhanVien để cập nhật
+                var nhanVienCapNhat = new NhanVien
+                {
+                    MaNV = maNV,
+                    TenNV = txtHoTen.Text.Trim(),
+                    SoDienThoai = txtSDT.Text.Trim(),
+                    ChucVu = cboChucVu.Text.Trim()
+                };
 
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@TenNV", txtHoTen.Text);
-                cmd.Parameters.AddWithValue("@SoDienThoai", txtSDT.Text);
-                cmd.Parameters.AddWithValue("@ChucVu", cboChucVu.Text);
-                cmd.Parameters.AddWithValue("@MaNV", txtMaSo.Text);
+                // Sử dụng phương thức Update từ class NhanVien
+                bool success = NhanVien.Update(nhanVienCapNhat);
 
-                int rowsAffected = cmd.ExecuteNonQuery();
-
-                if (rowsAffected > 0)
+                if (success)
                 {
                     MessageBox.Show("Cập nhật thông tin nhân viên thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadNhanVien();
+                    ClearInputFields();
                 }
                 else
                 {
                     MessageBox.Show("Không tìm thấy nhân viên để sửa!", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi cập nhật nhân viên: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
 
-            LoadNhanVien();
-            txtHoTen.Clear();
-            txtMaSo.Clear();
-            txtSDT.Clear();
-            cboChucVu.SelectedIndex = -1;
-            txtHoTen.Focus();
+        private void btnXoa_Click(object sender, EventArgs e)
+        {
+            if (dgvNhanVien.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Vui lòng chọn nhân viên để xóa.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (dgvNhanVien.SelectedRows[0].Cells["MaNV"].Value == null)
+            {
+                MessageBox.Show("Không tìm thấy Mã Nhân Viên để xóa.", "Lỗi dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            int maNV = Convert.ToInt32(dgvNhanVien.SelectedRows[0].Cells["MaNV"].Value);
+            string tenNV = dgvNhanVien.SelectedRows[0].Cells["TenNV"].Value?.ToString() ?? "";
+
+            DialogResult result = MessageBox.Show($"Bạn có chắc chắn muốn xóa nhân viên '{tenNV}' (Mã: {maNV})?\n\nHành động này không thể hoàn tác!", 
+                                                  "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+            if (result == DialogResult.Yes)
+            {
+                try
+                {
+                    // Sử dụng phương thức Delete từ class NhanVien
+                    bool success = NhanVien.Delete(maNV);
+
+                    if (success)
+                    {
+                        MessageBox.Show("Xóa nhân viên thành công!", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        LoadNhanVien();
+                        ClearInputFields();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Xóa nhân viên không thành công.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (SqlException ex)
+                {
+                    // SQL Server Foreign Key Constraint Error Number: 547
+                    if (ex.Number == 547)
+                    {
+                        MessageBox.Show("Không thể xóa nhân viên này vì đã có đơn hàng liên quan!", 
+                            "Lỗi ràng buộc dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Lỗi khi xóa nhân viên: " + ex.Message, "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Lỗi khi xóa nhân viên: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void dgvNhanVien_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow row = dgvNhanVien.Rows[e.RowIndex];
+                txtMaSo.Text = row.Cells["MaNV"].Value?.ToString() ?? "";
+                txtHoTen.Text = row.Cells["TenNV"].Value?.ToString() ?? "";
+                txtSDT.Text = row.Cells["SoDienThoai"].Value?.ToString() ?? "";
+                cboChucVu.Text = row.Cells["ChucVu"].Value?.ToString() ?? "";
+            }
         }
 
         private void C_Click(object sender, EventArgs e)
         {
-            string tenNV = txtHoTen.Text.Trim();
-            string maNV = txtMaSo.Text.Trim();
-            string sdt = txtSDT.Text.Trim();
-            string chucVu = cboChucVu.Text.Trim();
+            string keyword = txtHoTen.Text.Trim() + " " + txtMaSo.Text.Trim() + " " + txtSDT.Text.Trim() + " " + cboChucVu.Text.Trim();
+            keyword = keyword.Trim();
 
-            using (var conn = Database.GetConnection())
+            if (string.IsNullOrWhiteSpace(keyword))
             {
-                conn.Open();
-
-                // Truy vấn có đếm số đơn hàng
-                string query = @"
-            SELECT 
-                nv.MaNV,
-                nv.TenNV,
-                nv.SoDienThoai,
-                nv.ChucVu,
-                COUNT(ct.MaDh) AS SoLuongDonHang
-            FROM nhanvien nv
-            LEFT JOIN chitietdonhang ct ON nv.MaNV = ct.MaNV
-            WHERE 1=1";
-
-                if (!string.IsNullOrEmpty(maNV))
-                    query += " AND nv.MaNV LIKE @MaNV";
-                if (!string.IsNullOrEmpty(tenNV))
-                    query += " AND nv.TenNV LIKE @TenNV";
-                if (!string.IsNullOrEmpty(sdt))
-                    query += " AND nv.SoDienThoai LIKE @SDT";
-                if (!string.IsNullOrEmpty(chucVu))
-                    query += " AND nv.ChucVu LIKE @ChucVu";
-
-                query += " GROUP BY nv.MaNV, nv.TenNV, nv.SoDienThoai, nv.ChucVu";
-
-                SqlCommand cmd = new SqlCommand(query, conn);
-
-                // Thêm tham số động
-                if (!string.IsNullOrEmpty(maNV))
-                    cmd.Parameters.AddWithValue("@MaNV", "%" + maNV + "%");
-                if (!string.IsNullOrEmpty(tenNV))
-                    cmd.Parameters.AddWithValue("@TenNV", "%" + tenNV + "%");
-                if (!string.IsNullOrEmpty(sdt))
-                    cmd.Parameters.AddWithValue("@SDT", "%" + sdt + "%");
-                if (!string.IsNullOrEmpty(chucVu))
-                    cmd.Parameters.AddWithValue("@ChucVu", "%" + chucVu + "%");
-
-                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                adapter.Fill(dt);
-
-                dgvNhanVien.DataSource = dt;
+                LoadNhanVien();
+                return;
             }
 
-            if (dgvNhanVien.Rows.Count == 0)
-                MessageBox.Show("Không tìm thấy nhân viên nào phù hợp!");
+            try
+            {
+                // Sử dụng phương thức Search từ class NhanVien
+                List<NhanVien> ketQuaTimKiem = NhanVien.Search(keyword);
+
+                if (ketQuaTimKiem.Count > 0)
+                {
+                    BindingList<NhanVien> bindingList = new BindingList<NhanVien>(ketQuaTimKiem);
+                    dgvNhanVien.DataSource = bindingList;
+                    SetupDataGridView();
+                    MessageBox.Show($"Tìm thấy {ketQuaTimKiem.Count} kết quả!", "Thông báo", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Không tìm thấy nhân viên nào phù hợp!", "Thông báo", 
+                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadNhanVien();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi tìm kiếm: " + ex.Message, "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnTaiLai_Click(object sender, EventArgs e)
         {
             LoadNhanVien();
-            txtHoTen.Clear();
-            txtMaSo.Clear();
-            txtSDT.Clear();
-            cboChucVu.SelectedIndex = -1;
-            txtHoTen.Focus();
+            ClearInputFields();
         }
     }
 }
