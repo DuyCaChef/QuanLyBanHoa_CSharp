@@ -33,7 +33,7 @@ namespace QuanLyBanHoa.Models
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = "SELECT MaDH, MaHoa, SoLuong, ThanhTien, MaNV FROM chitietdonhang ORDER BY MaDH DESC";
+                string query = "SELECT MaDH, MaHoa, SoLuong, ThanhTien, MaNV FROM ChiTietDonHang ORDER BY MaDH DESC";
                 using (var cmd = new SqlCommand(query, conn))
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -60,7 +60,7 @@ namespace QuanLyBanHoa.Models
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = "SELECT MaDH, MaHoa, SoLuong, ThanhTien, MaNV FROM chitietdonhang WHERE MaDH = @MaDH";
+                string query = "SELECT MaDH, MaHoa, SoLuong, ThanhTien, MaNV FROM ChiTietDonHang WHERE MaDH = @MaDH";
                 using (var cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@MaDH", maDH);
@@ -89,7 +89,7 @@ namespace QuanLyBanHoa.Models
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = @"INSERT INTO chitietdonhang (MaDH, MaHoa, SoLuong, ThanhTien, MaNV) 
+                string query = @"INSERT INTO ChiTietDonHang (MaDH, MaHoa, SoLuong, ThanhTien, MaNV) 
                                VALUES (@MaDH, @MaHoa, @SoLuong, @ThanhTien, @MaNV)";
                 using (var cmd = new SqlCommand(query, conn))
                 {
@@ -103,13 +103,29 @@ namespace QuanLyBanHoa.Models
             }
         }
 
+        // Overload with connection and transaction
+        public static bool Insert(ChiTietDonHang chiTiet, SqlConnection conn, SqlTransaction tx = null)
+        {
+            string query = @"INSERT INTO ChiTietDonHang (MaDH, MaHoa, SoLuong, ThanhTien, MaNV) 
+                           VALUES (@MaDH, @MaHoa, @SoLuong, @ThanhTien, @MaNV);";
+            using (var cmd = new SqlCommand(query, conn, tx))
+            {
+                cmd.Parameters.AddWithValue("@MaDH", chiTiet.MaDH);
+                cmd.Parameters.AddWithValue("@MaHoa", chiTiet.MaHoa);
+                cmd.Parameters.AddWithValue("@SoLuong", chiTiet.SoLuong);
+                cmd.Parameters.AddWithValue("@ThanhTien", chiTiet.ThanhTien);
+                cmd.Parameters.AddWithValue("@MaNV", chiTiet.MaNV);
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+
         // Cập nhật chi tiết đơn hàng
         public static bool Update(ChiTietDonHang chiTiet, int oldMaHoa)
         {
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = @"UPDATE chitietdonhang 
+                string query = @"UPDATE ChiTietDonHang 
                                SET MaHoa = @MaHoa, SoLuong = @SoLuong, ThanhTien = @ThanhTien, MaNV = @MaNV
                                WHERE MaDH = @MaDH AND MaHoa = @OldMaHoa";
                 using (var cmd = new SqlCommand(query, conn))
@@ -125,13 +141,31 @@ namespace QuanLyBanHoa.Models
             }
         }
 
+        // Overload with connection and transaction
+        public static bool Update(ChiTietDonHang chiTiet, int oldMaHoa, SqlConnection conn, SqlTransaction tx = null)
+        {
+            string query = @"UPDATE ChiTietDonHang 
+                           SET MaHoa = @MaHoa, SoLuong = @SoLuong, ThanhTien = @ThanhTien, MaNV = @MaNV
+                           WHERE MaDH = @MaDH AND MaHoa = @OldMaHoa";
+            using (var cmd = new SqlCommand(query, conn, tx))
+            {
+                cmd.Parameters.AddWithValue("@MaDH", chiTiet.MaDH);
+                cmd.Parameters.AddWithValue("@MaHoa", chiTiet.MaHoa);
+                cmd.Parameters.AddWithValue("@SoLuong", chiTiet.SoLuong);
+                cmd.Parameters.AddWithValue("@ThanhTien", chiTiet.ThanhTien);
+                cmd.Parameters.AddWithValue("@MaNV", chiTiet.MaNV);
+                cmd.Parameters.AddWithValue("@OldMaHoa", oldMaHoa);
+                return cmd.ExecuteNonQuery() > 0;
+            }
+        }
+
         // Xóa chi tiết đơn hàng
         public static bool Delete(int maDH, int maHoa)
         {
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = "DELETE FROM chitietdonhang WHERE MaDH = @MaDH AND MaHoa = @MaHoa";
+                string query = "DELETE FROM ChiTietDonHang WHERE MaDH = @MaDH AND MaHoa = @MaHoa";
                 using (var cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@MaDH", maDH);
@@ -147,12 +181,23 @@ namespace QuanLyBanHoa.Models
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = "DELETE FROM chitietdonhang WHERE MaDH = @MaDH";
+                string query = "DELETE FROM ChiTietDonHang WHERE MaDH = @MaDH";
                 using (var cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@MaDH", maDH);
                     return cmd.ExecuteNonQuery() > 0;
                 }
+            }
+        }
+
+        // Overload with connection and transaction
+        public static bool DeleteByMaDH(int maDH, SqlConnection conn, SqlTransaction tx = null)
+        {
+            string query = "DELETE FROM ChiTietDonHang WHERE MaDH = @MaDH";
+            using (var cmd = new SqlCommand(query, conn, tx))
+            {
+                cmd.Parameters.AddWithValue("@MaDH", maDH);
+                return cmd.ExecuteNonQuery() >= 0;
             }
         }
 
@@ -163,9 +208,9 @@ namespace QuanLyBanHoa.Models
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = @"SELECT ct.MaDH, ct.MaHoa, h.TenHoa, ct.SoLuong, h.Gia, ct.ThanhTien, ct.MaNV
-                               FROM chitietdonhang ct
-                               INNER JOIN hoa h ON ct.MaHoa = h.MaHoa
+                string query = @"SELECT ct.MaDH, ct.MaHoa, h.TenHoa, ct.SoLuong, ct.ThanhTien, ct.MaNV
+                               FROM ChiTietDonHang ct
+                               LEFT JOIN Hoa h ON ct.MaHoa = h.MaHoa
                                WHERE ct.MaDH = @MaDH";
                 using (var cmd = new SqlCommand(query, conn))
                 {
@@ -180,11 +225,40 @@ namespace QuanLyBanHoa.Models
                                 MaHoa = reader["MaHoa"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaHoa"]),
                                 TenHoa = reader["TenHoa"] == DBNull.Value ? string.Empty : reader["TenHoa"].ToString(),
                                 SoLuong = reader["SoLuong"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SoLuong"]),
-                                Gia = reader["Gia"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["Gia"]),
                                 ThanhTien = reader["ThanhTien"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["ThanhTien"]),
                                 MaNV = reader["MaNV"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaNV"])
                             });
                         }
+                    }
+                }
+            }
+            return listDetail;
+        }
+
+        // Overload with connection and transaction
+        public static List<dynamic> GetDetailWithHoaInfo(int maDH, SqlConnection conn, SqlTransaction tx = null)
+        {
+            List<dynamic> listDetail = new List<dynamic>();
+            string query = @"SELECT ct.MaDH, ct.MaHoa, h.TenHoa, ct.SoLuong, ct.ThanhTien, ct.MaNV
+                           FROM ChiTietDonHang ct
+                           LEFT JOIN Hoa h ON ct.MaHoa = h.MaHoa
+                           WHERE ct.MaDH = @MaDH";
+            using (var cmd = new SqlCommand(query, conn, tx))
+            {
+                cmd.Parameters.AddWithValue("@MaDH", maDH);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        listDetail.Add(new
+                        {
+                            MaDH = reader["MaDH"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaDH"]),
+                            MaHoa = reader["MaHoa"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaHoa"]),
+                            TenHoa = reader["TenHoa"] == DBNull.Value ? string.Empty : reader["TenHoa"].ToString(),
+                            SoLuong = reader["SoLuong"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SoLuong"]),
+                            ThanhTien = reader["ThanhTien"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["ThanhTien"]),
+                            MaNV = reader["MaNV"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaNV"])
+                        });
                     }
                 }
             }

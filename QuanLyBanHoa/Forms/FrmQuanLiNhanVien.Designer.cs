@@ -45,7 +45,7 @@
             // 
             // headerPanel
             // 
-            headerPanel.BackColor = Color.FromArgb(52, 152, 219);
+            headerPanel.BackColor = Color.Green;
             headerPanel.Controls.Add(lblHeaderTitle);
             headerPanel.Dock = DockStyle.Top;
             headerPanel.Location = new Point(0, 0);
@@ -249,7 +249,7 @@
             // btnTaiLai
             // 
             btnTaiLai.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            btnTaiLai.BackColor = Color.Black;
+            btnTaiLai.BackColor = Color.Gold;
             btnTaiLai.FlatAppearance.BorderSize = 0;
             btnTaiLai.FlatStyle = FlatStyle.Flat;
             btnTaiLai.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);

@@ -4,6 +4,8 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Windows.Forms;
 using QuanLyBanHoa.Data;
+using QuanLyBanHoa.Models;
+using System.ComponentModel;
 
 namespace QuanLyBanHoa.Forms
 {
@@ -40,21 +42,18 @@ namespace QuanLyBanHoa.Forms
                     btnThem.Enabled = false;
                     btnSua.Enabled = false;
                     btnXoa.Enabled = false;
-                    btnLuu.Enabled = true;
                     break;
                 case CustomerFormMode.Editing:
                     txtMaKH.ReadOnly = true; // không cho sửa khóa chính
                     btnThem.Enabled = false;
                     btnSua.Enabled = false;
                     btnXoa.Enabled = true;
-                    btnLuu.Enabled = true;
                     break;
                 default: // None
                     txtMaKH.ReadOnly = true;
                     btnThem.Enabled = true;
                     btnSua.Enabled = true;
                     btnXoa.Enabled = true;
-                    btnLuu.Enabled = false;
                     break;
             }
         }
@@ -73,23 +72,12 @@ namespace QuanLyBanHoa.Forms
         {
             try
             {
-                using var con = Database.GetConnection();
-                con.Open();
-                string query = @"SELECT k.MaKH, k.TenKH, k.SoDienThoai, k.DiaChi, k.Email,
-                                     (SELECT COUNT(*) FROM DonHang d WHERE d.MaKH = k.MaKH) AS SoLuongDon
-                                  FROM KhachHang k
-                                  ORDER BY k.MaKH DESC";
-                using var cmd = new SqlCommand(query, con);
-                using var reader = cmd.ExecuteReader();
-                DataTable dt = new DataTable();
-                dt.Load(reader);
-                dgDSKhachHang.DataSource = dt;
+                dgDSKhachHang.DataSource = new BindingList<KhachHang>(KhachHang.GetAll());
+                SetupDataGridView();
             }
             catch (Exception ex)
             {
-                string fullError = $"Lỗi tải dữ liệu khách hàng:\n{ex.ToString()}";
-                Console.WriteLine(fullError); // Ghi lỗi chi tiết ra console để debug
-                MessageBox.Show($"Lỗi tải dữ liệu khách hàng. Vui lòng kiểm tra lại chuỗi kết nối và câu lệnh SQL.\nChi tiết: {ex.Message}", "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Lỗi tải dữ liệu: " + ex.Message, "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -117,20 +105,6 @@ namespace QuanLyBanHoa.Forms
 
         private void btnThem_Click(object sender, EventArgs e)
         {
-            // Tạm thời vô hiệu hóa logic thêm để kiểm tra kết nối
-            string connectionString = Database.GetCurrentConnectionString();
-            bool isConnected = Database.TestConnection();
-
-            string message = $"Chuỗi kết nối đang dùng:\n{connectionString}\n\nTrạng thái kết nối: {(isConnected ? "Thành công" : "Thất bại")}";
-            MessageBox.Show(message, "Kiểm tra kết nối Database", MessageBoxButtons.OK, isConnected ? MessageBoxIcon.Information : MessageBoxIcon.Error);
-
-            // Nếu kết nối thất bại, không làm gì thêm
-            if (!isConnected)
-            {
-                return;
-            }
-
-            // Nếu kết nối thành công, tiếp tục với logic thêm
             _mode = CustomerFormMode.Adding;
             if (!ValidateInputs())
             {
@@ -140,22 +114,27 @@ namespace QuanLyBanHoa.Forms
 
             try
             {
-                using var con = Database.GetConnection();
-                con.Open();
                 var sdt = TxtSDTBox?.Text ?? string.Empty;
-
-                string query = "INSERT INTO KhachHang (TenKH, SoDienThoai, DiaChi, Email) VALUES (@TenKH, @SoDienThoai, @DiaChi, @Email)";
-                using var cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@TenKH", txtHoTen.Text.Trim());
-                cmd.Parameters.AddWithValue("@SoDienThoai", sdt);
-                cmd.Parameters.AddWithValue("@DiaChi", txtDiaChi.Text.Trim());
-                cmd.Parameters.AddWithValue("@Email", txtEmail.Text.Trim());
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Thêm khách hàng thành công.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                getData();
-                ClearInputs();
-                SetMode(CustomerFormMode.None);
+                var kh = new KhachHang
+                {
+                    TenKH = txtHoTen.Text.Trim(),
+                    SoDienThoai = sdt,
+                    DiaChi = txtDiaChi.Text.Trim(),
+                    Email = txtEmail.Text.Trim()
+                };
+                bool success = KhachHang.Insert(kh);
+                if (success)
+                {
+                    getData();
+                    ClearInputs();
+                    SetMode(CustomerFormMode.None);
+                    MessageBox.Show("Thêm khách hàng thành công.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Thêm khách hàng thất bại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    SetMode(CustomerFormMode.None);
+                }
             }
             catch (Exception ex)
             {
@@ -172,6 +151,38 @@ namespace QuanLyBanHoa.Forms
                 return;
             }
             SetMode(CustomerFormMode.Editing);
+            if (_mode != CustomerFormMode.Editing) return;
+
+            if (!ValidateInputs()) return;
+
+            try
+            {
+                var sdt = TxtSDTBox?.Text ?? string.Empty;
+                var kh = new KhachHang
+                {
+                    MaKH = Convert.ToInt32(txtMaKH.Text),
+                    TenKH = txtHoTen.Text.Trim(),
+                    SoDienThoai = sdt,
+                    DiaChi = txtDiaChi.Text.Trim(),
+                    Email = txtEmail.Text.Trim()
+                };
+                bool success = KhachHang.Update(kh);
+                if (success)
+                {
+                    getData();
+                    ClearInputs();
+                    SetMode(CustomerFormMode.None);
+                    MessageBox.Show("Cập nhật khách hàng thành công.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Cập nhật khách hàng thất bại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Lỗi lưu khách hàng:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnXoa_Click(object sender, EventArgs e)
@@ -186,80 +197,22 @@ namespace QuanLyBanHoa.Forms
                 var confirm = MessageBox.Show($"Xóa khách hàng #{maKH}? Hành động không thể hoàn tác.", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (confirm != DialogResult.Yes) return;
 
-                using var con = Database.GetConnection();
-                con.Open();
-                
-                // Kiểm tra tồn tại đơn hàng
-                using (var checkCmd = new SqlCommand("SELECT COUNT(*) FROM DonHang WHERE MaKH=@MaKH", con))
+                bool success = KhachHang.Delete(maKH);
+                if (success)
                 {
-                    checkCmd.Parameters.AddWithValue("@MaKH", maKH);
-                    var count = Convert.ToInt32(checkCmd.ExecuteScalar());
-                    if (count > 0)
-                    {
-                        var res = MessageBox.Show("Khách hàng có đơn hàng. Vẫn xóa (sẽ xóa cả đơn)?", "Cảnh báo", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
-                        if (res != DialogResult.Yes) return;
-                        
-                        // SQL Server: Xóa chi tiết đơn trước - dùng subquery thay vì DELETE...JOIN
-                        using (var delCt = new SqlCommand("DELETE FROM ChiTietDonHang WHERE MaDH IN (SELECT MaDH FROM DonHang WHERE MaKH=@MaKH)", con))
-                        {
-                            delCt.Parameters.AddWithValue("@MaKH", maKH);
-                            delCt.ExecuteNonQuery();
-                        }
-                        using (var delDon = new SqlCommand("DELETE FROM DonHang WHERE MaKH=@MaKH", con))
-                        {
-                            delDon.Parameters.AddWithValue("@MaKH", maKH);
-                            delDon.ExecuteNonQuery();
-                        }
-                    }
+                    getData();
+                    ClearInputs();
+                    SetMode(CustomerFormMode.None);
+                    MessageBox.Show("Đã xóa khách hàng.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-
-                using (var cmd = new SqlCommand("DELETE FROM KhachHang WHERE MaKH=@MaKH", con))
+                else
                 {
-                    cmd.Parameters.AddWithValue("@MaKH", maKH);
-                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Xóa khách hàng thất bại.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-
-                MessageBox.Show("Đã xóa khách hàng.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                getData();
-                ClearInputs();
-                SetMode(CustomerFormMode.None);
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Lỗi xóa khách hàng:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void btnLuu_Click(object sender, EventArgs e)
-        {
-            // Bây giờ nút Lưu chỉ dùng cho việc Sửa
-            if (_mode != CustomerFormMode.Editing) return;
-
-            if (!ValidateInputs()) return;
-
-            try
-            {
-                using var con = Database.GetConnection();
-                con.Open();
-                var sdt = TxtSDTBox?.Text ?? string.Empty;
-
-                string query = "UPDATE KhachHang SET TenKH=@TenKH, SoDienThoai=@SoDienThoai, DiaChi=@DiaChi, Email=@Email WHERE MaKH=@MaKH";
-                using var cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@MaKH", Convert.ToInt32(txtMaKH.Text));
-                cmd.Parameters.AddWithValue("@TenKH", txtHoTen.Text.Trim());
-                cmd.Parameters.AddWithValue("@SoDienThoai", sdt);
-                cmd.Parameters.AddWithValue("@DiaChi", txtDiaChi.Text.Trim());
-                cmd.Parameters.AddWithValue("@Email", txtEmail.Text.Trim());
-                cmd.ExecuteNonQuery();
-                MessageBox.Show("Cập nhật khách hàng thành công.", "Thành công", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                
-                getData();
-                ClearInputs();
-                SetMode(CustomerFormMode.None);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Lỗi lưu khách hàng:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -281,7 +234,7 @@ namespace QuanLyBanHoa.Forms
                 var sdtBox = TxtSDTBox; if (sdtBox != null) sdtBox.Text = Convert.ToString(row.Cells["SoDienThoai"].Value ?? "");
                 txtDiaChi.Text = Convert.ToString(row.Cells["DiaChi"].Value ?? "");
                 txtEmail.Text = Convert.ToString(row.Cells["Email"].Value ?? "");
-                txtSoluong.Text = Convert.ToString(row.Cells["SoLuongDon"].Value ?? "0");
+                txtSoluong.Text = Convert.ToString(row.Cells["SoLuongDonHang"].Value ?? "0");
             }
             catch { }
         }
@@ -300,9 +253,23 @@ namespace QuanLyBanHoa.Forms
             SetMode(CustomerFormMode.None);
         }
 
-        private void lbMaKH_Click(object sender, EventArgs e)
+        private void SetupDataGridView()
         {
-
+            if (dgDSKhachHang.Columns.Count > 0)
+            {
+                if (dgDSKhachHang.Columns.Contains("MaKH"))
+                    dgDSKhachHang.Columns["MaKH"].HeaderText = "Mã KH";
+                if (dgDSKhachHang.Columns.Contains("TenKH"))
+                    dgDSKhachHang.Columns["TenKH"].HeaderText = "Tên KH";
+                if (dgDSKhachHang.Columns.Contains("DiaChi"))
+                    dgDSKhachHang.Columns["DiaChi"].HeaderText = "Địa Chỉ";
+                if (dgDSKhachHang.Columns.Contains("SoDienThoai"))
+                    dgDSKhachHang.Columns["SoDienThoai"].HeaderText = "SĐT";
+                if (dgDSKhachHang.Columns.Contains("Email"))
+                    dgDSKhachHang.Columns["Email"].HeaderText = "Email";
+                if (dgDSKhachHang.Columns.Contains("SoLuongDonHang"))
+                    dgDSKhachHang.Columns["SoLuongDonHang"].HeaderText = "Số Đơn";
+            }
         }
     }
 }
