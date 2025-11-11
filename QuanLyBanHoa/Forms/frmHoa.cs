@@ -85,10 +85,6 @@ namespace QuanLyBanHoa.Forms
             btnThem.Enabled = !editing;
             btnSua.Enabled = !editing && dgDSHoa.SelectedRows.Count > 0;
             btnXoa.Enabled = !editing && dgDSHoa.SelectedRows.Count > 0;
-<<<<<<< HEAD
-
-=======
->>>>>>> f1fcd2e057184e480e65abf87872ccf8088a6c0f
         }
 
         private void dgDSHoa_SelectionChanged(object sender, EventArgs e)
@@ -190,16 +186,14 @@ namespace QuanLyBanHoa.Forms
             if (!isEditing)
             {
                 isEditing = true;
-                currentMaHoa = Convert.ToInt32(txtMaHoa.Text);
+                // Lấy MaHoa trực tiếp từ DataGridView để tránh lỗi nếu textbox bị format
+                var cell = dgDSHoa.SelectedRows[0].Cells["MaHoa"].Value;
+                currentMaHoa = cell != null && int.TryParse(cell.ToString(), out int m) ? m : 0;
                 SetButtonState(true);
                 txtMaHoa.ReadOnly = true;
                 txtTenHoa.Focus();
             }
             else SaveEdit();
-        }
-
-        private void SaveEdit()
-        {
             if (string.IsNullOrWhiteSpace(txtTenHoa.Text))
             {
                 MessageBox.Show("Vui lòng nhập tên hoa.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -248,6 +242,17 @@ namespace QuanLyBanHoa.Forms
                     SoLuong = soLuong,
                     MoTa = txtGhichu.Text.Trim()
                 };
+                if (hoaCapNhat.MaHoa <= 0)
+                {
+                    MessageBox.Show("Mã hoa không hợp lệ, không thể cập nhật.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ClearInputFields(); // Reset trạng thái ngay cả khi lỗi
+                    return;
+                }
+
+                // Debug: Hiển thị thông tin trước khi cập nhật
+                string debugInfo = $"Cập nhật Hoa:\nMaHoa: {hoaCapNhat.MaHoa}\nTenHoa: {hoaCapNhat.TenHoa}\nGia: {hoaCapNhat.Gia}\nSoLuong: {hoaCapNhat.SoLuong}\nMoTa: {hoaCapNhat.MoTa}";
+                MessageBox.Show(debugInfo, "Debug Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                 bool success = Hoa.Update(hoaCapNhat);
                 if (success)
                 {
@@ -256,12 +261,23 @@ namespace QuanLyBanHoa.Forms
                     OnHoaDataChanged();
                     MessageBox.Show("Cập nhật hoa thành công!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-                else MessageBox.Show("Cập nhật hoa không thành công.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                else
+                {
+                    // Nếu không có hàng bị ảnh hưởng, hiển thị thông tin debug
+                    MessageBox.Show($"Cập nhật không thay đổi bản ghi. Vui lòng kiểm tra Mã Hoa = {hoaCapNhat.MaHoa} tồn tại trong CSDL.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    ClearInputFields(); // Reset trạng thái ngay cả khi update fail
+                }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Lỗi khi cập nhật hoa: " + ex.Message, "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ClearInputFields(); // Reset trạng thái ngay cả khi exception
             }
+        }
+
+        private void SaveEdit()
+        {
+           
         }
 
         private void btnLuu_Click(object sender, EventArgs e)
@@ -369,9 +385,8 @@ namespace QuanLyBanHoa.Forms
 
         private void btnTaiLai_Click(object sender, EventArgs e)
         {
+            LoadDataToDataGridView();
             ClearInputFields();
-            LoadDataToDataGridView(); 
-            Focus();
         }
     }
 }

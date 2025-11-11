@@ -91,7 +91,9 @@ namespace QuanLyBanHoa.Models
                     cmd.Parameters.AddWithValue("@Gia", hoa.Gia);
                     cmd.Parameters.AddWithValue("@SoLuong", hoa.SoLuong);
                     cmd.Parameters.AddWithValue("@MoTa", hoa.MoTa ?? (object)DBNull.Value);
-                    return cmd.ExecuteNonQuery() > 0;
+                    int rowsAffected = cmd.ExecuteNonQuery();
+                    // Tr? v? true n?u không có l?i, b?t k? có hàng nào b? ?nh h??ng
+                    return rowsAffected >= 0;
                 }
             }
         }

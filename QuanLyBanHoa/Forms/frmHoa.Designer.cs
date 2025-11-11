@@ -62,11 +62,11 @@
             groupBox1.Controls.Add(panelSearch);
             groupBox1.Dock = DockStyle.Fill;
             groupBox1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            groupBox1.Location = new Point(380, 48);
+            groupBox1.Location = new Point(475, 60);
             groupBox1.Margin = new Padding(2);
             groupBox1.Name = "groupBox1";
-            groupBox1.Padding = new Padding(13);
-            groupBox1.Size = new Size(882, 582);
+            groupBox1.Padding = new Padding(16);
+            groupBox1.Size = new Size(1103, 728);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Danh Sách Hoa";
@@ -98,7 +98,7 @@
             dataGridViewCellStyle3.WrapMode = DataGridViewTriState.False;
             dgDSHoa.DefaultCellStyle = dataGridViewCellStyle3;
             dgDSHoa.Dock = DockStyle.Fill;
-            dgDSHoa.Location = new Point(13, 86);
+            dgDSHoa.Location = new Point(16, 106);
             dgDSHoa.Margin = new Padding(2);
             dgDSHoa.Name = "dgDSHoa";
             dgDSHoa.ReadOnly = true;
@@ -109,7 +109,7 @@
             dgDSHoa.RowsDefaultCellStyle = dataGridViewCellStyle4;
             dgDSHoa.RowTemplate.Height = 26;
             dgDSHoa.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgDSHoa.Size = new Size(856, 483);
+            dgDSHoa.Size = new Size(1071, 606);
             dgDSHoa.TabIndex = 11;
             dgDSHoa.SelectionChanged += dgDSHoa_SelectionChanged;
             // 
@@ -119,10 +119,11 @@
             panelSearch.Controls.Add(txtTim);
             panelSearch.Controls.Add(label8);
             panelSearch.Dock = DockStyle.Top;
-            panelSearch.Location = new Point(13, 40);
+            panelSearch.Location = new Point(16, 48);
+            panelSearch.Margin = new Padding(4);
             panelSearch.Name = "panelSearch";
-            panelSearch.Padding = new Padding(0, 5, 0, 5);
-            panelSearch.Size = new Size(856, 46);
+            panelSearch.Padding = new Padding(0, 6, 0, 6);
+            panelSearch.Size = new Size(1071, 58);
             panelSearch.TabIndex = 100;
             // 
             // btnTim
@@ -133,10 +134,10 @@
             btnTim.FlatStyle = FlatStyle.Flat;
             btnTim.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnTim.ForeColor = Color.White;
-            btnTim.Location = new Point(713, 12);
+            btnTim.Location = new Point(892, 15);
             btnTim.Margin = new Padding(2);
             btnTim.Name = "btnTim";
-            btnTim.Size = new Size(128, 26);
+            btnTim.Size = new Size(160, 32);
             btnTim.TabIndex = 8;
             btnTim.Text = "Tìm";
             btnTim.UseVisualStyleBackColor = false;
@@ -146,20 +147,20 @@
             // 
             txtTim.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             txtTim.Font = new Font("Segoe UI", 9F);
-            txtTim.Location = new Point(97, 11);
+            txtTim.Location = new Point(121, 14);
             txtTim.Margin = new Padding(2);
             txtTim.Name = "txtTim";
-            txtTim.Size = new Size(613, 27);
+            txtTim.Size = new Size(766, 31);
             txtTim.TabIndex = 10;
             // 
             // label8
             // 
             label8.AutoSize = true;
             label8.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label8.Location = new Point(13, 14);
+            label8.Location = new Point(16, 18);
             label8.Margin = new Padding(2, 0, 2, 0);
             label8.Name = "label8";
-            label8.Size = new Size(78, 20);
+            label8.Size = new Size(95, 25);
             label8.TabIndex = 9;
             label8.Text = "Tìm kiếm:";
             // 
@@ -168,11 +169,11 @@
             groupBox2.Controls.Add(layoutInfo);
             groupBox2.Dock = DockStyle.Left;
             groupBox2.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            groupBox2.Location = new Point(0, 48);
+            groupBox2.Location = new Point(0, 60);
             groupBox2.Margin = new Padding(2);
             groupBox2.Name = "groupBox2";
-            groupBox2.Padding = new Padding(13);
-            groupBox2.Size = new Size(380, 582);
+            groupBox2.Padding = new Padding(16);
+            groupBox2.Size = new Size(475, 728);
             groupBox2.TabIndex = 1;
             groupBox2.TabStop = false;
             groupBox2.Text = "Thông Tin Hoa";
@@ -180,7 +181,7 @@
             // layoutInfo
             // 
             layoutInfo.ColumnCount = 2;
-            layoutInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 90F));
+            layoutInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 112F));
             layoutInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             layoutInfo.Controls.Add(lbMaHoa, 0, 0);
             layoutInfo.Controls.Add(txtMaHoa, 1, 0);
@@ -193,28 +194,28 @@
             layoutInfo.Controls.Add(lbGhichu, 0, 4);
             layoutInfo.Controls.Add(txtGhichu, 0, 5);
             layoutInfo.Dock = DockStyle.Fill;
-            layoutInfo.Location = new Point(13, 40);
+            layoutInfo.Location = new Point(16, 48);
             layoutInfo.Margin = new Padding(0);
             layoutInfo.Name = "layoutInfo";
-            layoutInfo.Padding = new Padding(5);
+            layoutInfo.Padding = new Padding(6);
             layoutInfo.RowCount = 6;
-            layoutInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 34F));
-            layoutInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 34F));
-            layoutInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 34F));
-            layoutInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            layoutInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 28F));
+            layoutInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
+            layoutInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
+            layoutInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 42F));
+            layoutInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 50F));
+            layoutInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 35F));
             layoutInfo.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            layoutInfo.Size = new Size(354, 529);
+            layoutInfo.Size = new Size(443, 664);
             layoutInfo.TabIndex = 0;
             // 
             // lbMaHoa
             // 
             lbMaHoa.AutoSize = true;
             lbMaHoa.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            lbMaHoa.Location = new Point(7, 11);
-            lbMaHoa.Margin = new Padding(2, 6, 2, 0);
+            lbMaHoa.Location = new Point(8, 14);
+            lbMaHoa.Margin = new Padding(2, 8, 2, 0);
             lbMaHoa.Name = "lbMaHoa";
-            lbMaHoa.Size = new Size(65, 20);
+            lbMaHoa.Size = new Size(81, 25);
             lbMaHoa.TabIndex = 3;
             lbMaHoa.Text = "Mã hoa:";
             // 
@@ -222,21 +223,21 @@
             // 
             txtMaHoa.Dock = DockStyle.Fill;
             txtMaHoa.Font = new Font("Segoe UI", 9F);
-            txtMaHoa.Location = new Point(97, 7);
+            txtMaHoa.Location = new Point(120, 8);
             txtMaHoa.Margin = new Padding(2);
             txtMaHoa.Name = "txtMaHoa";
             txtMaHoa.ReadOnly = true;
-            txtMaHoa.Size = new Size(250, 27);
+            txtMaHoa.Size = new Size(315, 31);
             txtMaHoa.TabIndex = 0;
             // 
             // lbTenHoa
             // 
             lbTenHoa.AutoSize = true;
             lbTenHoa.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            lbTenHoa.Location = new Point(7, 45);
-            lbTenHoa.Margin = new Padding(2, 6, 2, 0);
+            lbTenHoa.Location = new Point(8, 56);
+            lbTenHoa.Margin = new Padding(2, 8, 2, 0);
             lbTenHoa.Name = "lbTenHoa";
-            lbTenHoa.Size = new Size(68, 20);
+            lbTenHoa.Size = new Size(84, 25);
             lbTenHoa.TabIndex = 4;
             lbTenHoa.Text = "Tên hoa:";
             // 
@@ -244,20 +245,20 @@
             // 
             txtTenHoa.Dock = DockStyle.Fill;
             txtTenHoa.Font = new Font("Segoe UI", 9F);
-            txtTenHoa.Location = new Point(97, 41);
+            txtTenHoa.Location = new Point(120, 50);
             txtTenHoa.Margin = new Padding(2);
             txtTenHoa.Name = "txtTenHoa";
-            txtTenHoa.Size = new Size(250, 27);
+            txtTenHoa.Size = new Size(315, 31);
             txtTenHoa.TabIndex = 1;
             // 
             // lbGia
             // 
             lbGia.AutoSize = true;
             lbGia.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            lbGia.Location = new Point(7, 79);
-            lbGia.Margin = new Padding(2, 6, 2, 0);
+            lbGia.Location = new Point(8, 98);
+            lbGia.Margin = new Padding(2, 8, 2, 0);
             lbGia.Name = "lbGia";
-            lbGia.Size = new Size(66, 20);
+            lbGia.Size = new Size(82, 25);
             lbGia.TabIndex = 5;
             lbGia.Text = "Giá bán:";
             // 
@@ -265,20 +266,20 @@
             // 
             txtGia.Dock = DockStyle.Fill;
             txtGia.Font = new Font("Segoe UI", 9F);
-            txtGia.Location = new Point(97, 75);
+            txtGia.Location = new Point(120, 92);
             txtGia.Margin = new Padding(2);
             txtGia.Name = "txtGia";
-            txtGia.Size = new Size(250, 27);
+            txtGia.Size = new Size(315, 31);
             txtGia.TabIndex = 2;
             // 
             // lbSoLuong
             // 
             lbSoLuong.AutoSize = true;
             lbSoLuong.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            lbSoLuong.Location = new Point(7, 113);
-            lbSoLuong.Margin = new Padding(2, 6, 2, 0);
+            lbSoLuong.Location = new Point(8, 140);
+            lbSoLuong.Margin = new Padding(2, 8, 2, 0);
             lbSoLuong.Name = "lbSoLuong";
-            lbSoLuong.Size = new Size(75, 20);
+            lbSoLuong.Size = new Size(93, 25);
             lbSoLuong.TabIndex = 6;
             lbSoLuong.Text = "Số lượng:";
             // 
@@ -289,10 +290,10 @@
             cboSoLuong.Font = new Font("Segoe UI", 9F);
             cboSoLuong.FormattingEnabled = true;
             cboSoLuong.IntegralHeight = false;
-            cboSoLuong.Location = new Point(97, 109);
+            cboSoLuong.Location = new Point(120, 134);
             cboSoLuong.Margin = new Padding(2);
             cboSoLuong.Name = "cboSoLuong";
-            cboSoLuong.Size = new Size(121, 28);
+            cboSoLuong.Size = new Size(150, 33);
             cboSoLuong.TabIndex = 3;
             cboSoLuong.SelectedIndexChanged += cboSoLuong_SelectedIndexChanged;
             // 
@@ -300,10 +301,10 @@
             // 
             lbGhichu.AutoSize = true;
             lbGhichu.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            lbGhichu.Location = new Point(7, 153);
-            lbGhichu.Margin = new Padding(2, 6, 2, 0);
+            lbGhichu.Location = new Point(8, 190);
+            lbGhichu.Margin = new Padding(2, 8, 2, 0);
             lbGhichu.Name = "lbGhichu";
-            lbGhichu.Size = new Size(54, 20);
+            lbGhichu.Size = new Size(67, 25);
             lbGhichu.TabIndex = 16;
             lbGhichu.Text = "Mô tả:";
             // 
@@ -312,12 +313,12 @@
             layoutInfo.SetColumnSpan(txtGhichu, 2);
             txtGhichu.Dock = DockStyle.Fill;
             txtGhichu.Font = new Font("Segoe UI", 9F);
-            txtGhichu.Location = new Point(7, 177);
+            txtGhichu.Location = new Point(8, 219);
             txtGhichu.Margin = new Padding(2);
             txtGhichu.Multiline = true;
             txtGhichu.Name = "txtGhichu";
             txtGhichu.ScrollBars = ScrollBars.Vertical;
-            txtGhichu.Size = new Size(340, 345);
+            txtGhichu.Size = new Size(427, 437);
             txtGhichu.TabIndex = 4;
             // 
             // btnThem
@@ -327,10 +328,10 @@
             btnThem.FlatStyle = FlatStyle.Flat;
             btnThem.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnThem.ForeColor = Color.White;
-            btnThem.Location = new Point(13, 8);
+            btnThem.Location = new Point(16, 10);
             btnThem.Margin = new Padding(2);
             btnThem.Name = "btnThem";
-            btnThem.Size = new Size(96, 32);
+            btnThem.Size = new Size(120, 40);
             btnThem.TabIndex = 3;
             btnThem.Text = "Thêm";
             btnThem.UseVisualStyleBackColor = false;
@@ -343,10 +344,10 @@
             btnSua.FlatStyle = FlatStyle.Flat;
             btnSua.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnSua.ForeColor = Color.White;
-            btnSua.Location = new Point(122, 8);
+            btnSua.Location = new Point(152, 10);
             btnSua.Margin = new Padding(2);
             btnSua.Name = "btnSua";
-            btnSua.Size = new Size(96, 32);
+            btnSua.Size = new Size(120, 40);
             btnSua.TabIndex = 4;
             btnSua.Text = "Sửa";
             btnSua.UseVisualStyleBackColor = false;
@@ -359,10 +360,10 @@
             btnXoa.FlatStyle = FlatStyle.Flat;
             btnXoa.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnXoa.ForeColor = Color.White;
-            btnXoa.Location = new Point(230, 8);
+            btnXoa.Location = new Point(288, 10);
             btnXoa.Margin = new Padding(2);
             btnXoa.Name = "btnXoa";
-            btnXoa.Size = new Size(96, 32);
+            btnXoa.Size = new Size(120, 40);
             btnXoa.TabIndex = 5;
             btnXoa.Text = "Xóa";
             btnXoa.UseVisualStyleBackColor = false;
@@ -376,11 +377,11 @@
             panelActions.Controls.Add(btnSua);
             panelActions.Controls.Add(btnThem);
             panelActions.Dock = DockStyle.Bottom;
-            panelActions.Location = new Point(0, 630);
+            panelActions.Location = new Point(0, 788);
             panelActions.Margin = new Padding(2);
             panelActions.Name = "panelActions";
-            panelActions.Padding = new Padding(6);
-            panelActions.Size = new Size(1262, 45);
+            panelActions.Padding = new Padding(8);
+            panelActions.Size = new Size(1578, 56);
             panelActions.TabIndex = 102;
             // 
             // btnTaiLai
@@ -390,10 +391,10 @@
             btnTaiLai.FlatStyle = FlatStyle.Flat;
             btnTaiLai.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
             btnTaiLai.ForeColor = Color.White;
-            btnTaiLai.Location = new Point(340, 8);
+            btnTaiLai.Location = new Point(425, 10);
             btnTaiLai.Margin = new Padding(2);
             btnTaiLai.Name = "btnTaiLai";
-            btnTaiLai.Size = new Size(96, 32);
+            btnTaiLai.Size = new Size(120, 40);
             btnTaiLai.TabIndex = 6;
             btnTaiLai.Text = "Tải Lại";
             btnTaiLai.UseVisualStyleBackColor = false;
@@ -407,8 +408,8 @@
             headerPanel.Location = new Point(0, 0);
             headerPanel.Margin = new Padding(2);
             headerPanel.Name = "headerPanel";
-            headerPanel.Padding = new Padding(19, 10, 19, 10);
-            headerPanel.Size = new Size(1262, 48);
+            headerPanel.Padding = new Padding(24, 12, 24, 12);
+            headerPanel.Size = new Size(1578, 60);
             headerPanel.TabIndex = 103;
             // 
             // lblHeaderTitle
@@ -416,19 +417,19 @@
             lblHeaderTitle.AutoSize = true;
             lblHeaderTitle.Font = new Font("Segoe UI", 14F, FontStyle.Bold);
             lblHeaderTitle.ForeColor = Color.White;
-            lblHeaderTitle.Location = new Point(19, 12);
+            lblHeaderTitle.Location = new Point(24, 15);
             lblHeaderTitle.Margin = new Padding(2, 0, 2, 0);
             lblHeaderTitle.Name = "lblHeaderTitle";
-            lblHeaderTitle.Size = new Size(151, 32);
+            lblHeaderTitle.Size = new Size(175, 38);
             lblHeaderTitle.TabIndex = 0;
             lblHeaderTitle.Text = "Quản lý hoa";
             // 
             // frmHoa
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1262, 675);
+            ClientSize = new Size(1578, 844);
             Controls.Add(groupBox1);
             Controls.Add(groupBox2);
             Controls.Add(panelActions);
@@ -436,6 +437,7 @@
             Font = new Font("Segoe UI", 9F);
             FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(4);
             Name = "frmHoa";
             Text = "Quản Lý Hoa";
             Load += frmQuanLiHoa_Load;
