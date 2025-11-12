@@ -183,7 +183,7 @@ namespace QuanLyBanHoa.Forms
                 List<dynamic> listDetails = DonHang.GetOrdersWithDetails();
                 foreach (var detail in listDetails)
                 {
-                    int rowIndex = dgvDonHang.Rows.Add(detail.MaDH, detail.NgayDatHang.ToString("g"), detail.TenKH, detail.SoDienThoai, detail.MaNV.ToString(), detail.TenHoa, detail.SoLuong);
+                    int rowIndex = dgvDonHang.Rows.Add(detail.MaDH, detail.NgayDatHang.ToString("dd/MM/yyyy"), detail.TenKH, detail.SoDienThoai, detail.MaNV.ToString(), detail.TenHoa, detail.SoLuong);
                     // Lưu MaHoa gốc vào Tag của hàng để dùng khi sửa
                     dgvDonHang.Rows[rowIndex].Tag = detail.MaHoa;
                 }

@@ -34,6 +34,7 @@
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormThongKeBaoCao));
             headerPanel = new Panel();
             lblTitle = new Label();
             tlpFilters = new TableLayoutPanel();
@@ -103,7 +104,7 @@
             lblTitle.ForeColor = Color.White;
             lblTitle.Location = new Point(24, 12);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(313, 45);
+            lblTitle.Size = new Size(264, 37);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "Thống kê đơn hàng";
             // 
@@ -136,9 +137,9 @@
             lblFrom.Anchor = AnchorStyles.Left;
             lblFrom.AutoSize = true;
             lblFrom.Font = new Font("Segoe UI", 10F);
-            lblFrom.Location = new Point(19, 18);
+            lblFrom.Location = new Point(19, 20);
             lblFrom.Name = "lblFrom";
-            lblFrom.Size = new Size(83, 28);
+            lblFrom.Size = new Size(71, 23);
             lblFrom.TabIndex = 0;
             lblFrom.Text = "Ngày từ";
             // 
@@ -148,10 +149,10 @@
             dtpFrom.CustomFormat = "dddd, dd/MM/yyyy";
             dtpFrom.Font = new Font("Segoe UI", 10F);
             dtpFrom.Format = DateTimePickerFormat.Custom;
-            dtpFrom.Location = new Point(116, 15);
+            dtpFrom.Location = new Point(116, 17);
             dtpFrom.Margin = new Padding(0, 3, 16, 3);
             dtpFrom.Name = "dtpFrom";
-            dtpFrom.Size = new Size(293, 34);
+            dtpFrom.Size = new Size(293, 30);
             dtpFrom.TabIndex = 1;
             // 
             // lblTo
@@ -159,9 +160,9 @@
             lblTo.Anchor = AnchorStyles.Left;
             lblTo.AutoSize = true;
             lblTo.Font = new Font("Segoe UI", 10F);
-            lblTo.Location = new Point(428, 12);
+            lblTo.Location = new Point(428, 20);
             lblTo.Name = "lblTo";
-            lblTo.Size = new Size(55, 40);
+            lblTo.Size = new Size(83, 23);
             lblTo.TabIndex = 2;
             lblTo.Text = "Đến ngày";
             // 
@@ -171,10 +172,10 @@
             dtpTo.CustomFormat = "dddd, dd/MM/yyyy";
             dtpTo.Font = new Font("Segoe UI", 10F);
             dtpTo.Format = DateTimePickerFormat.Custom;
-            dtpTo.Location = new Point(525, 15);
+            dtpTo.Location = new Point(525, 17);
             dtpTo.Margin = new Padding(0, 3, 16, 3);
             dtpTo.Name = "dtpTo";
-            dtpTo.Size = new Size(293, 34);
+            dtpTo.Size = new Size(293, 30);
             dtpTo.TabIndex = 3;
             // 
             // lblSearch
@@ -182,9 +183,9 @@
             lblSearch.Anchor = AnchorStyles.Left;
             lblSearch.AutoSize = true;
             lblSearch.Font = new Font("Segoe UI", 10F);
-            lblSearch.Location = new Point(837, 12);
+            lblSearch.Location = new Point(837, 20);
             lblSearch.Name = "lblSearch";
-            lblSearch.Size = new Size(81, 40);
+            lblSearch.Size = new Size(106, 23);
             lblSearch.TabIndex = 4;
             lblSearch.Text = "Tìm mã đơn:";
             // 
@@ -192,11 +193,11 @@
             // 
             txtSearch.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             txtSearch.Font = new Font("Segoe UI", 10F);
-            txtSearch.Location = new Point(954, 15);
+            txtSearch.Location = new Point(954, 17);
             txtSearch.Margin = new Padding(0, 3, 16, 3);
             txtSearch.Name = "txtSearch";
             txtSearch.PlaceholderText = "Nhập mã đơn hàng...";
-            txtSearch.Size = new Size(294, 34);
+            txtSearch.Size = new Size(294, 30);
             txtSearch.TabIndex = 5;
             // 
             // gbOverview
@@ -224,12 +225,12 @@
             tlpCards.Controls.Add(cardDiscount, 2, 0);
             tlpCards.Controls.Add(cardCancelRate, 3, 0);
             tlpCards.Dock = DockStyle.Fill;
-            tlpCards.Location = new Point(12, 38);
+            tlpCards.Location = new Point(12, 33);
             tlpCards.Name = "tlpCards";
             tlpCards.Padding = new Padding(8);
             tlpCards.RowCount = 1;
             tlpCards.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpCards.Size = new Size(1256, 133);
+            tlpCards.Size = new Size(1256, 138);
             tlpCards.TabIndex = 0;
             // 
             // cardRevenue
@@ -243,7 +244,7 @@
             cardRevenue.Location = new Point(11, 11);
             cardRevenue.Name = "cardRevenue";
             cardRevenue.Padding = new Padding(12);
-            cardRevenue.Size = new Size(304, 111);
+            cardRevenue.Size = new Size(304, 116);
             cardRevenue.TabIndex = 0;
             // 
             // panelRevenueAccent
@@ -252,7 +253,7 @@
             panelRevenueAccent.Dock = DockStyle.Left;
             panelRevenueAccent.Location = new Point(12, 12);
             panelRevenueAccent.Name = "panelRevenueAccent";
-            panelRevenueAccent.Size = new Size(6, 85);
+            panelRevenueAccent.Size = new Size(6, 90);
             panelRevenueAccent.TabIndex = 2;
             // 
             // lblRevenue
@@ -262,7 +263,7 @@
             lblRevenue.ForeColor = Color.Black;
             lblRevenue.Location = new Point(28, 35);
             lblRevenue.Name = "lblRevenue";
-            lblRevenue.Size = new Size(67, 45);
+            lblRevenue.Size = new Size(57, 37);
             lblRevenue.TabIndex = 1;
             lblRevenue.Text = "0 đ";
             // 
@@ -273,7 +274,7 @@
             lblRevenueTitle.ForeColor = Color.DimGray;
             lblRevenueTitle.Location = new Point(28, 12);
             lblRevenueTitle.Name = "lblRevenueTitle";
-            lblRevenueTitle.Size = new Size(112, 28);
+            lblRevenueTitle.Size = new Size(94, 23);
             lblRevenueTitle.TabIndex = 0;
             lblRevenueTitle.Text = "Doanh thu";
             // 
@@ -288,7 +289,7 @@
             cardOrders.Location = new Point(321, 11);
             cardOrders.Name = "cardOrders";
             cardOrders.Padding = new Padding(12);
-            cardOrders.Size = new Size(304, 111);
+            cardOrders.Size = new Size(304, 116);
             cardOrders.TabIndex = 1;
             // 
             // panelOrdersAccent
@@ -297,7 +298,7 @@
             panelOrdersAccent.Dock = DockStyle.Left;
             panelOrdersAccent.Location = new Point(12, 12);
             panelOrdersAccent.Name = "panelOrdersAccent";
-            panelOrdersAccent.Size = new Size(6, 85);
+            panelOrdersAccent.Size = new Size(6, 90);
             panelOrdersAccent.TabIndex = 3;
             // 
             // lblOrders
@@ -307,7 +308,7 @@
             lblOrders.ForeColor = Color.Black;
             lblOrders.Location = new Point(28, 35);
             lblOrders.Name = "lblOrders";
-            lblOrders.Size = new Size(38, 45);
+            lblOrders.Size = new Size(33, 37);
             lblOrders.TabIndex = 1;
             lblOrders.Text = "0";
             // 
@@ -318,7 +319,7 @@
             lblOrdersTitle.ForeColor = Color.DimGray;
             lblOrdersTitle.Location = new Point(28, 12);
             lblOrdersTitle.Name = "lblOrdersTitle";
-            lblOrdersTitle.Size = new Size(132, 28);
+            lblOrdersTitle.Size = new Size(112, 23);
             lblOrdersTitle.TabIndex = 0;
             lblOrdersTitle.Text = "Số đơn hàng";
             // 
@@ -333,7 +334,7 @@
             cardDiscount.Location = new Point(631, 11);
             cardDiscount.Name = "cardDiscount";
             cardDiscount.Padding = new Padding(12);
-            cardDiscount.Size = new Size(304, 111);
+            cardDiscount.Size = new Size(304, 116);
             cardDiscount.TabIndex = 2;
             // 
             // panelDiscountAccent
@@ -342,7 +343,7 @@
             panelDiscountAccent.Dock = DockStyle.Left;
             panelDiscountAccent.Location = new Point(12, 12);
             panelDiscountAccent.Name = "panelDiscountAccent";
-            panelDiscountAccent.Size = new Size(6, 85);
+            panelDiscountAccent.Size = new Size(6, 90);
             panelDiscountAccent.TabIndex = 3;
             // 
             // lblDiscount
@@ -352,7 +353,7 @@
             lblDiscount.ForeColor = Color.Black;
             lblDiscount.Location = new Point(28, 35);
             lblDiscount.Name = "lblDiscount";
-            lblDiscount.Size = new Size(38, 45);
+            lblDiscount.Size = new Size(33, 37);
             lblDiscount.TabIndex = 1;
             lblDiscount.Text = "0";
             // 
@@ -363,7 +364,7 @@
             lblDiscountTitle.ForeColor = Color.DimGray;
             lblDiscountTitle.Location = new Point(28, 12);
             lblDiscountTitle.Name = "lblDiscountTitle";
-            lblDiscountTitle.Size = new Size(128, 28);
+            lblDiscountTitle.Size = new Size(109, 23);
             lblDiscountTitle.TabIndex = 0;
             lblDiscountTitle.Text = "KM đã dùng";
             // 
@@ -378,7 +379,7 @@
             cardCancelRate.Location = new Point(941, 11);
             cardCancelRate.Name = "cardCancelRate";
             cardCancelRate.Padding = new Padding(12);
-            cardCancelRate.Size = new Size(304, 111);
+            cardCancelRate.Size = new Size(304, 116);
             cardCancelRate.TabIndex = 3;
             // 
             // panelCancelAccent
@@ -387,7 +388,7 @@
             panelCancelAccent.Dock = DockStyle.Left;
             panelCancelAccent.Location = new Point(12, 12);
             panelCancelAccent.Name = "panelCancelAccent";
-            panelCancelAccent.Size = new Size(6, 85);
+            panelCancelAccent.Size = new Size(6, 90);
             panelCancelAccent.TabIndex = 3;
             // 
             // lblCancelRate
@@ -397,7 +398,7 @@
             lblCancelRate.ForeColor = Color.Black;
             lblCancelRate.Location = new Point(28, 35);
             lblCancelRate.Name = "lblCancelRate";
-            lblCancelRate.Size = new Size(75, 45);
+            lblCancelRate.Size = new Size(63, 37);
             lblCancelRate.TabIndex = 1;
             lblCancelRate.Text = "0 %";
             // 
@@ -408,7 +409,7 @@
             lblCancelRateTitle.ForeColor = Color.DimGray;
             lblCancelRateTitle.Location = new Point(28, 12);
             lblCancelRateTitle.Name = "lblCancelRateTitle";
-            lblCancelRateTitle.Size = new Size(94, 28);
+            lblCancelRateTitle.Size = new Size(78, 23);
             lblCancelRateTitle.TabIndex = 0;
             lblCancelRateTitle.Text = "Tỉ lệ huỷ";
             // 
@@ -579,6 +580,7 @@
             Controls.Add(gbOverview);
             Controls.Add(tlpFilters);
             Controls.Add(headerPanel);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FormThongKeBaoCao";
             headerPanel.ResumeLayout(false);
             headerPanel.PerformLayout();

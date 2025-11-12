@@ -85,7 +85,7 @@
             lblHeaderTitle.ForeColor = Color.White;
             lblHeaderTitle.Location = new Point(24, 12);
             lblHeaderTitle.Name = "lblHeaderTitle";
-            lblHeaderTitle.Size = new Size(278, 38);
+            lblHeaderTitle.Size = new Size(239, 32);
             lblHeaderTitle.TabIndex = 0;
             lblHeaderTitle.Text = "Quản lý khách hàng";
             // 
@@ -137,7 +137,7 @@
             dgDSKhachHang.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = SystemColors.Window;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle3.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
             dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(189, 215, 238);
             dataGridViewCellStyle3.SelectionForeColor = Color.Black;
@@ -146,14 +146,14 @@
             dgDSKhachHang.Dock = DockStyle.Fill;
             dgDSKhachHang.EnableHeadersVisualStyles = false;
             dgDSKhachHang.GridColor = Color.LightSteelBlue;
-            dgDSKhachHang.Location = new Point(12, 35);
+            dgDSKhachHang.Location = new Point(12, 31);
             dgDSKhachHang.Name = "dgDSKhachHang";
             dgDSKhachHang.ReadOnly = true;
             dgDSKhachHang.RowHeadersVisible = false;
             dgDSKhachHang.RowHeadersWidth = 51;
             dgDSKhachHang.RowTemplate.Height = 28;
             dgDSKhachHang.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgDSKhachHang.Size = new Size(1224, 343);
+            dgDSKhachHang.Size = new Size(1224, 347);
             dgDSKhachHang.TabIndex = 0;
             dgDSKhachHang.CellContentClick += dataGridView1_CellContentClick;
             dgDSKhachHang.SelectionChanged += dgDSKhachHang_SelectionChanged;
@@ -272,7 +272,7 @@
             tlpInfo.Controls.Add(txtDiaChi, 1, 2);
             tlpInfo.Controls.Add(txtEmail, 3, 2);
             tlpInfo.Dock = DockStyle.Fill;
-            tlpInfo.Location = new Point(12, 35);
+            tlpInfo.Location = new Point(12, 31);
             tlpInfo.Name = "tlpInfo";
             tlpInfo.Padding = new Padding(8, 6, 8, 6);
             tlpInfo.RowCount = 5;
@@ -283,7 +283,7 @@
             tlpInfo.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tlpInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tlpInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-            tlpInfo.Size = new Size(1224, 179);
+            tlpInfo.Size = new Size(1224, 183);
             tlpInfo.TabIndex = 0;
             // 
             // label1
@@ -294,7 +294,7 @@
             label1.Location = new Point(11, 169);
             label1.Margin = new Padding(3);
             label1.Name = "label1";
-            label1.Size = new Size(175, 1);
+            label1.Size = new Size(175, 5);
             label1.TabIndex = 10;
             label1.Text = "Số lượng đơn hàng:";
             label1.TextAlign = ContentAlignment.MiddleRight;
@@ -318,7 +318,7 @@
             txtHoTen.Font = new Font("Segoe UI", 9F);
             txtHoTen.Location = new Point(192, 9);
             txtHoTen.Name = "txtHoTen";
-            txtHoTen.Size = new Size(416, 31);
+            txtHoTen.Size = new Size(416, 27);
             txtHoTen.TabIndex = 1;
             // 
             // lbMaKH
@@ -340,7 +340,7 @@
             txtMaKH.Font = new Font("Segoe UI", 9F);
             txtMaKH.Location = new Point(795, 9);
             txtMaKH.Name = "txtMaKH";
-            txtMaKH.Size = new Size(418, 31);
+            txtMaKH.Size = new Size(418, 27);
             txtMaKH.TabIndex = 2;
             // 
             // lbSĐT
@@ -362,7 +362,7 @@
             txtSĐT.Font = new Font("Segoe UI", 9F);
             txtSĐT.Location = new Point(192, 49);
             txtSĐT.Name = "txtSĐT";
-            txtSĐT.Size = new Size(416, 31);
+            txtSĐT.Size = new Size(416, 27);
             txtSĐT.TabIndex = 3;
             // 
             // lbSoluong
@@ -385,7 +385,7 @@
             txtSoluong.Location = new Point(795, 49);
             txtSoluong.Name = "txtSoluong";
             txtSoluong.ReadOnly = true;
-            txtSoluong.Size = new Size(418, 31);
+            txtSoluong.Size = new Size(418, 27);
             txtSoluong.TabIndex = 9;
             // 
             // lbDiaChi
@@ -420,7 +420,7 @@
             txtDiaChi.Font = new Font("Segoe UI", 9F);
             txtDiaChi.Location = new Point(192, 89);
             txtDiaChi.Name = "txtDiaChi";
-            txtDiaChi.Size = new Size(416, 31);
+            txtDiaChi.Size = new Size(416, 27);
             txtDiaChi.TabIndex = 4;
             // 
             // txtEmail
@@ -429,12 +429,12 @@
             txtEmail.Location = new Point(192, 129);
             txtEmail.Name = "txtEmail";
             tlpInfo.SetRowSpan(txtEmail, 2);
-            txtEmail.Size = new Size(416, 31);
+            txtEmail.Size = new Size(416, 27);
             txtEmail.TabIndex = 5;
             // 
             // frmQuanLiKhachHang
             // 
-            AutoScaleDimensions = new SizeF(12F, 30F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
             ClientSize = new Size(1280, 760);
