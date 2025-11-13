@@ -20,6 +20,7 @@ namespace QuanLyBanHoa.Forms
 
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmMain));
             headerPanel = new Panel();
             lblTitle = new Label();
             toolStripNav = new ToolStrip();
@@ -180,6 +181,7 @@ namespace QuanLyBanHoa.Forms
             Controls.Add(toolStripNav);
             Controls.Add(headerPanel);
             Font = new Font("Segoe UI", 10F);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FrmMain";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Quản Lý Bán Hoa";

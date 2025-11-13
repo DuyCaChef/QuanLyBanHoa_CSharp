@@ -11,9 +11,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Update="Forms\FormDonHang.cs">
-      <SubType>Form</SubType>
-    </Compile>
     <Compile Update="Forms\FormDonHang.Designer.cs">
       <DependentUpon>FormDonHang.cs</DependentUpon>
     </Compile>

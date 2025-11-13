@@ -57,6 +57,7 @@
             btnThem = new Button();
             btnSua = new Button();
             btnXoa = new Button();
+            btnTaiLai = new Button();
             gbChiTiet = new GroupBox();
             dgvChiTiet = new DataGridView();
             colCT_SanPham = new DataGridViewTextBoxColumn();
@@ -102,7 +103,7 @@
             // 
             // headerPanel
             // 
-            headerPanel.BackColor = Color.FromArgb(52, 152, 219);
+            headerPanel.BackColor = Color.IndianRed;
             headerPanel.Controls.Add(lblTitle);
             headerPanel.Dock = DockStyle.Top;
             headerPanel.Location = new Point(0, 0);
@@ -255,12 +256,12 @@
             colSDT.Name = "colSDT";
             colSDT.ReadOnly = true;
             // 
-            // colMaNV
+            // colNhanVien
             // 
-            colMaNV.FillWeight = 10F;
-            colMaNV.HeaderText = "Mã NV";
-            colMaNV.MinimumWidth = 70;
-            colMaNV.Name = "colMaNV";
+            colMaNV.FillWeight = 16F;
+            colMaNV.HeaderText = "Nhân viên bán";
+            colMaNV.MinimumWidth = 120;
+            colMaNV.Name = "colNhanVien";
             colMaNV.ReadOnly = true;
             // 
             // colTenHoa
@@ -291,6 +292,7 @@
             flpDonButtons.Controls.Add(btnThem);
             flpDonButtons.Controls.Add(btnSua);
             flpDonButtons.Controls.Add(btnXoa);
+            flpDonButtons.Controls.Add(btnTaiLai);
             flpDonButtons.Dock = DockStyle.Bottom;
             flpDonButtons.Location = new Point(15, 538);
             flpDonButtons.Margin = new Padding(4);
@@ -346,6 +348,22 @@
             btnXoa.Text = "Xóa";
             btnXoa.UseVisualStyleBackColor = false;
             btnXoa.Click += btnXoa_Click;
+            // 
+            // btnTaiLai
+            // 
+            btnTaiLai.BackColor = Color.Gold;
+            btnTaiLai.FlatAppearance.BorderSize = 0;
+            btnTaiLai.FlatStyle = FlatStyle.Flat;
+            btnTaiLai.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
+            btnTaiLai.ForeColor = Color.White;
+            btnTaiLai.Location = new Point(382, 24);
+            btnTaiLai.Margin = new Padding(4, 14, 10, 10);
+            btnTaiLai.Name = "btnTaiLai";
+            btnTaiLai.Size = new Size(112, 41);
+            btnTaiLai.TabIndex = 3;
+            btnTaiLai.Text = "Tải Lại";
+            btnTaiLai.UseVisualStyleBackColor = false;
+            btnTaiLai.Click += btnTaiLai_Click;
             // 
             // gbChiTiet
             // 
@@ -647,7 +665,7 @@
             dtpNgay.CalendarFont = new Font("Segoe UI", 9F);
             dtpNgay.CustomFormat = "dd/MM/yyyy";
             dtpNgay.Font = new Font("Segoe UI", 9F);
-            dtpNgay.Format = DateTimePickerFormat.Custom;
+            dtpNgay.Format = DateTimePickerFormat.Short;
             dtpNgay.Location = new Point(694, 61);
             dtpNgay.Margin = new Padding(4, 8, 10, 8);
             dtpNgay.Name = "dtpNgay";
@@ -725,7 +743,7 @@
             Controls.Add(headerPanel);
             Font = new Font("Segoe UI", 9F);
             Margin = new Padding(4);
-            MinimumSize = new Size(1243, 858);
+            MinimumSize = new Size(1242, 856);
             Name = "FormDonHang";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Quản lý đơn hàng";
@@ -800,6 +818,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn colCT_SoLuong;
         private System.Windows.Forms.DataGridViewTextBoxColumn colCT_DonGia;
         private ComboBox cboMaNV;
+        private Button btnTaiLai;
     }
 }
 

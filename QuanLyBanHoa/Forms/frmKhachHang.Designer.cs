@@ -41,10 +41,10 @@
             btnThem = new Button();
             btnSua = new Button();
             btnXoa = new Button();
-            btnLuu = new Button();
             btnTaiLai = new Button();
             groupBox1 = new GroupBox();
             tlpInfo = new TableLayoutPanel();
+            label1 = new Label();
             lbHoTen = new Label();
             txtHoTen = new TextBox();
             lbMaKH = new Label();
@@ -54,8 +54,8 @@
             lbSoluong = new Label();
             txtSoluong = new TextBox();
             lbDiaChi = new Label();
-            txtDiaChi = new TextBox();
             lbEmail = new Label();
+            txtDiaChi = new TextBox();
             txtEmail = new TextBox();
             headerPanel.SuspendLayout();
             contentPanel.SuspendLayout();
@@ -137,7 +137,7 @@
             dgDSKhachHang.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = SystemColors.Window;
-            dataGridViewCellStyle3.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle3.Font = new Font("Segoe UI Semibold", 10.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             dataGridViewCellStyle3.ForeColor = SystemColors.ControlText;
             dataGridViewCellStyle3.SelectionBackColor = Color.FromArgb(189, 215, 238);
             dataGridViewCellStyle3.SelectionForeColor = Color.Black;
@@ -165,7 +165,6 @@
             flpButtons.Controls.Add(btnThem);
             flpButtons.Controls.Add(btnSua);
             flpButtons.Controls.Add(btnXoa);
-            flpButtons.Controls.Add(btnLuu);
             flpButtons.Controls.Add(btnTaiLai);
             flpButtons.Dock = DockStyle.Bottom;
             flpButtons.Location = new Point(16, 632);
@@ -225,12 +224,12 @@
             // 
             // btnTaiLai
             // 
-            btnTaiLai.BackColor = Color.FromArgb(243, 156, 18);
+            btnTaiLai.BackColor = Color.Gold;
             btnTaiLai.FlatAppearance.BorderSize = 0;
             btnTaiLai.FlatStyle = FlatStyle.Flat;
             btnTaiLai.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
             btnTaiLai.ForeColor = Color.White;
-            btnTaiLai.Location = new Point(503, 11);
+            btnTaiLai.Location = new Point(378, 11);
             btnTaiLai.Margin = new Padding(3, 3, 12, 8);
             btnTaiLai.Name = "btnTaiLai";
             btnTaiLai.Size = new Size(110, 33);
@@ -259,6 +258,7 @@
             tlpInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35F));
             tlpInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
             tlpInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35F));
+            tlpInfo.Controls.Add(label1, 0, 4);
             tlpInfo.Controls.Add(lbHoTen, 0, 0);
             tlpInfo.Controls.Add(txtHoTen, 1, 0);
             tlpInfo.Controls.Add(lbMaKH, 2, 0);
@@ -268,9 +268,9 @@
             tlpInfo.Controls.Add(lbSoluong, 2, 1);
             tlpInfo.Controls.Add(txtSoluong, 3, 1);
             tlpInfo.Controls.Add(lbDiaChi, 0, 2);
+            tlpInfo.Controls.Add(lbEmail, 2, 2);
             tlpInfo.Controls.Add(txtDiaChi, 1, 2);
-            tlpInfo.Controls.Add(lbEmail, 0, 3);
-            tlpInfo.Controls.Add(txtEmail, 1, 3);
+            tlpInfo.Controls.Add(txtEmail, 3, 2);
             tlpInfo.Dock = DockStyle.Fill;
             tlpInfo.Location = new Point(12, 31);
             tlpInfo.Name = "tlpInfo";
@@ -281,8 +281,23 @@
             tlpInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tlpInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tlpInfo.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlpInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+            tlpInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tlpInfo.Size = new Size(1224, 183);
             tlpInfo.TabIndex = 0;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Dock = DockStyle.Fill;
+            label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            label1.Location = new Point(11, 169);
+            label1.Margin = new Padding(3);
+            label1.Name = "label1";
+            label1.Size = new Size(175, 5);
+            label1.TabIndex = 10;
+            label1.Text = "Số lượng đơn hàng:";
+            label1.TextAlign = ContentAlignment.MiddleRight;
             // 
             // lbHoTen
             // 
@@ -304,7 +319,7 @@
             txtHoTen.Location = new Point(192, 9);
             txtHoTen.Name = "txtHoTen";
             txtHoTen.Size = new Size(416, 27);
-            txtHoTen.TabIndex = 6;
+            txtHoTen.TabIndex = 1;
             // 
             // lbMaKH
             // 
@@ -318,7 +333,6 @@
             lbMaKH.TabIndex = 0;
             lbMaKH.Text = "Mã KH:";
             lbMaKH.TextAlign = ContentAlignment.MiddleRight;
-            lbMaKH.Click += lbMaKH_Click;
             // 
             // txtMaKH
             // 
@@ -327,7 +341,7 @@
             txtMaKH.Location = new Point(795, 9);
             txtMaKH.Name = "txtMaKH";
             txtMaKH.Size = new Size(418, 27);
-            txtMaKH.TabIndex = 6;
+            txtMaKH.TabIndex = 2;
             // 
             // lbSĐT
             // 
@@ -349,7 +363,7 @@
             txtSĐT.Location = new Point(192, 49);
             txtSĐT.Name = "txtSĐT";
             txtSĐT.Size = new Size(416, 27);
-            txtSĐT.TabIndex = 6;
+            txtSĐT.TabIndex = 3;
             // 
             // lbSoluong
             // 
@@ -387,16 +401,6 @@
             lbDiaChi.Text = "Địa chỉ:";
             lbDiaChi.TextAlign = ContentAlignment.MiddleRight;
             // 
-            // txtDiaChi
-            // 
-            tlpInfo.SetColumnSpan(txtDiaChi, 3);
-            txtDiaChi.Dock = DockStyle.Fill;
-            txtDiaChi.Font = new Font("Segoe UI", 9F);
-            txtDiaChi.Location = new Point(192, 89);
-            txtDiaChi.Name = "txtDiaChi";
-            txtDiaChi.Size = new Size(1021, 27);
-            txtDiaChi.TabIndex = 6;
-            // 
             // lbEmail
             // 
             lbEmail.AutoSize = true;
@@ -410,15 +414,23 @@
             lbEmail.Text = "Email:";
             lbEmail.TextAlign = ContentAlignment.MiddleRight;
             // 
+            // txtDiaChi
+            // 
+            tlpInfo.SetColumnSpan(txtDiaChi, 3);
+            txtDiaChi.Font = new Font("Segoe UI", 9F);
+            txtDiaChi.Location = new Point(192, 89);
+            txtDiaChi.Name = "txtDiaChi";
+            txtDiaChi.Size = new Size(416, 27);
+            txtDiaChi.TabIndex = 4;
+            // 
             // txtEmail
             // 
-            tlpInfo.SetColumnSpan(txtEmail, 3);
-            txtEmail.Dock = DockStyle.Fill;
             txtEmail.Font = new Font("Segoe UI", 9F);
             txtEmail.Location = new Point(192, 129);
             txtEmail.Name = "txtEmail";
-            txtEmail.Size = new Size(1021, 27);
-            txtEmail.TabIndex = 6;
+            tlpInfo.SetRowSpan(txtEmail, 2);
+            txtEmail.Size = new Size(416, 27);
+            txtEmail.TabIndex = 5;
             // 
             // frmQuanLiKhachHang
             // 
@@ -454,27 +466,27 @@
         private System.Windows.Forms.Panel headerPanel;
         private System.Windows.Forms.Label lblHeaderTitle;
         private System.Windows.Forms.Panel contentPanel;
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox txtSoluong;
-        private System.Windows.Forms.Label lbSoluong;
-        private System.Windows.Forms.Label lbEmail;
-        private System.Windows.Forms.TextBox txtEmail;
-        private System.Windows.Forms.TextBox txtDiaChi;
-        private System.Windows.Forms.TextBox txtSĐT;
-        private System.Windows.Forms.TextBox txtHoTen;
-        private System.Windows.Forms.TextBox txtMaKH;
-        private System.Windows.Forms.Label lbDiaChi;
-        private System.Windows.Forms.Label lbSĐT;
-        private System.Windows.Forms.Label lbMaKH;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.DataGridView dgDSKhachHang;
         private System.Windows.Forms.FlowLayoutPanel flpButtons;
         private System.Windows.Forms.Button btnThem;
         private System.Windows.Forms.Button btnSua;
         private System.Windows.Forms.Button btnXoa;
-        private System.Windows.Forms.Button btnLuu;
         private System.Windows.Forms.Button btnTaiLai;
-        private System.Windows.Forms.TableLayoutPanel tlpInfo;
+        private GroupBox groupBox1;
+        private TableLayoutPanel tlpInfo;
+        private Label label1;
         private Label lbHoTen;
+        private TextBox txtHoTen;
+        private Label lbMaKH;
+        private TextBox txtMaKH;
+        private Label lbSĐT;
+        private TextBox txtSĐT;
+        private Label lbSoluong;
+        private TextBox txtSoluong;
+        private Label lbDiaChi;
+        private Label lbEmail;
+        private TextBox txtDiaChi;
+        private TextBox txtEmail;
     }
 }

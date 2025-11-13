@@ -1,27 +1,31 @@
-﻿using Microsoft.VisualBasic.ApplicationServices;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using QuanLyBanHoa.Forms;
+﻿using System;
 
-namespace QuanLyBanHoa.Forms
+namespace QuanLyBanHoa.Models
 {
-    //Class dùng để lưu thông tin phiên làm việc của người dùng khi đăng nhập vào hệ thống
+    // Class dùng để lưu thông tin phiên làm việc của người dùng khi đăng nhập vào hệ thống
     public static class Session
     {
-        public static string UserName { get; set; }
-        public static string Role { get; set; }
-        public static bool IsLoggedIn { get; set; } = false;
-        public static int UserId { get; set; } = -1;
+        // UserID từ bảng Users
+        public static int UserID { get; set; }
+
+        // Mã nhân viên (có thể NULL nếu là Admin)
+        public static int? MaNV { get; set; }
+
+        // Tên đăng nhập / tài khoản
+        public static string TaiKhoan { get; set; }
+
+        // Vai trò: "Admin" hoặc "NhanVien"
+        public static string Vaitro { get; set; }
+
+        // Helper để kiểm tra đã đăng nhập hay chưa (dựa vào tài khoản)
+        public static bool IsLoggedIn => !string.IsNullOrEmpty(TaiKhoan);
 
         public static void Clear()
         {
-            UserName = "";
-            Role = "";
-            IsLoggedIn = false;
-            UserId = -1;
+            UserID =0;
+            MaNV = null;
+            TaiKhoan = null;
+            Vaitro = null;
         }
     }
 }

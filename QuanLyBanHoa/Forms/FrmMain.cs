@@ -25,11 +25,49 @@ namespace QuanLyBanHoa.Forms
 
         private void FrmMain_Load(object sender, EventArgs e)
         {
+            // Update title từ Session
             if (Session.IsLoggedIn)
             {
-                Text = $"Quản Lý Bán Hoa - {Session.UserName} ({Session.Role})";
+                Text = $"Quản Lý Bán Hoa - {Session.TaiKhoan} ({Session.Vaitro})";
             }
             lblTitle.Text = "Quản Lý Bán Hoa"; // header title
+
+            // Phân quyền hiển thị menu
+            try
+            {
+                //Ẩn tất cả trước
+                tsHoa.Visible = false;
+                tsKhachHang.Visible = false;
+                tsDonHang.Visible = false;
+                tsNhanVien.Visible = false;
+                tsThongKe.Visible = false;
+
+                if (string.Equals(Session.Vaitro, "Admin", StringComparison.OrdinalIgnoreCase))
+                {
+                    // Admin thấy tất cả
+                    tsHoa.Visible = true;
+                    tsKhachHang.Visible = true;
+                    tsDonHang.Visible = true;
+                    tsNhanVien.Visible = true;
+                    tsThongKe.Visible = true;
+                }
+                else
+                {
+                    // Mặc định cho Nhân viên
+                    // Hỗ trợ hai giá trị: "NhanVien" hoặc "Nhân viên"
+                    if (string.Equals(Session.Vaitro, "NhanVien", StringComparison.OrdinalIgnoreCase) ||
+                        string.Equals(Session.Vaitro, "Nhân viên", StringComparison.OrdinalIgnoreCase) ||
+                        string.IsNullOrEmpty(Session.Vaitro))
+                    {
+                        tsHoa.Visible = true;
+                        tsKhachHang.Visible = true;
+                        tsDonHang.Visible = true;
+                        tsNhanVien.Visible = false;
+                        tsThongKe.Visible = false;
+                    }
+                }
+            }
+            catch { }
         }
 
         private void OpenChildForm(Form childForm)
@@ -54,8 +92,44 @@ namespace QuanLyBanHoa.Forms
         private void mnuHoa_Click(object sender, EventArgs e) => OpenChildForm(new frmHoa());
         private void mnuDonHang_Click(object sender, EventArgs e) => OpenChildForm(new FormDonHang());
         private void mnuKhachHang_Click(object sender, EventArgs e) => OpenChildForm(new frmQuanLiKhachHang());
-        private void mnuNhanVien_Click(object sender, EventArgs e) => OpenChildForm(new FrmQuanLiNhanVien());
-        private void mnuThongKe_Click(object sender, EventArgs e) => OpenChildForm(new FormThongKeBaoCao());
+        private void mnuNhanVien_Click(object sender, EventArgs e)
+        {
+            // Chặn nếu không phải Admin
+            if (!string.Equals(Session.Vaitro, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Bạn không có quyền truy cập!", "Không có quyền", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            OpenChildForm(new FrmQuanLiNhanVien());
+        }
+        private void mnuThongKe_Click(object sender, EventArgs e)
+        {
+            if (!string.Equals(Session.Vaitro, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Bạn không có quyền truy cập!", "Không có quyền", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            OpenChildForm(new FormThongKeBaoCao());
+        }
+
+        // Nếu có menu KhuyenMai trên designer, chặn tương tự
+        private void mnuKhuyenMai_Click(object sender, EventArgs e)
+        {
+            if (!string.Equals(Session.Vaitro, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Bạn không có quyền truy cập!", "Không có quyền", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Nếu có form khuyen mai
+            try
+            {
+                var f = new Form();
+                f.Text = "Khuyến mãi";
+                f.Show();
+            }
+            catch { }
+        }
 
         private void mnuDangXuat_Click(object sender, EventArgs e)
         {

@@ -39,6 +39,13 @@ namespace QuanLyBanHoa.Models
             public decimal TongChiTieu { get; set; }
         }
 
+        public class ThongKeTongQuan
+        {
+            public int SoDon { get; set; }
+            public decimal DoanhThu { get; set; }
+            public int KmDung { get; set; }
+        }
+
         public static List<DoanhThuTheoNgay> GetDoanhThuTheoNgay(DateTime fromDate, DateTime toDate)
         {
             List<DoanhThuTheoNgay> listDoanhThu = new List<DoanhThuTheoNgay>();
@@ -273,6 +280,176 @@ namespace QuanLyBanHoa.Models
                     cmd.Parameters.AddWithValue("@ToDate", toDate.Date.AddDays(1).AddSeconds(-1));
                     var result = cmd.ExecuteScalar();
                     return result != null ? Convert.ToDecimal(result) : 0m;
+                }
+            }
+        }
+
+        // L?y th?ng kê t?ng quan (s? ??n, doanh thu) - XÓA MaKM
+        public static ThongKeTongQuan GetThongKeTongQuan(DateTime fromDate, DateTime toDate)
+        {
+            using (var conn = Database.GetConnection())
+            {
+                conn.Open();
+                string query = @"SELECT COUNT(DISTINCT d.MaDH) as SoDon, COALESCE(SUM(d.TongTien),0) as DoanhThu
+      FROM DonHang d
+        WHERE d.NgayDatHang BETWEEN @FromDate AND @ToDate";
+                using (var cmd = new SqlCommand(query, conn))
+                {
+                    cmd.Parameters.AddWithValue("@FromDate", fromDate.Date);
+                    cmd.Parameters.AddWithValue("@ToDate", toDate.Date.AddDays(1).AddSeconds(-1));
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            return new ThongKeTongQuan
+                            {
+                                SoDon = reader["SoDon"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SoDon"]),
+                                DoanhThu = reader["DoanhThu"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["DoanhThu"]),
+                                KmDung = 0 // Không còn khuy?n mãi
+                            };
+                        }
+                    }
+                }
+            }
+            return new ThongKeTongQuan { SoDon = 0, DoanhThu = 0m, KmDung = 0 };
+        }
+
+    // L?y th?ng kê theo ngày - XÓA MaKM
+   public static List<dynamic> GetThongKeTheoNgayChiTiet(DateTime fromDate, DateTime toDate)
+        {
+          List<dynamic> listThongKe = new List<dynamic>();
+      using (var conn = Database.GetConnection())
+          {
+          conn.Open();
+      string query = @"SELECT CAST(d.NgayDatHang AS DATE) as Ngay, 
+        COUNT(DISTINCT d.MaDH) as SoDon, 
+              COALESCE(SUM(d.TongTien),0) as DoanhThu,
+      (SELECT TOP 1 STRING_AGG(n.TenNV, ', ') 
+    FROM DonHang dd 
+    JOIN NhanVien n ON dd.MaNV = n.MaNV 
+         WHERE CAST(dd.NgayDatHang AS DATE) = CAST(d.NgayDatHang AS DATE) 
+       GROUP BY CAST(dd.NgayDatHang AS DATE)) as NhanVien
+    FROM DonHang d
+   WHERE d.NgayDatHang BETWEEN @FromDate AND @ToDate
+             GROUP BY CAST(d.NgayDatHang AS DATE)
+     ORDER BY CAST(d.NgayDatHang AS DATE) DESC";
+  using (var cmd = new SqlCommand(query, conn))
+    {
+        cmd.Parameters.AddWithValue("@FromDate", fromDate.Date);
+     cmd.Parameters.AddWithValue("@ToDate", toDate.Date.AddDays(1).AddSeconds(-1));
+       using (var reader = cmd.ExecuteReader())
+            {
+     while (reader.Read())
+     {
+                 listThongKe.Add(new
+{
+      Ngay = reader["Ngay"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(reader["Ngay"]),
+          SoDon = reader["SoDon"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SoDon"]),
+          DoanhThu = reader["DoanhThu"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["DoanhThu"]),
+     NhanVien = reader["NhanVien"] == DBNull.Value ? string.Empty : reader["NhanVien"].ToString()
+        });
+     }
+    }
+        }
+  }
+            return listThongKe;
+        }
+
+   // Tìm ki?m th?ng kê theo ngày - XÓA MaKM
+        public static List<dynamic> SearchThongKeTheoNgay(DateTime fromDate, DateTime toDate, string searchKeyword)
+        {
+  List<dynamic> listThongKe = new List<dynamic>();
+      using (var conn = Database.GetConnection())
+   {
+       conn.Open();
+         string query = @"SELECT CAST(d.NgayDatHang AS DATE) as Ngay, 
+  COUNT(DISTINCT d.MaDH) as SoDon, 
+         COALESCE(SUM(d.TongTien),0) as DoanhThu,
+     (SELECT TOP 1 STRING_AGG(n.TenNV, ', ') 
+      FROM DonHang dd 
+                JOIN NhanVien n ON dd.MaNV = n.MaNV 
+               WHERE CAST(dd.NgayDatHang AS DATE) = CAST(d.NgayDatHang AS DATE) 
+   GROUP BY CAST(dd.NgayDatHang AS DATE)) as NhanVien
+  FROM DonHang d
+       WHERE d.NgayDatHang BETWEEN @FromDate AND @ToDate
+             AND CAST(d.MaDH AS NVARCHAR) LIKE @Search
+      GROUP BY CAST(d.NgayDatHang AS DATE)
+        ORDER BY CAST(d.NgayDatHang AS DATE) DESC";
+      using (var cmd = new SqlCommand(query, conn))
+            {
+    cmd.Parameters.AddWithValue("@FromDate", fromDate.Date);
+            cmd.Parameters.AddWithValue("@ToDate", toDate.Date.AddDays(1).AddSeconds(-1));
+          cmd.Parameters.AddWithValue("@Search", "%" + searchKeyword + "%");
+           using (var reader = cmd.ExecuteReader())
+    {
+       while (reader.Read())
+    {
+    listThongKe.Add(new
+       {
+           Ngay = reader["Ngay"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(reader["Ngay"]),
+    SoDon = reader["SoDon"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SoDon"]),
+   DoanhThu = reader["DoanhThu"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["DoanhThu"]),
+        NhanVien = reader["NhanVien"] == DBNull.Value ? string.Empty : reader["NhanVien"].ToString()
+             });
+               }
+    }
+       }
+          }
+          return listThongKe;
+    }
+
+        // Xóa t?t c? ??n hàng theo ngày
+        public static int DeleteOrdersByDate(DateTime date)
+        {
+            using (var conn = Database.GetConnection())
+            {
+                conn.Open();
+                using (var tx = conn.BeginTransaction())
+                {
+                    try
+                    {
+                        // L?y danh sách MaDH theo ngày
+                        var orderIds = new List<int>();
+                        string getOrdersQuery = "SELECT MaDH FROM DonHang WHERE CAST(NgayDatHang AS DATE) = @Ngay";
+                        using (var cmdGetOrders = new SqlCommand(getOrdersQuery, conn, tx))
+                        {
+                            cmdGetOrders.Parameters.AddWithValue("@Ngay", date.Date);
+                            using (var reader = cmdGetOrders.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                {
+                                    orderIds.Add(reader.GetInt32(0));
+                                }
+                            }
+                        }
+
+                        // Xóa chi ti?t ??n hàng
+                        foreach (var orderId in orderIds)
+                        {
+                            string deleteDetailsQuery = "DELETE FROM ChiTietDonHang WHERE MaDH = @MaDH";
+                            using (var cmdDelDetails = new SqlCommand(deleteDetailsQuery, conn, tx))
+                            {
+                                cmdDelDetails.Parameters.AddWithValue("@MaDH", orderId);
+                                cmdDelDetails.ExecuteNonQuery();
+                            }
+                        }
+
+                        // Xóa ??n hàng
+                        string deleteOrdersQuery = "DELETE FROM DonHang WHERE CAST(NgayDatHang AS DATE) = @Ngay";
+                        using (var cmdDelOrders = new SqlCommand(deleteOrdersQuery, conn, tx))
+                        {
+                            cmdDelOrders.Parameters.AddWithValue("@Ngay", date.Date);
+                            int deleted = cmdDelOrders.ExecuteNonQuery();
+                            
+                            tx.Commit();
+                            return deleted;
+                        }
+                    }
+                    catch (Exception)
+                    {
+                        tx.Rollback();
+                        throw;
+                    }
                 }
             }
         }

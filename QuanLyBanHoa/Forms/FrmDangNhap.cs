@@ -1,5 +1,7 @@
 ﻿using QuanLyBanHoa.Models;
+using QuanLyBanHoa.Data;
 using System;
+using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace QuanLyBanHoa.Forms
@@ -13,31 +15,41 @@ namespace QuanLyBanHoa.Forms
 
         private void btnDangNhap_Click(object sender, EventArgs e)
         {
-            string username = txtEmail.Text.Trim();
-            string password = txtPass.Text.Trim();
+            string tk = txtEmail.Text.Trim();
+            string mk = txtPass.Text; // giữ nguyên không hash
 
-            string adminUsername = "admin";
-            string adminPassword = "123";
-            string staffUsername = "staff123@gmail.com";
-            string staffPassword = "staff@123";
-
-            if ((username == adminUsername && password == adminPassword) ||
-                (username == staffUsername && password == staffPassword))
+            if (string.IsNullOrEmpty(tk) || string.IsNullOrEmpty(mk))
             {
-                Session.UserName = username;
-                Session.Role = username == adminUsername ? "Admin" : "Nhân viên";
-                Session.IsLoggedIn = true;
-
-                MessageBox.Show($"Đăng nhập thành công với quyền {Session.Role}!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Mở form Main (form chính chứa navigation). FrmMain sẽ tự mở frmHoa đầu tiên.
-                FrmMain main = new FrmMain();
-                main.Show();
-                this.Hide();
+                MessageBox.Show("Vui lòng nhập tài khoản và mật khẩu.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-            else
+
+            try
             {
-                MessageBox.Show("Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng thử lại.", "Lỗi đăng nhập", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Sử dụng User.Login từ Model
+                User user = User.Login(tk, mk);
+
+                if (user != null)
+                {
+                    // Lưu thông tin vào Session
+                    Session.UserID = user.UserID;
+                    Session.TaiKhoan = user.TaiKhoan;
+                    Session.Vaitro = user.VaiTro;
+                    Session.MaNV = user.MaNV;
+
+                    // Mở FormMain và ẩn FormDangNhap
+                    FrmMain main = new FrmMain();
+                    main.Show();
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show("Sai tài khoản hoặc mật khẩu!", "Lỗi đăng nhập", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi kết nối đăng nhập:\n" + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
