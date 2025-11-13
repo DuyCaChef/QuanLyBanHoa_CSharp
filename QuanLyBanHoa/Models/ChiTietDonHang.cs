@@ -13,6 +13,8 @@ namespace QuanLyBanHoa.Models
         public int SoLuong { get; set; }
         public decimal ThanhTien { get; set; }
         public int MaNV { get; set; }
+        public string TenHoa_DatHang { get; set; }
+        public decimal DonGia { get; set; }
 
         // Parameterless constructor
         public ChiTietDonHang() { }
@@ -33,7 +35,7 @@ namespace QuanLyBanHoa.Models
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = "SELECT MaDH, MaHoa, SoLuong, ThanhTien, MaNV FROM ChiTietDonHang ORDER BY MaDH DESC";
+                string query = "SELECT MaDH, MaHoa, SoLuong, ThanhTien, MaNV, TenHoa_DatHang, DonGia FROM ChiTietDonHang ORDER BY MaDH DESC";
                 using (var cmd = new SqlCommand(query, conn))
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -43,9 +45,11 @@ namespace QuanLyBanHoa.Models
                         {
                             MaDH = reader["MaDH"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaDH"]),
                             MaHoa = reader["MaHoa"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaHoa"]),
-                            SoLuong = reader["SoLuong"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SoLuong"]),
+                            SoLuong = reader["SoLuong"] ==DBNull.Value ? 0 : Convert.ToInt32(reader["SoLuong"]),
                             ThanhTien = reader["ThanhTien"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["ThanhTien"]),
-                            MaNV = reader["MaNV"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaNV"])
+                            MaNV = reader["MaNV"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaNV"]),
+                            TenHoa_DatHang = reader["TenHoa_DatHang"] == DBNull.Value ? string.Empty : reader["TenHoa_DatHang"].ToString(),
+                            DonGia = reader["DonGia"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["DonGia"])
                         });
                     }
                 }
@@ -60,7 +64,7 @@ namespace QuanLyBanHoa.Models
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = "SELECT MaDH, MaHoa, SoLuong, ThanhTien, MaNV FROM ChiTietDonHang WHERE MaDH = @MaDH";
+                string query = "SELECT MaDH, MaHoa, SoLuong, ThanhTien, MaNV, TenHoa_DatHang, DonGia FROM ChiTietDonHang WHERE MaDH = @MaDH";
                 using (var cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@MaDH", maDH);
@@ -74,7 +78,9 @@ namespace QuanLyBanHoa.Models
                                 MaHoa = reader["MaHoa"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaHoa"]),
                                 SoLuong = reader["SoLuong"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SoLuong"]),
                                 ThanhTien = reader["ThanhTien"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["ThanhTien"]),
-                                MaNV = reader["MaNV"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaNV"])
+                                MaNV = reader["MaNV"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaNV"]),
+                                TenHoa_DatHang = reader["TenHoa_DatHang"] == DBNull.Value ? string.Empty : reader["TenHoa_DatHang"].ToString(),
+                                DonGia = reader["DonGia"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["DonGia"])
                             });
                         }
                     }
@@ -89,8 +95,8 @@ namespace QuanLyBanHoa.Models
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = @"INSERT INTO ChiTietDonHang (MaDH, MaHoa, SoLuong, ThanhTien, MaNV) 
-                               VALUES (@MaDH, @MaHoa, @SoLuong, @ThanhTien, @MaNV)";
+                string query = @"INSERT INTO ChiTietDonHang (MaDH, MaHoa, SoLuong, ThanhTien, MaNV, TenHoa_DatHang, DonGia) 
+                               VALUES (@MaDH, @MaHoa, @SoLuong, @ThanhTien, @MaNV, @TenHoa_DatHang, @DonGia)";
                 using (var cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@MaDH", chiTiet.MaDH);
@@ -98,6 +104,8 @@ namespace QuanLyBanHoa.Models
                     cmd.Parameters.AddWithValue("@SoLuong", chiTiet.SoLuong);
                     cmd.Parameters.AddWithValue("@ThanhTien", chiTiet.ThanhTien);
                     cmd.Parameters.AddWithValue("@MaNV", chiTiet.MaNV);
+                    cmd.Parameters.AddWithValue("@TenHoa_DatHang", chiTiet.TenHoa_DatHang ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@DonGia", chiTiet.DonGia);
                     return cmd.ExecuteNonQuery() > 0;
                 }
             }
@@ -106,8 +114,8 @@ namespace QuanLyBanHoa.Models
         // Overload with connection and transaction
         public static bool Insert(ChiTietDonHang chiTiet, SqlConnection conn, SqlTransaction tx = null)
         {
-            string query = @"INSERT INTO ChiTietDonHang (MaDH, MaHoa, SoLuong, ThanhTien, MaNV) 
-                           VALUES (@MaDH, @MaHoa, @SoLuong, @ThanhTien, @MaNV);";
+            string query = @"INSERT INTO ChiTietDonHang (MaDH, MaHoa, SoLuong, ThanhTien, MaNV, TenHoa_DatHang, DonGia) 
+                           VALUES (@MaDH, @MaHoa, @SoLuong, @ThanhTien, @MaNV, @TenHoa_DatHang, @DonGia);";
             using (var cmd = new SqlCommand(query, conn, tx))
             {
                 cmd.Parameters.AddWithValue("@MaDH", chiTiet.MaDH);
@@ -115,6 +123,8 @@ namespace QuanLyBanHoa.Models
                 cmd.Parameters.AddWithValue("@SoLuong", chiTiet.SoLuong);
                 cmd.Parameters.AddWithValue("@ThanhTien", chiTiet.ThanhTien);
                 cmd.Parameters.AddWithValue("@MaNV", chiTiet.MaNV);
+                cmd.Parameters.AddWithValue("@TenHoa_DatHang", chiTiet.TenHoa_DatHang ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@DonGia", chiTiet.DonGia);
                 return cmd.ExecuteNonQuery() > 0;
             }
         }
@@ -126,7 +136,7 @@ namespace QuanLyBanHoa.Models
             {
                 conn.Open();
                 string query = @"UPDATE ChiTietDonHang 
-                               SET MaHoa = @MaHoa, SoLuong = @SoLuong, ThanhTien = @ThanhTien, MaNV = @MaNV
+                               SET MaHoa = @MaHoa, SoLuong = @SoLuong, ThanhTien = @ThanhTien, MaNV = @MaNV, TenHoa_DatHang = @TenHoa_DatHang, DonGia = @DonGia
                                WHERE MaDH = @MaDH AND MaHoa = @OldMaHoa";
                 using (var cmd = new SqlCommand(query, conn))
                 {
@@ -135,6 +145,8 @@ namespace QuanLyBanHoa.Models
                     cmd.Parameters.AddWithValue("@SoLuong", chiTiet.SoLuong);
                     cmd.Parameters.AddWithValue("@ThanhTien", chiTiet.ThanhTien);
                     cmd.Parameters.AddWithValue("@MaNV", chiTiet.MaNV);
+                    cmd.Parameters.AddWithValue("@TenHoa_DatHang", chiTiet.TenHoa_DatHang ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@DonGia", chiTiet.DonGia);
                     cmd.Parameters.AddWithValue("@OldMaHoa", oldMaHoa);
                     return cmd.ExecuteNonQuery() > 0;
                 }
@@ -145,7 +157,7 @@ namespace QuanLyBanHoa.Models
         public static bool Update(ChiTietDonHang chiTiet, int oldMaHoa, SqlConnection conn, SqlTransaction tx = null)
         {
             string query = @"UPDATE ChiTietDonHang 
-                           SET MaHoa = @MaHoa, SoLuong = @SoLuong, ThanhTien = @ThanhTien, MaNV = @MaNV
+                           SET MaHoa = @MaHoa, SoLuong = @SoLuong, ThanhTien = @ThanhTien, MaNV = @MaNV, TenHoa_DatHang = @TenHoa_DatHang, DonGia = @DonGia
                            WHERE MaDH = @MaDH AND MaHoa = @OldMaHoa";
             using (var cmd = new SqlCommand(query, conn, tx))
             {
@@ -154,6 +166,8 @@ namespace QuanLyBanHoa.Models
                 cmd.Parameters.AddWithValue("@SoLuong", chiTiet.SoLuong);
                 cmd.Parameters.AddWithValue("@ThanhTien", chiTiet.ThanhTien);
                 cmd.Parameters.AddWithValue("@MaNV", chiTiet.MaNV);
+                cmd.Parameters.AddWithValue("@TenHoa_DatHang", chiTiet.TenHoa_DatHang ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@DonGia", chiTiet.DonGia);
                 cmd.Parameters.AddWithValue("@OldMaHoa", oldMaHoa);
                 return cmd.ExecuteNonQuery() > 0;
             }
@@ -208,9 +222,8 @@ namespace QuanLyBanHoa.Models
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = @"SELECT ct.MaDH, ct.MaHoa, h.TenHoa, ct.SoLuong, ct.ThanhTien, ct.MaNV
+                string query = @"SELECT ct.MaDH, ct.MaHoa, ct.TenHoa_DatHang AS TenHoa, ct.SoLuong, ct.ThanhTien, ct.MaNV, ct.DonGia
                                FROM ChiTietDonHang ct
-                               LEFT JOIN Hoa h ON ct.MaHoa = h.MaHoa
                                WHERE ct.MaDH = @MaDH";
                 using (var cmd = new SqlCommand(query, conn))
                 {
@@ -226,7 +239,8 @@ namespace QuanLyBanHoa.Models
                                 TenHoa = reader["TenHoa"] == DBNull.Value ? string.Empty : reader["TenHoa"].ToString(),
                                 SoLuong = reader["SoLuong"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SoLuong"]),
                                 ThanhTien = reader["ThanhTien"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["ThanhTien"]),
-                                MaNV = reader["MaNV"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaNV"])
+                                MaNV = reader["MaNV"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaNV"]),
+                                DonGia = reader["DonGia"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["DonGia"])
                             });
                         }
                     }
@@ -239,9 +253,8 @@ namespace QuanLyBanHoa.Models
         public static List<dynamic> GetDetailWithHoaInfo(int maDH, SqlConnection conn, SqlTransaction tx = null)
         {
             List<dynamic> listDetail = new List<dynamic>();
-            string query = @"SELECT ct.MaDH, ct.MaHoa, h.TenHoa, ct.SoLuong, ct.ThanhTien, ct.MaNV
+            string query = @"SELECT ct.MaDH, ct.MaHoa, ct.TenHoa_DatHang AS TenHoa, ct.SoLuong, ct.ThanhTien, ct.MaNV, ct.DonGia
                            FROM ChiTietDonHang ct
-                           LEFT JOIN Hoa h ON ct.MaHoa = h.MaHoa
                            WHERE ct.MaDH = @MaDH";
             using (var cmd = new SqlCommand(query, conn, tx))
             {
@@ -257,7 +270,8 @@ namespace QuanLyBanHoa.Models
                             TenHoa = reader["TenHoa"] == DBNull.Value ? string.Empty : reader["TenHoa"].ToString(),
                             SoLuong = reader["SoLuong"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SoLuong"]),
                             ThanhTien = reader["ThanhTien"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["ThanhTien"]),
-                            MaNV = reader["MaNV"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaNV"])
+                            MaNV = reader["MaNV"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaNV"]),
+                            DonGia = reader["DonGia"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["DonGia"])
                         });
                     }
                 }

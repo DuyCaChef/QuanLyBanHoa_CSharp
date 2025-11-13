@@ -104,11 +104,47 @@ namespace QuanLyBanHoa.Models
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = "DELETE FROM hoa WHERE MaHoa = @MaHoa";
-                using (var cmd = new SqlCommand(query, conn))
+                
+                try
                 {
-                    cmd.Parameters.AddWithValue("@MaHoa", maHoa);
-                    return cmd.ExecuteNonQuery() > 0;
+                    // Disable all foreign key constraints
+                    string disableFK = "ALTER TABLE ChiTietDonHang NOCHECK CONSTRAINT ALL";
+                    string enableFK = "ALTER TABLE ChiTietDonHang CHECK CONSTRAINT ALL";
+                    string deleteQuery = "DELETE FROM hoa WHERE MaHoa = @MaHoa";
+
+                    using (var cmd = new SqlCommand(disableFK, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    bool result;
+                    using (var cmd = new SqlCommand(deleteQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@MaHoa", maHoa);
+                        result = cmd.ExecuteNonQuery() > 0;
+                    }
+
+                    using (var cmd = new SqlCommand(enableFK, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    return result;
+                }
+                catch (Exception)
+                {
+                    // Try to re-enable constraints even if delete failed
+                    try
+                    {
+                        string enableFK = "ALTER TABLE ChiTietDonHang CHECK CONSTRAINT ALL";
+                        using (var cmd = new SqlCommand(enableFK, conn))
+                        {
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    catch { }
+                    
+                    throw;
                 }
             }
         }

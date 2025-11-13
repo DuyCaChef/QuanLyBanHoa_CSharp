@@ -15,6 +15,10 @@ namespace QuanLyBanHoa.Models
         public DateTime NgayDatHang { get; set; }
         public decimal TongTien { get; set; }
         public int? MaKM { get; set; } // Dấu ? cho phép giá trị null
+        public string TenKH_DatHang { get; set; }
+        public string DiaChi_DatHang { get; set; }
+        public string SoDienThoai_DatHang { get; set; }
+        public string TenNV_BanHang { get; set; }
 
         // Parameterless constructor
         public DonHang() { }
@@ -36,7 +40,7 @@ namespace QuanLyBanHoa.Models
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = "SELECT MaDH, MaKH, MaNV, NgayDatHang, TongTien, MaKM FROM DonHang ORDER BY MaDH DESC";
+                string query = "SELECT MaDH, MaKH, MaNV, NgayDatHang, TongTien, MaKM, TenKH_DatHang, DiaChi_DatHang, SoDienThoai_DatHang, TenNV_BanHang FROM DonHang ORDER BY MaDH DESC";
                 using (var cmd = new SqlCommand(query, conn))
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -49,7 +53,11 @@ namespace QuanLyBanHoa.Models
                             MaNV = reader["MaNV"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaNV"]),
                             NgayDatHang = reader["NgayDatHang"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader["NgayDatHang"]),
                             TongTien = reader["TongTien"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["TongTien"]),
-                            MaKM = reader["MaKM"] == DBNull.Value ? null : (int?)Convert.ToInt32(reader["MaKM"])
+                            MaKM = reader["MaKM"] == DBNull.Value ? null : (int?)Convert.ToInt32(reader["MaKM"]),
+                            TenKH_DatHang = reader["TenKH_DatHang"] == DBNull.Value ? string.Empty : reader["TenKH_DatHang"].ToString(),
+                            DiaChi_DatHang = reader["DiaChi_DatHang"] == DBNull.Value ? string.Empty : reader["DiaChi_DatHang"].ToString(),
+                            SoDienThoai_DatHang = reader["SoDienThoai_DatHang"] == DBNull.Value ? string.Empty : reader["SoDienThoai_DatHang"].ToString(),
+                            TenNV_BanHang = reader["TenNV_BanHang"] == DBNull.Value ? string.Empty : reader["TenNV_BanHang"].ToString()
                         });
                     }
                 }
@@ -63,7 +71,7 @@ namespace QuanLyBanHoa.Models
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = "SELECT MaDH, MaKH, MaNV, NgayDatHang, TongTien, MaKM FROM DonHang WHERE MaDH = @MaDH";
+                string query = "SELECT MaDH, MaKH, MaNV, NgayDatHang, TongTien, MaKM, TenKH_DatHang, DiaChi_DatHang, SoDienThoai_DatHang, TenNV_BanHang FROM DonHang WHERE MaDH = @MaDH";
                 using (var cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@MaDH", maDH);
@@ -78,7 +86,11 @@ namespace QuanLyBanHoa.Models
                                 MaNV = reader["MaNV"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaNV"]),
                                 NgayDatHang = reader["NgayDatHang"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader["NgayDatHang"]),
                                 TongTien = reader["TongTien"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["TongTien"]),
-                                MaKM = reader["MaKM"] == DBNull.Value ? null : (int?)Convert.ToInt32(reader["MaKM"])
+                                MaKM = reader["MaKM"] == DBNull.Value ? null : (int?)Convert.ToInt32(reader["MaKM"]),
+                                TenKH_DatHang = reader["TenKH_DatHang"] == DBNull.Value ? string.Empty : reader["TenKH_DatHang"].ToString(),
+                                DiaChi_DatHang = reader["DiaChi_DatHang"] == DBNull.Value ? string.Empty : reader["DiaChi_DatHang"].ToString(),
+                                SoDienThoai_DatHang = reader["SoDienThoai_DatHang"] == DBNull.Value ? string.Empty : reader["SoDienThoai_DatHang"].ToString(),
+                                TenNV_BanHang = reader["TenNV_BanHang"] == DBNull.Value ? string.Empty : reader["TenNV_BanHang"].ToString()
                             };
                         }
                     }
@@ -94,8 +106,8 @@ namespace QuanLyBanHoa.Models
             {
                 conn.Open();
                 // SQL Server: SCOPE_IDENTITY() thay vì LAST_INSERT_ID()
-                string query = @"INSERT INTO DonHang (MaKH, MaNV, NgayDatHang, TongTien, MaKM) 
-                               VALUES (@MaKH, @MaNV, @NgayDatHang, @TongTien, @MaKM);
+                string query = @"INSERT INTO DonHang (MaKH, MaNV, NgayDatHang, TongTien, MaKM, TenKH_DatHang, DiaChi_DatHang, SoDienThoai_DatHang, TenNV_BanHang) 
+                               VALUES (@MaKH, @MaNV, @NgayDatHang, @TongTien, @MaKM, @TenKH_DatHang, @DiaChi_DatHang, @SoDienThoai_DatHang, @TenNV_BanHang);
                                SELECT CAST(SCOPE_IDENTITY() AS INT);";
                 using (var cmd = new SqlCommand(query, conn))
                 {
@@ -104,6 +116,10 @@ namespace QuanLyBanHoa.Models
                     cmd.Parameters.AddWithValue("@NgayDatHang", donHang.NgayDatHang);
                     cmd.Parameters.AddWithValue("@TongTien", donHang.TongTien);
                     cmd.Parameters.AddWithValue("@MaKM", donHang.MaKM.HasValue ? (object)donHang.MaKM.Value : DBNull.Value);
+                    cmd.Parameters.AddWithValue("@TenKH_DatHang", donHang.TenKH_DatHang ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@DiaChi_DatHang", donHang.DiaChi_DatHang ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@SoDienThoai_DatHang", donHang.SoDienThoai_DatHang ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@TenNV_BanHang", donHang.TenNV_BanHang ?? (object)DBNull.Value);
                     
                     var result = cmd.ExecuteScalar();
                     return result != null ? Convert.ToInt32(result) : 0;
@@ -118,7 +134,8 @@ namespace QuanLyBanHoa.Models
             {
                 conn.Open();
                 string query = @"UPDATE DonHang 
-                               SET MaKH = @MaKH, MaNV = @MaNV, NgayDatHang = @NgayDatHang, TongTien = @TongTien, MaKM = @MaKM
+                               SET MaKH = @MaKH, MaNV = @MaNV, NgayDatHang = @NgayDatHang, TongTien = @TongTien, MaKM = @MaKM,
+                                   TenKH_DatHang = @TenKH_DatHang, DiaChi_DatHang = @DiaChi_DatHang, SoDienThoai_DatHang = @SoDienThoai_DatHang, TenNV_BanHang = @TenNV_BanHang
                                WHERE MaDH = @MaDH";
                 using (var cmd = new SqlCommand(query, conn))
                 {
@@ -128,6 +145,10 @@ namespace QuanLyBanHoa.Models
                     cmd.Parameters.AddWithValue("@NgayDatHang", donHang.NgayDatHang);
                     cmd.Parameters.AddWithValue("@TongTien", donHang.TongTien);
                     cmd.Parameters.AddWithValue("@MaKM", donHang.MaKM.HasValue ? (object)donHang.MaKM.Value : DBNull.Value);
+                    cmd.Parameters.AddWithValue("@TenKH_DatHang", donHang.TenKH_DatHang ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@DiaChi_DatHang", donHang.DiaChi_DatHang ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@SoDienThoai_DatHang", donHang.SoDienThoai_DatHang ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@TenNV_BanHang", donHang.TenNV_BanHang ?? (object)DBNull.Value);
                     return cmd.ExecuteNonQuery() > 0;
                 }
             }
@@ -155,7 +176,7 @@ namespace QuanLyBanHoa.Models
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = @"SELECT MaDH, MaKH, MaNV, NgayDatHang, TongTien, MaKM 
+                string query = @"SELECT MaDH, MaKH, MaNV, NgayDatHang, TongTien, MaKM, TenKH_DatHang, DiaChi_DatHang, SoDienThoai_DatHang, TenNV_BanHang 
                                FROM DonHang 
                                WHERE CAST(MaDH AS NVARCHAR) LIKE @Keyword OR CAST(MaKH AS NVARCHAR) LIKE @Keyword OR CAST(MaNV AS NVARCHAR) LIKE @Keyword
                                ORDER BY MaDH DESC";
@@ -173,7 +194,11 @@ namespace QuanLyBanHoa.Models
                                 MaNV = reader["MaNV"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaNV"]),
                                 NgayDatHang = reader["NgayDatHang"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader["NgayDatHang"]),
                                 TongTien = reader["TongTien"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["TongTien"]),
-                                MaKM = reader["MaKM"] == DBNull.Value ? null : (int?)Convert.ToInt32(reader["MaKM"])
+                                MaKM = reader["MaKM"] == DBNull.Value ? null : (int?)Convert.ToInt32(reader["MaKM"]),
+                                TenKH_DatHang = reader["TenKH_DatHang"] == DBNull.Value ? string.Empty : reader["TenKH_DatHang"].ToString(),
+                                DiaChi_DatHang = reader["DiaChi_DatHang"] == DBNull.Value ? string.Empty : reader["DiaChi_DatHang"].ToString(),
+                                SoDienThoai_DatHang = reader["SoDienThoai_DatHang"] == DBNull.Value ? string.Empty : reader["SoDienThoai_DatHang"].ToString(),
+                                TenNV_BanHang = reader["TenNV_BanHang"] == DBNull.Value ? string.Empty : reader["TenNV_BanHang"].ToString()
                             });
                         }
                     }
@@ -189,7 +214,7 @@ namespace QuanLyBanHoa.Models
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = @"SELECT MaDH, MaKH, MaNV, NgayDatHang, TongTien, MaKM 
+                string query = @"SELECT MaDH, MaKH, MaNV, NgayDatHang, TongTien, MaKM, TenKH_DatHang, DiaChi_DatHang, SoDienThoai_DatHang, TenNV_BanHang 
                                FROM DonHang 
                                WHERE NgayDatHang BETWEEN @FromDate AND @ToDate
                                ORDER BY MaDH DESC";
@@ -208,7 +233,11 @@ namespace QuanLyBanHoa.Models
                                 MaNV = reader["MaNV"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaNV"]),
                                 NgayDatHang = reader["NgayDatHang"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader["NgayDatHang"]),
                                 TongTien = reader["TongTien"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["TongTien"]),
-                                MaKM = reader["MaKM"] == DBNull.Value ? null : (int?)Convert.ToInt32(reader["MaKM"])
+                                MaKM = reader["MaKM"] == DBNull.Value ? null : (int?)Convert.ToInt32(reader["MaKM"]),
+                                TenKH_DatHang = reader["TenKH_DatHang"] == DBNull.Value ? string.Empty : reader["TenKH_DatHang"].ToString(),
+                                DiaChi_DatHang = reader["DiaChi_DatHang"] == DBNull.Value ? string.Empty : reader["DiaChi_DatHang"].ToString(),
+                                SoDienThoai_DatHang = reader["SoDienThoai_DatHang"] == DBNull.Value ? string.Empty : reader["SoDienThoai_DatHang"].ToString(),
+                                TenNV_BanHang = reader["TenNV_BanHang"] == DBNull.Value ? string.Empty : reader["TenNV_BanHang"].ToString()
                             });
                         }
                     }
@@ -227,17 +256,17 @@ namespace QuanLyBanHoa.Models
                 string query = @"SELECT TOP 500 
                                 ct.MaDH, 
                                 d.NgayDatHang, 
-                                k.TenKH, 
-                                k.SoDienThoai, 
+                                d.TenKH_DatHang AS TenKH, 
+                                d.SoDienThoai_DatHang AS SoDienThoai, 
                                 ct.MaNV,
-                                h.TenHoa,
+                                ct.TenHoa_DatHang AS TenHoa,
                                 ct.SoLuong,
+                                ct.ThanhTien,
+                                ct.DonGia AS Gia,
                                 ct.MaHoa
                               FROM ChiTietDonHang ct
                               INNER JOIN DonHang d ON ct.MaDH = d.MaDH
-                              LEFT JOIN KhachHang k ON d.MaKH = k.MaKH
-                              LEFT JOIN Hoa h ON ct.MaHoa = h.MaHoa
-                              ORDER BY ct.MaDH DESC, h.TenHoa";
+                              ORDER BY ct.MaDH DESC, ct.TenHoa_DatHang";
                 using (var cmd = new SqlCommand(query, conn))
                 using (var reader = cmd.ExecuteReader())
                 {
@@ -252,7 +281,9 @@ namespace QuanLyBanHoa.Models
                             MaNV = reader.IsDBNull(4) ? 0 : reader.GetInt32(4),
                             TenHoa = reader.IsDBNull(5) ? string.Empty : reader.GetString(5),
                             SoLuong = reader.IsDBNull(6) ? 0 : reader.GetInt32(6),
-                            MaHoa = reader.IsDBNull(7) ? 0 : reader.GetInt32(7)
+                            ThanhTien = reader.IsDBNull(7) ? 0m : reader.GetDecimal(7),
+                            Gia = reader.IsDBNull(8) ? 0m : reader.GetDecimal(8),
+                            MaHoa = reader.IsDBNull(9) ? 0 : reader.GetInt32(9)
                         });
                     }
                 }
@@ -283,8 +314,8 @@ namespace QuanLyBanHoa.Models
             {
                 conn.Open();
                 string query = @"SET IDENTITY_INSERT DonHang ON;
-                               INSERT INTO DonHang (MaDH, MaKH, MaNV, NgayDatHang, TongTien, MaKM) 
-                               VALUES (@MaDH, @MaKH, @MaNV, @NgayDatHang, @TongTien, @MaKM);
+                               INSERT INTO DonHang (MaDH, MaKH, MaNV, NgayDatHang, TongTien, MaKM, TenKH_DatHang, DiaChi_DatHang, SoDienThoai_DatHang, TenNV_BanHang) 
+                               VALUES (@MaDH, @MaKH, @MaNV, @NgayDatHang, @TongTien, @MaKM, @TenKH_DatHang, @DiaChi_DatHang, @SoDienThoai_DatHang, @TenNV_BanHang);
                                SET IDENTITY_INSERT DonHang OFF;";
                 using (var cmd = new SqlCommand(query, conn))
                 {
@@ -294,6 +325,10 @@ namespace QuanLyBanHoa.Models
                     cmd.Parameters.AddWithValue("@NgayDatHang", donHang.NgayDatHang);
                     cmd.Parameters.AddWithValue("@TongTien", donHang.TongTien);
                     cmd.Parameters.AddWithValue("@MaKM", donHang.MaKM.HasValue ? (object)donHang.MaKM.Value : DBNull.Value);
+                    cmd.Parameters.AddWithValue("@TenKH_DatHang", donHang.TenKH_DatHang ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@DiaChi_DatHang", donHang.DiaChi_DatHang ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@SoDienThoai_DatHang", donHang.SoDienThoai_DatHang ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@TenNV_BanHang", donHang.TenNV_BanHang ?? (object)DBNull.Value);
                     return cmd.ExecuteNonQuery() > 0;
                 }
             }
@@ -318,7 +353,7 @@ namespace QuanLyBanHoa.Models
         // Overload with connection and transaction
         public static DonHang GetById(int maDH, SqlConnection conn, SqlTransaction tx = null)
         {
-            string query = "SELECT MaDH, MaKH, MaNV, NgayDatHang, TongTien, MaKM FROM DonHang WHERE MaDH = @MaDH";
+            string query = "SELECT MaDH, MaKH, MaNV, NgayDatHang, TongTien, MaKM, TenKH_DatHang, DiaChi_DatHang, SoDienThoai_DatHang, TenNV_BanHang FROM DonHang WHERE MaDH = @MaDH";
             using (var cmd = new SqlCommand(query, conn, tx))
             {
                 cmd.Parameters.AddWithValue("@MaDH", maDH);
@@ -333,7 +368,11 @@ namespace QuanLyBanHoa.Models
                             MaNV = reader["MaNV"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaNV"]),
                             NgayDatHang = reader["NgayDatHang"] == DBNull.Value ? DateTime.Now : Convert.ToDateTime(reader["NgayDatHang"]),
                             TongTien = reader["TongTien"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["TongTien"]),
-                            MaKM = reader["MaKM"] == DBNull.Value ? null : (int?)Convert.ToInt32(reader["MaKM"])
+                            MaKM = reader["MaKM"] == DBNull.Value ? null : (int?)Convert.ToInt32(reader["MaKM"]),
+                            TenKH_DatHang = reader["TenKH_DatHang"] == DBNull.Value ? string.Empty : reader["TenKH_DatHang"].ToString(),
+                            DiaChi_DatHang = reader["DiaChi_DatHang"] == DBNull.Value ? string.Empty : reader["DiaChi_DatHang"].ToString(),
+                            SoDienThoai_DatHang = reader["SoDienThoai_DatHang"] == DBNull.Value ? string.Empty : reader["SoDienThoai_DatHang"].ToString(),
+                            TenNV_BanHang = reader["TenNV_BanHang"] == DBNull.Value ? string.Empty : reader["TenNV_BanHang"].ToString()
                         };
                     }
                 }
@@ -344,8 +383,8 @@ namespace QuanLyBanHoa.Models
         // Overload with connection and transaction
         public static int Insert(DonHang donHang, SqlConnection conn, SqlTransaction tx = null)
         {
-            string query = @"INSERT INTO DonHang (MaKH, MaNV, NgayDatHang, TongTien, MaKM) 
-                           VALUES (@MaKH, @MaNV, @NgayDatHang, @TongTien, @MaKM);
+            string query = @"INSERT INTO DonHang (MaKH, MaNV, NgayDatHang, TongTien, MaKM, TenKH_DatHang, DiaChi_DatHang, SoDienThoai_DatHang, TenNV_BanHang) 
+                           VALUES (@MaKH, @MaNV, @NgayDatHang, @TongTien, @MaKM, @TenKH_DatHang, @DiaChi_DatHang, @SoDienThoai_DatHang, @TenNV_BanHang);
                            SELECT CAST(SCOPE_IDENTITY() AS INT);";
             using (var cmd = new SqlCommand(query, conn, tx))
             {
@@ -354,6 +393,10 @@ namespace QuanLyBanHoa.Models
                 cmd.Parameters.AddWithValue("@NgayDatHang", donHang.NgayDatHang);
                 cmd.Parameters.AddWithValue("@TongTien", donHang.TongTien);
                 cmd.Parameters.AddWithValue("@MaKM", donHang.MaKM.HasValue ? (object)donHang.MaKM.Value : DBNull.Value);
+                cmd.Parameters.AddWithValue("@TenKH_DatHang", donHang.TenKH_DatHang ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@DiaChi_DatHang", donHang.DiaChi_DatHang ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@SoDienThoai_DatHang", donHang.SoDienThoai_DatHang ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@TenNV_BanHang", donHang.TenNV_BanHang ?? (object)DBNull.Value);
                 
                 var result = cmd.ExecuteScalar();
                 return result != null ? Convert.ToInt32(result) : 0;
@@ -364,8 +407,8 @@ namespace QuanLyBanHoa.Models
         public static bool InsertWithId(DonHang donHang, SqlConnection conn, SqlTransaction tx = null)
         {
             string query = @"SET IDENTITY_INSERT DonHang ON;
-                           INSERT INTO DonHang (MaDH, MaKH, MaNV, NgayDatHang, TongTien, MaKM) 
-                           VALUES (@MaDH, @MaKH, @MaNV, @NgayDatHang, @TongTien, @MaKM);
+                           INSERT INTO DonHang (MaDH, MaKH, MaNV, NgayDatHang, TongTien, MaKM, TenKH_DatHang, DiaChi_DatHang, SoDienThoai_DatHang, TenNV_BanHang) 
+                           VALUES (@MaDH, @MaKH, @MaNV, @NgayDatHang, @TongTien, @MaKM, @TenKH_DatHang, @DiaChi_DatHang, @SoDienThoai_DatHang, @TenNV_BanHang);
                            SET IDENTITY_INSERT DonHang OFF;";
             using (var cmd = new SqlCommand(query, conn, tx))
             {
@@ -375,6 +418,10 @@ namespace QuanLyBanHoa.Models
                 cmd.Parameters.AddWithValue("@NgayDatHang", donHang.NgayDatHang);
                 cmd.Parameters.AddWithValue("@TongTien", donHang.TongTien);
                 cmd.Parameters.AddWithValue("@MaKM", donHang.MaKM.HasValue ? (object)donHang.MaKM.Value : DBNull.Value);
+                cmd.Parameters.AddWithValue("@TenKH_DatHang", donHang.TenKH_DatHang ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@DiaChi_DatHang", donHang.DiaChi_DatHang ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@SoDienThoai_DatHang", donHang.SoDienThoai_DatHang ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@TenNV_BanHang", donHang.TenNV_BanHang ?? (object)DBNull.Value);
                 return cmd.ExecuteNonQuery() > 0;
             }
         }
@@ -395,7 +442,8 @@ namespace QuanLyBanHoa.Models
         public static bool Update(DonHang donHang, SqlConnection conn, SqlTransaction tx = null)
         {
             string query = @"UPDATE DonHang 
-                           SET MaKH = @MaKH, MaNV = @MaNV, NgayDatHang = @NgayDatHang, TongTien = @TongTien, MaKM = @MaKM
+                           SET MaKH = @MaKH, MaNV = @MaNV, NgayDatHang = @NgayDatHang, TongTien = @TongTien, MaKM = @MaKM,
+                               TenKH_DatHang = @TenKH_DatHang, DiaChi_DatHang = @DiaChi_DatHang, SoDienThoai_DatHang = @SoDienThoai_DatHang, TenNV_BanHang = @TenNV_BanHang
                            WHERE MaDH = @MaDH";
             using (var cmd = new SqlCommand(query, conn, tx))
             {
@@ -405,6 +453,10 @@ namespace QuanLyBanHoa.Models
                 cmd.Parameters.AddWithValue("@NgayDatHang", donHang.NgayDatHang);
                 cmd.Parameters.AddWithValue("@TongTien", donHang.TongTien);
                 cmd.Parameters.AddWithValue("@MaKM", donHang.MaKM.HasValue ? (object)donHang.MaKM.Value : DBNull.Value);
+                cmd.Parameters.AddWithValue("@TenKH_DatHang", donHang.TenKH_DatHang ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@DiaChi_DatHang", donHang.DiaChi_DatHang ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@SoDienThoai_DatHang", donHang.SoDienThoai_DatHang ?? (object)DBNull.Value);
+                cmd.Parameters.AddWithValue("@TenNV_BanHang", donHang.TenNV_BanHang ?? (object)DBNull.Value);
                 return cmd.ExecuteNonQuery() > 0;
             }
         }
@@ -418,17 +470,6 @@ namespace QuanLyBanHoa.Models
                 cmd.Parameters.AddWithValue("@MaDH", maDH);
                 var result = cmd.ExecuteScalar();
                 return result != null ? Convert.ToDecimal(result) : 0m;
-            }
-        }
-
-        // Overload with connection and transaction
-        public static bool Delete(int maDH, SqlConnection conn, SqlTransaction tx = null)
-        {
-            string query = "DELETE FROM DonHang WHERE MaDH = @MaDH";
-            using (var cmd = new SqlCommand(query, conn, tx))
-            {
-                cmd.Parameters.AddWithValue("@MaDH", maDH);
-                return cmd.ExecuteNonQuery() > 0;
             }
         }
 
@@ -459,6 +500,17 @@ namespace QuanLyBanHoa.Models
             Update(new DonHang { MaDH = maDH, MaKH = maKH, MaNV = maNV, NgayDatHang = ngayDatHang, TongTien = tongTien, MaKM = null }, conn, tx);
 
             return true;
+        }
+
+        // Overload with connection and transaction
+        public static bool Delete(int maDH, SqlConnection conn, SqlTransaction tx = null)
+        {
+            string query = "DELETE FROM DonHang WHERE MaDH = @MaDH";
+            using (var cmd = new SqlCommand(query, conn, tx))
+            {
+                cmd.Parameters.AddWithValue("@MaDH", maDH);
+                return cmd.ExecuteNonQuery() > 0;
+            }
         }
     }
 }

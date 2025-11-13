@@ -157,7 +157,7 @@ namespace QuanLyBanHoa.Forms
                 var listThongKe = ThongKe.SearchThongKeTheoNgay(from, to, searchText);
                 foreach (var item in listThongKe)
                 {
-                    dgvThongKe.Rows.Add(item.Ngay, item.SoDon, item.DoanhThu.ToString("N0"), item.KMs, item.NhanVien);
+                    dgvThongKe.Rows.Add(item.Ngay, item.SoDon, item.DoanhThu.ToString("N0"));
                 }
             }
             catch (Exception ex)
@@ -180,14 +180,12 @@ namespace QuanLyBanHoa.Forms
                 var thongKeTongQuan = ThongKe.GetThongKeTongQuan(from, to);
                 lblOrders.Text = thongKeTongQuan.SoDon.ToString();
                 lblRevenue.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, "{0:N0} đ", thongKeTongQuan.DoanhThu);
-                lblDiscount.Text = thongKeTongQuan.KmDung.ToString();
-                lblCancelRate.Text = "0 %";
 
                 // Lấy thống kê theo ngày chi tiết
                 var listThongKe = ThongKe.GetThongKeTheoNgayChiTiet(from, to);
                 foreach (var item in listThongKe)
                 {
-                    dgvThongKe.Rows.Add(item.Ngay, item.SoDon, item.DoanhThu.ToString("N0"), item.KMs, item.NhanVien);
+                    dgvThongKe.Rows.Add(item.Ngay, item.SoDon, item.DoanhThu.ToString("N0"));
                 }
             }
             catch (Exception ex)

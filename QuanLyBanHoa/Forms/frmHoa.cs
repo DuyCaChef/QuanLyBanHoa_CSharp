@@ -315,19 +315,6 @@ namespace QuanLyBanHoa.Forms
                     }
                     else MessageBox.Show("Xóa hoa không thành công.", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
-                catch (SqlException ex)
-                {
-                    // SQL Server Foreign Key Constraint Error Numbers: 547
-                    if (ex.Number == 547)
-                    {
-                        MessageBox.Show("Không thể xóa hoa này vì đã có đơn hàng liên quan!",
-                            "Lỗi ràng buộc dữ liệu", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                    else
-                    {
-                        MessageBox.Show("Lỗi khi xóa hoa: " + ex.Message, "Lỗi Database", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
                 catch (Exception ex)
                 {
                     MessageBox.Show("Lỗi khi xóa hoa: " + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);

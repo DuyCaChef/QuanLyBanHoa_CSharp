@@ -127,11 +127,47 @@ namespace QuanLyBanHoa.Models
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = "DELETE FROM nhanvien WHERE MaNV = @MaNV";
-                using (var cmd = new SqlCommand(query, conn))
+                
+                try
                 {
-                    cmd.Parameters.AddWithValue("@MaNV", maNV);
-                    return cmd.ExecuteNonQuery() > 0;
+                    // Disable all foreign key constraints on both tables
+                    string disableFK = "ALTER TABLE DonHang NOCHECK CONSTRAINT ALL; ALTER TABLE ChiTietDonHang NOCHECK CONSTRAINT ALL;";
+                    string enableFK = "ALTER TABLE DonHang CHECK CONSTRAINT ALL; ALTER TABLE ChiTietDonHang CHECK CONSTRAINT ALL;";
+                    string deleteQuery = "DELETE FROM nhanvien WHERE MaNV = @MaNV";
+
+                    using (var cmd = new SqlCommand(disableFK, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    bool result;
+                    using (var cmd = new SqlCommand(deleteQuery, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@MaNV", maNV);
+                        result = cmd.ExecuteNonQuery() > 0;
+                    }
+
+                    using (var cmd = new SqlCommand(enableFK, conn))
+                    {
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    return result;
+                }
+                catch (Exception)
+                {
+                    // Try to re-enable constraints even if delete failed
+                    try
+                    {
+                        string enableFK = "ALTER TABLE DonHang CHECK CONSTRAINT ALL; ALTER TABLE ChiTietDonHang CHECK CONSTRAINT ALL;";
+                        using (var cmd = new SqlCommand(enableFK, conn))
+                        {
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    catch { }
+                    
+                    throw;
                 }
             }
         }

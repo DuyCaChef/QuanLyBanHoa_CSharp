@@ -74,5 +74,16 @@ GO
 ALTER TABLE ChiTietDonHang ADD CONSTRAINT FK_ChiTietDonHang_NhanVien FOREIGN KEY (MaNV) REFERENCES NhanVien(MaNV);
 GO
 
-SELECT * FROM KhachHang
+--Thêm các thuộc tính cho bảng DonHang và ChiTietDonHang để sử dụng biến tạm
+ALTER TABLE DonHang
+ADD TenKH_DatHang NVARCHAR(100) NULL,
+    DiaChi_DatHang NVARCHAR(200),
+    SoDienThoai_DatHang VARCHAR(15),
+    TenNV_BanHang NVARCHAR(100);
+GO
+
+ALTER TABLE ChiTietDonHang
+ADD TenHoa_DatHang NVARCHAR(100) NULL,
+    DonGia DECIMAL(12,2) NULL;
+GO
 

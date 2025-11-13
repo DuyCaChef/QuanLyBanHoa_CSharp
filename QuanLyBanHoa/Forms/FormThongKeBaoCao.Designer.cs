@@ -45,29 +45,19 @@
             txtSearch = new TextBox();
             gbOverview = new GroupBox();
             tlpCards = new TableLayoutPanel();
-            cardRevenue = new Panel();
-            panelRevenueAccent = new Panel();
-            lblRevenue = new Label();
-            lblRevenueTitle = new Label();
             cardOrders = new Panel();
             panelOrdersAccent = new Panel();
             lblOrders = new Label();
             lblOrdersTitle = new Label();
-            cardDiscount = new Panel();
-            panelDiscountAccent = new Panel();
-            lblDiscount = new Label();
-            lblDiscountTitle = new Label();
-            cardCancelRate = new Panel();
-            panelCancelAccent = new Panel();
-            lblCancelRate = new Label();
-            lblCancelRateTitle = new Label();
+            cardRevenue = new Panel();
+            panelRevenueAccent = new Panel();
+            lblRevenue = new Label();
+            lblRevenueTitle = new Label();
             dgvThongKe = new DataGridView();
             colMaDH = new DataGridViewTextBoxColumn();
             colNgay = new DataGridViewTextBoxColumn();
             colSoDon = new DataGridViewTextBoxColumn();
             colDoanhThu = new DataGridViewTextBoxColumn();
-            colKmDaDung = new DataGridViewTextBoxColumn();
-            colNhanVien = new DataGridViewTextBoxColumn();
             flpActions = new FlowLayoutPanel();
             btnRefresh = new Button();
             btnXoaDon = new Button();
@@ -76,10 +66,8 @@
             tlpFilters.SuspendLayout();
             gbOverview.SuspendLayout();
             tlpCards.SuspendLayout();
-            cardRevenue.SuspendLayout();
             cardOrders.SuspendLayout();
-            cardDiscount.SuspendLayout();
-            cardCancelRate.SuspendLayout();
+            cardRevenue.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvThongKe).BeginInit();
             flpActions.SuspendLayout();
             SuspendLayout();
@@ -207,75 +195,27 @@
             gbOverview.Location = new Point(0, 124);
             gbOverview.Name = "gbOverview";
             gbOverview.Padding = new Padding(12, 8, 12, 12);
-            gbOverview.Size = new Size(1280, 183);
+            gbOverview.Size = new Size(1280, 162);
             gbOverview.TabIndex = 2;
             gbOverview.TabStop = false;
             gbOverview.Text = "Tổng quan";
             // 
             // tlpCards
             // 
-            tlpCards.ColumnCount = 4;
-            tlpCards.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tlpCards.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tlpCards.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
-            tlpCards.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 25F));
+            tlpCards.ColumnCount = 2;
+            tlpCards.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+            tlpCards.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
             tlpCards.Controls.Add(cardRevenue, 0, 0);
             tlpCards.Controls.Add(cardOrders, 1, 0);
-            tlpCards.Controls.Add(cardDiscount, 2, 0);
-            tlpCards.Controls.Add(cardCancelRate, 3, 0);
             tlpCards.Dock = DockStyle.Fill;
             tlpCards.Location = new Point(12, 38);
             tlpCards.Name = "tlpCards";
             tlpCards.Padding = new Padding(8);
-            tlpCards.RowCount = 1;
-            tlpCards.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpCards.Size = new Size(1256, 133);
+            tlpCards.RowCount = 2;
+            tlpCards.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tlpCards.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+            tlpCards.Size = new Size(1256, 112);
             tlpCards.TabIndex = 0;
-            // 
-            // cardRevenue
-            // 
-            cardRevenue.BackColor = Color.White;
-            cardRevenue.BorderStyle = BorderStyle.FixedSingle;
-            cardRevenue.Controls.Add(panelRevenueAccent);
-            cardRevenue.Controls.Add(lblRevenue);
-            cardRevenue.Controls.Add(lblRevenueTitle);
-            cardRevenue.Dock = DockStyle.Fill;
-            cardRevenue.Location = new Point(11, 11);
-            cardRevenue.Name = "cardRevenue";
-            cardRevenue.Padding = new Padding(12);
-            cardRevenue.Size = new Size(304, 111);
-            cardRevenue.TabIndex = 0;
-            // 
-            // panelRevenueAccent
-            // 
-            panelRevenueAccent.BackColor = Color.FromArgb(39, 174, 96);
-            panelRevenueAccent.Dock = DockStyle.Left;
-            panelRevenueAccent.Location = new Point(12, 12);
-            panelRevenueAccent.Name = "panelRevenueAccent";
-            panelRevenueAccent.Size = new Size(6, 85);
-            panelRevenueAccent.TabIndex = 2;
-            // 
-            // lblRevenue
-            // 
-            lblRevenue.AutoSize = true;
-            lblRevenue.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            lblRevenue.ForeColor = Color.Black;
-            lblRevenue.Location = new Point(28, 35);
-            lblRevenue.Name = "lblRevenue";
-            lblRevenue.Size = new Size(67, 45);
-            lblRevenue.TabIndex = 1;
-            lblRevenue.Text = "0 đ";
-            // 
-            // lblRevenueTitle
-            // 
-            lblRevenueTitle.AutoSize = true;
-            lblRevenueTitle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblRevenueTitle.ForeColor = Color.DimGray;
-            lblRevenueTitle.Location = new Point(28, 12);
-            lblRevenueTitle.Name = "lblRevenueTitle";
-            lblRevenueTitle.Size = new Size(112, 28);
-            lblRevenueTitle.TabIndex = 0;
-            lblRevenueTitle.Text = "Doanh thu";
             // 
             // cardOrders
             // 
@@ -285,10 +225,11 @@
             cardOrders.Controls.Add(lblOrders);
             cardOrders.Controls.Add(lblOrdersTitle);
             cardOrders.Dock = DockStyle.Fill;
-            cardOrders.Location = new Point(321, 11);
+            cardOrders.Location = new Point(631, 11);
             cardOrders.Name = "cardOrders";
             cardOrders.Padding = new Padding(12);
-            cardOrders.Size = new Size(304, 111);
+            tlpCards.SetRowSpan(cardOrders, 2);
+            cardOrders.Size = new Size(614, 90);
             cardOrders.TabIndex = 1;
             // 
             // panelOrdersAccent
@@ -297,7 +238,7 @@
             panelOrdersAccent.Dock = DockStyle.Left;
             panelOrdersAccent.Location = new Point(12, 12);
             panelOrdersAccent.Name = "panelOrdersAccent";
-            panelOrdersAccent.Size = new Size(6, 85);
+            panelOrdersAccent.Size = new Size(6, 64);
             panelOrdersAccent.TabIndex = 3;
             // 
             // lblOrders
@@ -322,95 +263,51 @@
             lblOrdersTitle.TabIndex = 0;
             lblOrdersTitle.Text = "Số đơn hàng";
             // 
-            // cardDiscount
+            // cardRevenue
             // 
-            cardDiscount.BackColor = Color.White;
-            cardDiscount.BorderStyle = BorderStyle.FixedSingle;
-            cardDiscount.Controls.Add(panelDiscountAccent);
-            cardDiscount.Controls.Add(lblDiscount);
-            cardDiscount.Controls.Add(lblDiscountTitle);
-            cardDiscount.Dock = DockStyle.Fill;
-            cardDiscount.Location = new Point(631, 11);
-            cardDiscount.Name = "cardDiscount";
-            cardDiscount.Padding = new Padding(12);
-            cardDiscount.Size = new Size(304, 111);
-            cardDiscount.TabIndex = 2;
+            cardRevenue.BackColor = Color.White;
+            cardRevenue.BorderStyle = BorderStyle.FixedSingle;
+            cardRevenue.Controls.Add(panelRevenueAccent);
+            cardRevenue.Controls.Add(lblRevenue);
+            cardRevenue.Controls.Add(lblRevenueTitle);
+            cardRevenue.Dock = DockStyle.Fill;
+            cardRevenue.Location = new Point(11, 11);
+            cardRevenue.Name = "cardRevenue";
+            cardRevenue.Padding = new Padding(12);
+            tlpCards.SetRowSpan(cardRevenue, 2);
+            cardRevenue.Size = new Size(614, 90);
+            cardRevenue.TabIndex = 0;
             // 
-            // panelDiscountAccent
+            // panelRevenueAccent
             // 
-            panelDiscountAccent.BackColor = Color.FromArgb(243, 156, 18);
-            panelDiscountAccent.Dock = DockStyle.Left;
-            panelDiscountAccent.Location = new Point(12, 12);
-            panelDiscountAccent.Name = "panelDiscountAccent";
-            panelDiscountAccent.Size = new Size(6, 85);
-            panelDiscountAccent.TabIndex = 3;
+            panelRevenueAccent.BackColor = Color.FromArgb(39, 174, 96);
+            panelRevenueAccent.Dock = DockStyle.Left;
+            panelRevenueAccent.Location = new Point(12, 12);
+            panelRevenueAccent.Name = "panelRevenueAccent";
+            panelRevenueAccent.Size = new Size(6, 64);
+            panelRevenueAccent.TabIndex = 2;
             // 
-            // lblDiscount
+            // lblRevenue
             // 
-            lblDiscount.AutoSize = true;
-            lblDiscount.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            lblDiscount.ForeColor = Color.Black;
-            lblDiscount.Location = new Point(28, 35);
-            lblDiscount.Name = "lblDiscount";
-            lblDiscount.Size = new Size(38, 45);
-            lblDiscount.TabIndex = 1;
-            lblDiscount.Text = "0";
+            lblRevenue.AutoSize = true;
+            lblRevenue.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            lblRevenue.ForeColor = Color.Black;
+            lblRevenue.Location = new Point(28, 35);
+            lblRevenue.Name = "lblRevenue";
+            lblRevenue.Size = new Size(67, 45);
+            lblRevenue.TabIndex = 1;
+            lblRevenue.Text = "0 đ";
             // 
-            // lblDiscountTitle
+            // lblRevenueTitle
             // 
-            lblDiscountTitle.AutoSize = true;
-            lblDiscountTitle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblDiscountTitle.ForeColor = Color.DimGray;
-            lblDiscountTitle.Location = new Point(28, 12);
-            lblDiscountTitle.Name = "lblDiscountTitle";
-            lblDiscountTitle.Size = new Size(128, 28);
-            lblDiscountTitle.TabIndex = 0;
-            lblDiscountTitle.Text = "KM đã dùng";
-            // 
-            // cardCancelRate
-            // 
-            cardCancelRate.BackColor = Color.White;
-            cardCancelRate.BorderStyle = BorderStyle.FixedSingle;
-            cardCancelRate.Controls.Add(panelCancelAccent);
-            cardCancelRate.Controls.Add(lblCancelRate);
-            cardCancelRate.Controls.Add(lblCancelRateTitle);
-            cardCancelRate.Dock = DockStyle.Fill;
-            cardCancelRate.Location = new Point(941, 11);
-            cardCancelRate.Name = "cardCancelRate";
-            cardCancelRate.Padding = new Padding(12);
-            cardCancelRate.Size = new Size(304, 111);
-            cardCancelRate.TabIndex = 3;
-            // 
-            // panelCancelAccent
-            // 
-            panelCancelAccent.BackColor = Color.FromArgb(231, 76, 60);
-            panelCancelAccent.Dock = DockStyle.Left;
-            panelCancelAccent.Location = new Point(12, 12);
-            panelCancelAccent.Name = "panelCancelAccent";
-            panelCancelAccent.Size = new Size(6, 85);
-            panelCancelAccent.TabIndex = 3;
-            // 
-            // lblCancelRate
-            // 
-            lblCancelRate.AutoSize = true;
-            lblCancelRate.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            lblCancelRate.ForeColor = Color.Black;
-            lblCancelRate.Location = new Point(28, 35);
-            lblCancelRate.Name = "lblCancelRate";
-            lblCancelRate.Size = new Size(75, 45);
-            lblCancelRate.TabIndex = 1;
-            lblCancelRate.Text = "0 %";
-            // 
-            // lblCancelRateTitle
-            // 
-            lblCancelRateTitle.AutoSize = true;
-            lblCancelRateTitle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblCancelRateTitle.ForeColor = Color.DimGray;
-            lblCancelRateTitle.Location = new Point(28, 12);
-            lblCancelRateTitle.Name = "lblCancelRateTitle";
-            lblCancelRateTitle.Size = new Size(94, 28);
-            lblCancelRateTitle.TabIndex = 0;
-            lblCancelRateTitle.Text = "Tỉ lệ huỷ";
+            lblRevenueTitle.AutoSize = true;
+            lblRevenueTitle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblRevenueTitle.ForeColor = Color.DimGray;
+            lblRevenueTitle.Location = new Point(28, 12);
+            lblRevenueTitle.Name = "lblRevenueTitle";
+            lblRevenueTitle.Size = new Size(112, 28);
+            lblRevenueTitle.TabIndex = 0;
+            lblRevenueTitle.Text = "Doanh thu";
             // 
             // dgvThongKe
             // 
@@ -430,7 +327,7 @@
             dgvThongKe.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvThongKe.ColumnHeadersHeight = 38;
             dgvThongKe.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
-            dgvThongKe.Columns.AddRange(new DataGridViewColumn[] { colMaDH, colNgay, colSoDon, colDoanhThu, colKmDaDung, colNhanVien });
+            dgvThongKe.Columns.AddRange(new DataGridViewColumn[] { colMaDH, colNgay, colSoDon, colDoanhThu });
             dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle6.BackColor = SystemColors.Window;
             dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
@@ -443,7 +340,7 @@
             dgvThongKe.Dock = DockStyle.Fill;
             dgvThongKe.EnableHeadersVisualStyles = false;
             dgvThongKe.GridColor = Color.LightSteelBlue;
-            dgvThongKe.Location = new Point(0, 307);
+            dgvThongKe.Location = new Point(0, 286);
             dgvThongKe.MultiSelect = false;
             dgvThongKe.Name = "dgvThongKe";
             dgvThongKe.ReadOnly = true;
@@ -451,7 +348,7 @@
             dgvThongKe.RowHeadersWidth = 51;
             dgvThongKe.RowTemplate.Height = 32;
             dgvThongKe.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvThongKe.Size = new Size(1280, 453);
+            dgvThongKe.Size = new Size(1280, 474);
             dgvThongKe.TabIndex = 3;
             // 
             // colMaDH
@@ -489,27 +386,11 @@
             dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleRight;
             dataGridViewCellStyle5.Format = "N0";
             colDoanhThu.DefaultCellStyle = dataGridViewCellStyle5;
-            colDoanhThu.FillWeight = 20F;
+            colDoanhThu.FillWeight = 34F;
             colDoanhThu.HeaderText = "Doanh thu";
             colDoanhThu.MinimumWidth = 6;
             colDoanhThu.Name = "colDoanhThu";
             colDoanhThu.ReadOnly = true;
-            // 
-            // colKmDaDung
-            // 
-            colKmDaDung.FillWeight = 14F;
-            colKmDaDung.HeaderText = "KM đã dùng";
-            colKmDaDung.MinimumWidth = 6;
-            colKmDaDung.Name = "colKmDaDung";
-            colKmDaDung.ReadOnly = true;
-            // 
-            // colNhanVien
-            // 
-            colNhanVien.FillWeight = 36F;
-            colNhanVien.HeaderText = "Nhân viên bán hàng";
-            colNhanVien.MinimumWidth = 6;
-            colNhanVien.Name = "colNhanVien";
-            colNhanVien.ReadOnly = true;
             // 
             // flpActions
             // 
@@ -586,14 +467,10 @@
             tlpFilters.PerformLayout();
             gbOverview.ResumeLayout(false);
             tlpCards.ResumeLayout(false);
-            cardRevenue.ResumeLayout(false);
-            cardRevenue.PerformLayout();
             cardOrders.ResumeLayout(false);
             cardOrders.PerformLayout();
-            cardDiscount.ResumeLayout(false);
-            cardDiscount.PerformLayout();
-            cardCancelRate.ResumeLayout(false);
-            cardCancelRate.PerformLayout();
+            cardRevenue.ResumeLayout(false);
+            cardRevenue.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvThongKe).EndInit();
             flpActions.ResumeLayout(false);
             ResumeLayout(false);
@@ -613,34 +490,24 @@
         private System.Windows.Forms.Label lblSearch;
         private System.Windows.Forms.TextBox txtSearch;
         private System.Windows.Forms.GroupBox gbOverview;
-        private System.Windows.Forms.TableLayoutPanel tlpCards;
-        private System.Windows.Forms.Panel cardRevenue;
-        private System.Windows.Forms.Panel panelRevenueAccent;
-        private System.Windows.Forms.Label lblRevenueTitle;
-        private System.Windows.Forms.Label lblRevenue;
-        private System.Windows.Forms.Panel cardOrders;
-        private System.Windows.Forms.Panel panelOrdersAccent;
-        private System.Windows.Forms.Label lblOrdersTitle;
-        private System.Windows.Forms.Label lblOrders;
-        private System.Windows.Forms.Panel cardDiscount;
-        private System.Windows.Forms.Panel panelDiscountAccent;
-        private System.Windows.Forms.Label lblDiscountTitle;
-        private System.Windows.Forms.Label lblDiscount;
-        private System.Windows.Forms.Panel cardCancelRate;
-        private System.Windows.Forms.Panel panelCancelAccent;
-        private System.Windows.Forms.Label lblCancelRateTitle;
-        private System.Windows.Forms.Label lblCancelRate;
         private System.Windows.Forms.DataGridView dgvThongKe;
         private System.Windows.Forms.DataGridViewTextBoxColumn colMaDH;
         private System.Windows.Forms.DataGridViewTextBoxColumn colNgay;
         private System.Windows.Forms.DataGridViewTextBoxColumn colSoDon;
         private System.Windows.Forms.DataGridViewTextBoxColumn colDoanhThu;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colKmDaDung;
-        private System.Windows.Forms.DataGridViewTextBoxColumn colNhanVien;
         private System.Windows.Forms.FlowLayoutPanel flpActions;
         private System.Windows.Forms.Button btnExport;
         private System.Windows.Forms.Button btnRefresh;
         private System.Windows.Forms.Button btnXoaDon;
+        private TableLayoutPanel tlpCards;
+        private Panel cardRevenue;
+        private Panel panelRevenueAccent;
+        private Label lblRevenue;
+        private Label lblRevenueTitle;
+        private Panel cardOrders;
+        private Panel panelOrdersAccent;
+        private Label lblOrders;
+        private Label lblOrdersTitle;
     }
 }
 

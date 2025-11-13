@@ -28,18 +28,18 @@
         /// </summary>
         private void InitializeComponent()
         {
-            DataGridViewCellStyle dataGridViewCellStyle25 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle26 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle30 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle27 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle28 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle29 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle31 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle32 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle36 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle33 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle34 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle35 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle6 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle7 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle8 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle12 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
+            DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
             headerPanel = new Panel();
             lblTitle = new Label();
             mainScrollPanel = new Panel();
@@ -181,30 +181,30 @@
             dgvDonHang.AllowUserToDeleteRows = false;
             dgvDonHang.AllowUserToOrderColumns = true;
             dgvDonHang.AllowUserToResizeRows = false;
-            dataGridViewCellStyle25.BackColor = Color.FromArgb(242, 242, 242);
-            dgvDonHang.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle25;
+            dataGridViewCellStyle1.BackColor = Color.FromArgb(242, 242, 242);
+            dgvDonHang.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             dgvDonHang.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvDonHang.BackgroundColor = Color.White;
             dgvDonHang.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle26.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle26.BackColor = Color.LightGray;
-            dataGridViewCellStyle26.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle26.ForeColor = Color.Black;
-            dataGridViewCellStyle26.Padding = new Padding(8, 0, 8, 0);
-            dataGridViewCellStyle26.WrapMode = DataGridViewTriState.True;
-            dgvDonHang.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle26;
+            dataGridViewCellStyle2.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle2.BackColor = Color.LightGray;
+            dataGridViewCellStyle2.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle2.ForeColor = Color.Black;
+            dataGridViewCellStyle2.Padding = new Padding(8, 0, 8, 0);
+            dataGridViewCellStyle2.WrapMode = DataGridViewTriState.True;
+            dgvDonHang.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             dgvDonHang.ColumnHeadersHeight = 40;
             dgvDonHang.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgvDonHang.Columns.AddRange(new DataGridViewColumn[] { colMaDon, colNgay, colTenKhach, colSDT, colMaNV, colTenHoa, colSoLuong });
-            dataGridViewCellStyle30.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle30.BackColor = SystemColors.Window;
-            dataGridViewCellStyle30.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle30.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle30.Padding = new Padding(8, 4, 8, 4);
-            dataGridViewCellStyle30.SelectionBackColor = Color.FromArgb(52, 152, 219);
-            dataGridViewCellStyle30.SelectionForeColor = Color.White;
-            dataGridViewCellStyle30.WrapMode = DataGridViewTriState.True;
-            dgvDonHang.DefaultCellStyle = dataGridViewCellStyle30;
+            dataGridViewCellStyle6.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle6.BackColor = SystemColors.Window;
+            dataGridViewCellStyle6.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle6.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle6.Padding = new Padding(8, 4, 8, 4);
+            dataGridViewCellStyle6.SelectionBackColor = Color.FromArgb(52, 152, 219);
+            dataGridViewCellStyle6.SelectionForeColor = Color.White;
+            dataGridViewCellStyle6.WrapMode = DataGridViewTriState.True;
+            dgvDonHang.DefaultCellStyle = dataGridViewCellStyle6;
             dgvDonHang.Dock = DockStyle.Fill;
             dgvDonHang.EnableHeadersVisualStyles = false;
             dgvDonHang.GridColor = Color.LightSteelBlue;
@@ -239,9 +239,9 @@
             // 
             // colTenKhach
             // 
-            dataGridViewCellStyle27.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle27.WrapMode = DataGridViewTriState.True;
-            colTenKhach.DefaultCellStyle = dataGridViewCellStyle27;
+            dataGridViewCellStyle3.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle3.WrapMode = DataGridViewTriState.True;
+            colTenKhach.DefaultCellStyle = dataGridViewCellStyle3;
             colTenKhach.FillWeight = 20F;
             colTenKhach.HeaderText = "Tên khách";
             colTenKhach.MinimumWidth = 120;
@@ -266,9 +266,9 @@
             // 
             // colTenHoa
             // 
-            dataGridViewCellStyle28.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle28.WrapMode = DataGridViewTriState.True;
-            colTenHoa.DefaultCellStyle = dataGridViewCellStyle28;
+            dataGridViewCellStyle4.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle4.WrapMode = DataGridViewTriState.True;
+            colTenHoa.DefaultCellStyle = dataGridViewCellStyle4;
             colTenHoa.FillWeight = 14F;
             colTenHoa.HeaderText = "Tên Hàng";
             colTenHoa.MinimumWidth = 110;
@@ -277,8 +277,8 @@
             // 
             // colSoLuong
             // 
-            dataGridViewCellStyle29.Alignment = DataGridViewContentAlignment.MiddleRight;
-            colSoLuong.DefaultCellStyle = dataGridViewCellStyle29;
+            dataGridViewCellStyle5.Alignment = DataGridViewContentAlignment.MiddleRight;
+            colSoLuong.DefaultCellStyle = dataGridViewCellStyle5;
             colSoLuong.FillWeight = 8F;
             colSoLuong.HeaderText = "Số Lượng";
             colSoLuong.MinimumWidth = 80;
@@ -385,29 +385,29 @@
             dgvChiTiet.AllowUserToAddRows = false;
             dgvChiTiet.AllowUserToDeleteRows = false;
             dgvChiTiet.AllowUserToResizeRows = false;
-            dataGridViewCellStyle31.BackColor = Color.FromArgb(242, 242, 242);
-            dgvChiTiet.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle31;
+            dataGridViewCellStyle7.BackColor = Color.FromArgb(242, 242, 242);
+            dgvChiTiet.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle7;
             dgvChiTiet.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvChiTiet.BackgroundColor = Color.White;
             dgvChiTiet.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridViewCellStyle32.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle32.BackColor = Color.LightGray;
-            dataGridViewCellStyle32.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            dataGridViewCellStyle32.ForeColor = Color.Black;
-            dataGridViewCellStyle32.Padding = new Padding(8, 0, 8, 0);
-            dgvChiTiet.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle32;
+            dataGridViewCellStyle8.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle8.BackColor = Color.LightGray;
+            dataGridViewCellStyle8.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            dataGridViewCellStyle8.ForeColor = Color.Black;
+            dataGridViewCellStyle8.Padding = new Padding(8, 0, 8, 0);
+            dgvChiTiet.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle8;
             dgvChiTiet.ColumnHeadersHeight = 36;
             dgvChiTiet.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             dgvChiTiet.Columns.AddRange(new DataGridViewColumn[] { colCT_SanPham, colCT_SoLuong, colCT_DonGia });
-            dataGridViewCellStyle36.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle36.BackColor = SystemColors.Window;
-            dataGridViewCellStyle36.Font = new Font("Segoe UI", 9F);
-            dataGridViewCellStyle36.ForeColor = SystemColors.ControlText;
-            dataGridViewCellStyle36.Padding = new Padding(8, 4, 8, 4);
-            dataGridViewCellStyle36.SelectionBackColor = Color.FromArgb(52, 152, 219);
-            dataGridViewCellStyle36.SelectionForeColor = Color.White;
-            dataGridViewCellStyle36.WrapMode = DataGridViewTriState.True;
-            dgvChiTiet.DefaultCellStyle = dataGridViewCellStyle36;
+            dataGridViewCellStyle12.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle12.BackColor = SystemColors.Window;
+            dataGridViewCellStyle12.Font = new Font("Segoe UI", 9F);
+            dataGridViewCellStyle12.ForeColor = SystemColors.ControlText;
+            dataGridViewCellStyle12.Padding = new Padding(8, 4, 8, 4);
+            dataGridViewCellStyle12.SelectionBackColor = Color.FromArgb(52, 152, 219);
+            dataGridViewCellStyle12.SelectionForeColor = Color.White;
+            dataGridViewCellStyle12.WrapMode = DataGridViewTriState.True;
+            dgvChiTiet.DefaultCellStyle = dataGridViewCellStyle12;
             dgvChiTiet.Dock = DockStyle.Fill;
             dgvChiTiet.EnableHeadersVisualStyles = false;
             dgvChiTiet.GridColor = Color.LightSteelBlue;
@@ -426,9 +426,9 @@
             // 
             // colCT_SanPham
             // 
-            dataGridViewCellStyle33.Alignment = DataGridViewContentAlignment.MiddleLeft;
-            dataGridViewCellStyle33.WrapMode = DataGridViewTriState.True;
-            colCT_SanPham.DefaultCellStyle = dataGridViewCellStyle33;
+            dataGridViewCellStyle9.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dataGridViewCellStyle9.WrapMode = DataGridViewTriState.True;
+            colCT_SanPham.DefaultCellStyle = dataGridViewCellStyle9;
             colCT_SanPham.FillWeight = 60F;
             colCT_SanPham.HeaderText = "Sản phẩm";
             colCT_SanPham.MinimumWidth = 150;
@@ -437,8 +437,8 @@
             // 
             // colCT_SoLuong
             // 
-            dataGridViewCellStyle34.Alignment = DataGridViewContentAlignment.MiddleRight;
-            colCT_SoLuong.DefaultCellStyle = dataGridViewCellStyle34;
+            dataGridViewCellStyle10.Alignment = DataGridViewContentAlignment.MiddleRight;
+            colCT_SoLuong.DefaultCellStyle = dataGridViewCellStyle10;
             colCT_SoLuong.FillWeight = 20F;
             colCT_SoLuong.HeaderText = "Số lượng";
             colCT_SoLuong.MinimumWidth = 80;
@@ -447,8 +447,8 @@
             // 
             // colCT_DonGia
             // 
-            dataGridViewCellStyle35.Alignment = DataGridViewContentAlignment.MiddleRight;
-            colCT_DonGia.DefaultCellStyle = dataGridViewCellStyle35;
+            dataGridViewCellStyle11.Alignment = DataGridViewContentAlignment.MiddleRight;
+            colCT_DonGia.DefaultCellStyle = dataGridViewCellStyle11;
             colCT_DonGia.FillWeight = 20F;
             colCT_DonGia.HeaderText = "Đơn giá";
             colCT_DonGia.MinimumWidth = 90;
