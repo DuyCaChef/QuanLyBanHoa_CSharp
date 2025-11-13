@@ -46,14 +46,14 @@
             txtSearch = new TextBox();
             gbOverview = new GroupBox();
             tlpCards = new TableLayoutPanel();
-            cardOrders = new Panel();
-            panelOrdersAccent = new Panel();
-            lblOrders = new Label();
-            lblOrdersTitle = new Label();
             cardRevenue = new Panel();
             panelRevenueAccent = new Panel();
             lblRevenue = new Label();
             lblRevenueTitle = new Label();
+            cardOrders = new Panel();
+            panelOrdersAccent = new Panel();
+            lblOrders = new Label();
+            lblOrdersTitle = new Label();
             dgvThongKe = new DataGridView();
             colMaDH = new DataGridViewTextBoxColumn();
             colNgay = new DataGridViewTextBoxColumn();
@@ -67,8 +67,8 @@
             tlpFilters.SuspendLayout();
             gbOverview.SuspendLayout();
             tlpCards.SuspendLayout();
-            cardOrders.SuspendLayout();
             cardRevenue.SuspendLayout();
+            cardOrders.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dgvThongKe).BeginInit();
             flpActions.SuspendLayout();
             SuspendLayout();
@@ -92,7 +92,7 @@
             lblTitle.ForeColor = Color.White;
             lblTitle.Location = new Point(24, 12);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(264, 37);
+            lblTitle.Size = new Size(313, 45);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "Thống kê đơn hàng";
             // 
@@ -125,9 +125,9 @@
             lblFrom.Anchor = AnchorStyles.Left;
             lblFrom.AutoSize = true;
             lblFrom.Font = new Font("Segoe UI", 10F);
-            lblFrom.Location = new Point(19, 20);
+            lblFrom.Location = new Point(19, 18);
             lblFrom.Name = "lblFrom";
-            lblFrom.Size = new Size(71, 23);
+            lblFrom.Size = new Size(83, 28);
             lblFrom.TabIndex = 0;
             lblFrom.Text = "Ngày từ";
             // 
@@ -137,10 +137,10 @@
             dtpFrom.CustomFormat = "dddd, dd/MM/yyyy";
             dtpFrom.Font = new Font("Segoe UI", 10F);
             dtpFrom.Format = DateTimePickerFormat.Custom;
-            dtpFrom.Location = new Point(116, 17);
+            dtpFrom.Location = new Point(116, 15);
             dtpFrom.Margin = new Padding(0, 3, 16, 3);
             dtpFrom.Name = "dtpFrom";
-            dtpFrom.Size = new Size(293, 30);
+            dtpFrom.Size = new Size(293, 34);
             dtpFrom.TabIndex = 1;
             // 
             // lblTo
@@ -148,9 +148,9 @@
             lblTo.Anchor = AnchorStyles.Left;
             lblTo.AutoSize = true;
             lblTo.Font = new Font("Segoe UI", 10F);
-            lblTo.Location = new Point(428, 20);
+            lblTo.Location = new Point(428, 12);
             lblTo.Name = "lblTo";
-            lblTo.Size = new Size(83, 23);
+            lblTo.Size = new Size(55, 40);
             lblTo.TabIndex = 2;
             lblTo.Text = "Đến ngày";
             // 
@@ -160,10 +160,10 @@
             dtpTo.CustomFormat = "dddd, dd/MM/yyyy";
             dtpTo.Font = new Font("Segoe UI", 10F);
             dtpTo.Format = DateTimePickerFormat.Custom;
-            dtpTo.Location = new Point(525, 17);
+            dtpTo.Location = new Point(525, 15);
             dtpTo.Margin = new Padding(0, 3, 16, 3);
             dtpTo.Name = "dtpTo";
-            dtpTo.Size = new Size(293, 30);
+            dtpTo.Size = new Size(293, 34);
             dtpTo.TabIndex = 3;
             // 
             // lblSearch
@@ -171,9 +171,9 @@
             lblSearch.Anchor = AnchorStyles.Left;
             lblSearch.AutoSize = true;
             lblSearch.Font = new Font("Segoe UI", 10F);
-            lblSearch.Location = new Point(837, 20);
+            lblSearch.Location = new Point(837, 12);
             lblSearch.Name = "lblSearch";
-            lblSearch.Size = new Size(106, 23);
+            lblSearch.Size = new Size(81, 40);
             lblSearch.TabIndex = 4;
             lblSearch.Text = "Tìm mã đơn:";
             // 
@@ -181,11 +181,11 @@
             // 
             txtSearch.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             txtSearch.Font = new Font("Segoe UI", 10F);
-            txtSearch.Location = new Point(954, 17);
+            txtSearch.Location = new Point(954, 15);
             txtSearch.Margin = new Padding(0, 3, 16, 3);
             txtSearch.Name = "txtSearch";
             txtSearch.PlaceholderText = "Nhập mã đơn hàng...";
-            txtSearch.Size = new Size(294, 30);
+            txtSearch.Size = new Size(294, 34);
             txtSearch.TabIndex = 5;
             // 
             // gbOverview
@@ -209,7 +209,7 @@
             tlpCards.Controls.Add(cardRevenue, 0, 0);
             tlpCards.Controls.Add(cardOrders, 1, 0);
             tlpCards.Dock = DockStyle.Fill;
-            tlpCards.Location = new Point(12, 33);
+            tlpCards.Location = new Point(12, 38);
             tlpCards.Name = "tlpCards";
             tlpCards.Padding = new Padding(8);
             tlpCards.RowCount = 2;
@@ -217,52 +217,6 @@
             tlpCards.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
             tlpCards.Size = new Size(1256, 112);
             tlpCards.TabIndex = 0;
-            // 
-            // cardOrders
-            // 
-            cardOrders.BackColor = Color.White;
-            cardOrders.BorderStyle = BorderStyle.FixedSingle;
-            cardOrders.Controls.Add(panelOrdersAccent);
-            cardOrders.Controls.Add(lblOrders);
-            cardOrders.Controls.Add(lblOrdersTitle);
-            cardOrders.Dock = DockStyle.Fill;
-            cardOrders.Location = new Point(631, 11);
-            cardOrders.Name = "cardOrders";
-            cardOrders.Padding = new Padding(12);
-            tlpCards.SetRowSpan(cardOrders, 2);
-            cardOrders.Size = new Size(614, 90);
-            cardOrders.TabIndex = 1;
-            // 
-            // panelOrdersAccent
-            // 
-            panelOrdersAccent.BackColor = Color.FromArgb(41, 128, 185);
-            panelOrdersAccent.Dock = DockStyle.Left;
-            panelOrdersAccent.Location = new Point(12, 12);
-            panelOrdersAccent.Name = "panelOrdersAccent";
-            panelOrdersAccent.Size = new Size(6, 64);
-            panelOrdersAccent.TabIndex = 3;
-            // 
-            // lblOrders
-            // 
-            lblOrders.AutoSize = true;
-            lblOrders.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
-            lblOrders.ForeColor = Color.Black;
-            lblOrders.Location = new Point(28, 35);
-            lblOrders.Name = "lblOrders";
-            lblOrders.Size = new Size(33, 37);
-            lblOrders.TabIndex = 1;
-            lblOrders.Text = "0";
-            // 
-            // lblOrdersTitle
-            // 
-            lblOrdersTitle.AutoSize = true;
-            lblOrdersTitle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
-            lblOrdersTitle.ForeColor = Color.DimGray;
-            lblOrdersTitle.Location = new Point(28, 12);
-            lblOrdersTitle.Name = "lblOrdersTitle";
-            lblOrdersTitle.Size = new Size(112, 23);
-            lblOrdersTitle.TabIndex = 0;
-            lblOrdersTitle.Text = "Số đơn hàng";
             // 
             // cardRevenue
             // 
@@ -309,6 +263,52 @@
             lblRevenueTitle.Size = new Size(112, 28);
             lblRevenueTitle.TabIndex = 0;
             lblRevenueTitle.Text = "Doanh thu";
+            // 
+            // cardOrders
+            // 
+            cardOrders.BackColor = Color.White;
+            cardOrders.BorderStyle = BorderStyle.FixedSingle;
+            cardOrders.Controls.Add(panelOrdersAccent);
+            cardOrders.Controls.Add(lblOrders);
+            cardOrders.Controls.Add(lblOrdersTitle);
+            cardOrders.Dock = DockStyle.Fill;
+            cardOrders.Location = new Point(631, 11);
+            cardOrders.Name = "cardOrders";
+            cardOrders.Padding = new Padding(12);
+            tlpCards.SetRowSpan(cardOrders, 2);
+            cardOrders.Size = new Size(614, 90);
+            cardOrders.TabIndex = 1;
+            // 
+            // panelOrdersAccent
+            // 
+            panelOrdersAccent.BackColor = Color.FromArgb(41, 128, 185);
+            panelOrdersAccent.Dock = DockStyle.Left;
+            panelOrdersAccent.Location = new Point(12, 12);
+            panelOrdersAccent.Name = "panelOrdersAccent";
+            panelOrdersAccent.Size = new Size(6, 64);
+            panelOrdersAccent.TabIndex = 3;
+            // 
+            // lblOrders
+            // 
+            lblOrders.AutoSize = true;
+            lblOrders.Font = new Font("Segoe UI", 16F, FontStyle.Bold);
+            lblOrders.ForeColor = Color.Black;
+            lblOrders.Location = new Point(28, 35);
+            lblOrders.Name = "lblOrders";
+            lblOrders.Size = new Size(38, 45);
+            lblOrders.TabIndex = 1;
+            lblOrders.Text = "0";
+            // 
+            // lblOrdersTitle
+            // 
+            lblOrdersTitle.AutoSize = true;
+            lblOrdersTitle.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+            lblOrdersTitle.ForeColor = Color.DimGray;
+            lblOrdersTitle.Location = new Point(28, 12);
+            lblOrdersTitle.Name = "lblOrdersTitle";
+            lblOrdersTitle.Size = new Size(132, 28);
+            lblOrdersTitle.TabIndex = 0;
+            lblOrdersTitle.Text = "Số đơn hàng";
             // 
             // dgvThongKe
             // 
@@ -469,10 +469,10 @@
             tlpFilters.PerformLayout();
             gbOverview.ResumeLayout(false);
             tlpCards.ResumeLayout(false);
-            cardOrders.ResumeLayout(false);
-            cardOrders.PerformLayout();
             cardRevenue.ResumeLayout(false);
             cardRevenue.PerformLayout();
+            cardOrders.ResumeLayout(false);
+            cardOrders.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvThongKe).EndInit();
             flpActions.ResumeLayout(false);
             ResumeLayout(false);

@@ -40,10 +40,8 @@
             DataGridViewCellStyle dataGridViewCellStyle9 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle10 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle11 = new DataGridViewCellStyle();
-<<<<<<< HEAD
-=======
+
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormDonHang));
->>>>>>> 821450bf0bd74fb3a00a2c278aa68b2b69209a0b
             headerPanel = new Panel();
             lblTitle = new Label();
             mainScrollPanel = new Panel();
