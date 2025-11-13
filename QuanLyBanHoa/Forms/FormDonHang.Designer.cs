@@ -55,7 +55,6 @@
             colSoLuong = new DataGridViewTextBoxColumn();
             flpDonButtons = new FlowLayoutPanel();
             btnThem = new Button();
-            btnSua = new Button();
             btnXoa = new Button();
             btnTaiLai = new Button();
             gbChiTiet = new GroupBox();
@@ -290,7 +289,6 @@
             flpDonButtons.AutoSize = true;
             flpDonButtons.AutoSizeMode = AutoSizeMode.GrowAndShrink;
             flpDonButtons.Controls.Add(btnThem);
-            flpDonButtons.Controls.Add(btnSua);
             flpDonButtons.Controls.Add(btnXoa);
             flpDonButtons.Controls.Add(btnTaiLai);
             flpDonButtons.Dock = DockStyle.Bottom;
@@ -316,22 +314,6 @@
             btnThem.Text = "Thêm";
             btnThem.UseVisualStyleBackColor = false;
             btnThem.Click += btnThem_Click;
-            // 
-            // btnSua
-            // 
-            btnSua.BackColor = Color.FromArgb(52, 152, 219);
-            btnSua.FlatAppearance.BorderSize = 0;
-            btnSua.FlatStyle = FlatStyle.Flat;
-            btnSua.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
-            btnSua.ForeColor = Color.White;
-            btnSua.Location = new Point(130, 24);
-            btnSua.Margin = new Padding(4, 14, 10, 10);
-            btnSua.Name = "btnSua";
-            btnSua.Size = new Size(112, 41);
-            btnSua.TabIndex = 1;
-            btnSua.Text = "Sửa";
-            btnSua.UseVisualStyleBackColor = false;
-            btnSua.Click += btnSua_Click;
             // 
             // btnXoa
             // 
@@ -797,7 +779,6 @@
         private System.Windows.Forms.DataGridView dgvDonHang;
         private System.Windows.Forms.FlowLayoutPanel flpDonButtons;
         private System.Windows.Forms.Button btnThem;
-        private System.Windows.Forms.Button btnSua;
         private System.Windows.Forms.Button btnXoa;
         private System.Windows.Forms.GroupBox gbChiTiet;
         private System.Windows.Forms.DataGridView dgvChiTiet;

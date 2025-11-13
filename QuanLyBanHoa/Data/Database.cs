@@ -24,7 +24,7 @@ namespace QuanLyBanHoa.Data
                 if (string.IsNullOrEmpty(connStr))
                 {
                     // Fallback: Connection string mặc định nếu không tìm thấy trong App.config
-                    return "Data Source=localhost;Initial Catalog=QuanLyBanHoa;Integrated Security=True;TrustServerCertificate=True;";
+                    return "Data Source= ADMIN-PC;Initial Catalog=QuanLyBanHoa;Integrated Security=True;TrustServerCertificate=True;";
                 }
                 
                 return connStr;

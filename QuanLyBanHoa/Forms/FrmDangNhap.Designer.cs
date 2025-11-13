@@ -72,9 +72,9 @@ namespace QuanLyBanHoa.Forms
             label5.AutoSize = true;
             label5.BackColor = Color.Transparent;
             label5.Font = new Font("Segoe UI", 12F, FontStyle.Italic, GraphicsUnit.Point, 0);
-            label5.Location = new Point(198, 505);
+            label5.Location = new Point(159, 506);
             label5.Name = "label5";
-            label5.Size = new Size(273, 28);
+            label5.Size = new Size(327, 32);
             label5.TabIndex = 8;
             label5.Text = "Chào mừng đã quay trở lại !!!";
             // 
@@ -85,7 +85,7 @@ namespace QuanLyBanHoa.Forms
             ckbHienMK.Font = new Font("Times New Roman", 11F, FontStyle.Italic, GraphicsUnit.Point, 0);
             ckbHienMK.Location = new Point(104, 349);
             ckbHienMK.Name = "ckbHienMK";
-            ckbHienMK.Size = new Size(146, 25);
+            ckbHienMK.Size = new Size(169, 29);
             ckbHienMK.TabIndex = 7;
             ckbHienMK.Text = "Hiện mật khẩu";
             ckbHienMK.UseVisualStyleBackColor = false;
@@ -111,7 +111,7 @@ namespace QuanLyBanHoa.Forms
             label4.Font = new Font("Times New Roman", 14F, FontStyle.Underline, GraphicsUnit.Point, 0);
             label4.Location = new Point(104, 267);
             label4.Name = "label4";
-            label4.Size = new Size(110, 27);
+            label4.Size = new Size(129, 33);
             label4.TabIndex = 5;
             label4.Text = "Password:";
             // 
@@ -122,7 +122,7 @@ namespace QuanLyBanHoa.Forms
             label3.Font = new Font("Times New Roman", 14F, FontStyle.Underline, GraphicsUnit.Point, 0);
             label3.Location = new Point(104, 162);
             label3.Name = "label3";
-            label3.Size = new Size(74, 27);
+            label3.Size = new Size(88, 33);
             label3.TabIndex = 4;
             label3.Text = "Email:";
             // 
@@ -132,7 +132,7 @@ namespace QuanLyBanHoa.Forms
             txtPass.Location = new Point(104, 303);
             txtPass.Name = "txtPass";
             txtPass.PlaceholderText = "Nhập Password";
-            txtPass.Size = new Size(448, 34);
+            txtPass.Size = new Size(448, 40);
             txtPass.TabIndex = 3;
             txtPass.UseSystemPasswordChar = true;
             // 
@@ -142,7 +142,7 @@ namespace QuanLyBanHoa.Forms
             txtEmail.Location = new Point(104, 198);
             txtEmail.Name = "txtEmail";
             txtEmail.PlaceholderText = "Nhập Email";
-            txtEmail.Size = new Size(448, 34);
+            txtEmail.Size = new Size(448, 40);
             txtEmail.TabIndex = 2;
             // 
             // label2
@@ -152,7 +152,7 @@ namespace QuanLyBanHoa.Forms
             label2.Font = new Font("Segoe UI Semibold", 16.2F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label2.Location = new Point(227, 88);
             label2.Name = "label2";
-            label2.Size = new Size(182, 38);
+            label2.Size = new Size(213, 45);
             label2.TabIndex = 1;
             label2.Text = "ĐĂNG NHẬP";
             // 
@@ -162,9 +162,9 @@ namespace QuanLyBanHoa.Forms
             label1.BackColor = Color.Transparent;
             label1.Font = new Font("Segoe UI Black", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = SystemColors.WindowText;
-            label1.Location = new Point(104, 27);
+            label1.Location = new Point(55, 30);
             label1.Name = "label1";
-            label1.Size = new Size(467, 41);
+            label1.Size = new Size(562, 48);
             label1.TabIndex = 0;
             label1.Text = "HỆ THỐNG QUẢN LÍ BÁN HOA";
             // 
