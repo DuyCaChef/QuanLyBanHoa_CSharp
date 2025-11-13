@@ -1,5 +1,7 @@
 ﻿using QuanLyBanHoa.Models;
+using QuanLyBanHoa.Data;
 using System;
+using System.Data.SqlClient;
 using System.Windows.Forms;
 
 namespace QuanLyBanHoa.Forms
@@ -13,31 +15,49 @@ namespace QuanLyBanHoa.Forms
 
         private void btnDangNhap_Click(object sender, EventArgs e)
         {
-            string username = txtEmail.Text.Trim();
-            string password = txtPass.Text.Trim();
+            string tk = txtEmail.Text.Trim();
+            string mk = txtPass.Text; // giữ nguyên theo yêu cầu (không hash)
 
-            string adminUsername = "admin";
-            string adminPassword = "123";
-            string staffUsername = "staff123@gmail.com";
-            string staffPassword = "staff@123";
-
-            if ((username == adminUsername && password == adminPassword) ||
-                (username == staffUsername && password == staffPassword))
+            if (string.IsNullOrEmpty(tk) || string.IsNullOrEmpty(mk))
             {
-                Session.UserName = username;
-                Session.Role = username == adminUsername ? "Admin" : "Nhân viên";
-                Session.IsLoggedIn = true;
-
-                MessageBox.Show($"Đăng nhập thành công với quyền {Session.Role}!", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                // Mở form Main (form chính chứa navigation). FrmMain sẽ tự mở frmHoa đầu tiên.
-                FrmMain main = new FrmMain();
-                main.Show();
-                this.Hide();
+                MessageBox.Show("Vui lòng nhập tài khoản và mật khẩu.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-            else
+
+            string sql = "SELECT MaNV, TaiKhoan, Vaitro FROM NhanVien WHERE TaiKhoan = @tk AND MatKhau = @mk";
+
+            try
             {
-                MessageBox.Show("Tên đăng nhập hoặc mật khẩu không đúng. Vui lòng thử lại.", "Lỗi đăng nhập", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                using (var conn = Database.GetConnection())
+                using (var cmd = new SqlCommand(sql, conn))
+                {
+                    cmd.Parameters.AddWithValue("@tk", tk);
+                    cmd.Parameters.AddWithValue("@mk", mk);
+
+                    conn.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            Session.MaNV = reader["MaNV"] == DBNull.Value ?0 : Convert.ToInt32(reader["MaNV"]);
+                            Session.TaiKhoan = reader["TaiKhoan"] == DBNull.Value ? string.Empty : reader["TaiKhoan"].ToString();
+                            Session.Vaitro = reader["Vaitro"] == DBNull.Value ? string.Empty : reader["Vaitro"].ToString();
+
+                            // Mở FormMain vàẩn FormDangNhap
+                            FrmMain main = new FrmMain();
+                            main.Show();
+                            this.Hide();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Sai tài khoản hoặc mật khẩu!", "Lỗi đăng nhập", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Lỗi khi kết nối đăng nhập:\n" + ex.Message, "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

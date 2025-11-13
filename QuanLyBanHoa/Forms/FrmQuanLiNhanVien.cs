@@ -22,6 +22,14 @@ namespace QuanLyBanHoa.Forms
 
         private void FrmQuanLiNhanVien_Load(object sender, EventArgs e)
         {
+            // Kiểm tra quyền Admin
+            if (!string.Equals(Session.Vaitro, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Bạn không có quyền truy cập!", "Không có quyền", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                this.Close();
+                return;
+            }
+
             // Set txtMaSo là ReadOnly vì SQL Server tự động tạo MaNV
             txtMaSo.ReadOnly = true;
             txtMaSo.BackColor = System.Drawing.SystemColors.Control;
@@ -175,6 +183,14 @@ namespace QuanLyBanHoa.Forms
                 return;
             }
 
+            // Kiểm tra không sửa Admin
+            NhanVien nv = NhanVien.GetById(maNV);
+            if (nv != null && string.Equals(nv.Vaitro, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Không được sửa tài khoản Admin!", "Không có quyền", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(txtHoTen.Text) || 
                 string.IsNullOrWhiteSpace(txtSDT.Text) || 
                 cboChucVu.SelectedIndex == -1)
@@ -223,7 +239,7 @@ namespace QuanLyBanHoa.Forms
         {
             if (dgvNhanVien.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Vui lòng chọn nhân viên để xóa.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Vui lòng chọn nhân viên để xóa.", "Cảnh cáo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
@@ -235,6 +251,14 @@ namespace QuanLyBanHoa.Forms
 
             int maNV = Convert.ToInt32(dgvNhanVien.SelectedRows[0].Cells["MaNV"].Value);
             string tenNV = dgvNhanVien.SelectedRows[0].Cells["TenNV"].Value?.ToString() ?? "";
+
+            // Kiểm tra không xóa Admin
+            NhanVien nv = NhanVien.GetById(maNV);
+            if (nv != null && string.Equals(nv.Vaitro, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Không được xóa tài khoản Admin!", "Không có quyền", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
             DialogResult result = MessageBox.Show($"Bạn có chắc chắn muốn xóa nhân viên '{tenNV}' (Mã: {maNV})?\n\nHành động này không thể hoàn tác!", 
                                                   "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);

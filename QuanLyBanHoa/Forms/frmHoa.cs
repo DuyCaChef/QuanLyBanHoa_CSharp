@@ -31,6 +31,20 @@ namespace QuanLyBanHoa.Forms
             LoadDataToDataGridView();
             SetupDataGridView();
             SetButtonState(false);
+
+            // Phân quyền
+            if (string.Equals(Session.Vaitro, "NhanVien", StringComparison.OrdinalIgnoreCase))
+            {
+                btnSua.Enabled = false;
+                btnXoa.Enabled = false;
+                btnThem.Enabled = true;
+            }
+            else if (string.Equals(Session.Vaitro, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                btnSua.Enabled = true;
+                btnXoa.Enabled = true;
+                btnThem.Enabled = true;
+            }
         }
 
         private void LoadSoLuongCoSan()
@@ -178,6 +192,12 @@ namespace QuanLyBanHoa.Forms
 
         private void btnSua_Click(object sender, EventArgs e)
         {
+            if (string.Equals(Session.Vaitro, "NhanVien", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Bạn không có quyền sửa hoa!", "Không có quyền", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (dgDSHoa.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Vui lòng chọn hoa cần sửa.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -288,6 +308,12 @@ namespace QuanLyBanHoa.Forms
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
+            if (string.Equals(Session.Vaitro, "NhanVien", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Bạn không có quyền xóa hoa!", "Không có quyền", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (dgDSHoa.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Vui lòng chọn hoa cần xóa.", "Cảnh báo", MessageBoxButtons.OK, MessageBoxIcon.Warning);

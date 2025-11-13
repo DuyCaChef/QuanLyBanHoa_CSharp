@@ -100,6 +100,20 @@ namespace QuanLyBanHoa.Forms
                 txtTenKhach.TextChanged += (s, ev) => { if (!isInputting && !string.IsNullOrWhiteSpace(txtTenKhach.Text)) isInputting = true; };
                 txtSdt.TextChanged += (s, ev) => { if (!isInputting && !string.IsNullOrWhiteSpace(txtSdt.Text)) isInputting = true; };
                 txtMaDon.TextChanged += (s, ev) => { if (!isInputting && !string.IsNullOrWhiteSpace(txtMaDon.Text)) isInputting = true; };
+
+                // Phân quyền
+                if (string.Equals(Session.Vaitro, "NhanVien", StringComparison.OrdinalIgnoreCase))
+                {
+                    btnSua.Enabled = false;
+                    btnXoa.Enabled = false;
+                    btnThem.Enabled = true;
+                }
+                else if (string.Equals(Session.Vaitro, "Admin", StringComparison.OrdinalIgnoreCase))
+                {
+                    btnSua.Enabled = true;
+                    btnXoa.Enabled = true;
+                    btnThem.Enabled = true;
+                }
             }
             catch (Exception ex)
             {
@@ -577,6 +591,12 @@ namespace QuanLyBanHoa.Forms
 
         private void btnSua_Click(object sender, EventArgs e)
         {
+            if (string.Equals(Session.Vaitro, "NhanVien", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Bạn không có quyền sửa đơn hàng!", "Không có quyền", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
                 if (string.IsNullOrWhiteSpace(txtMaDon.Text) || !int.TryParse(txtMaDon.Text.Trim(), out int maDH))
@@ -635,6 +655,12 @@ namespace QuanLyBanHoa.Forms
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
+            if (string.Equals(Session.Vaitro, "NhanVien", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Bạn không có quyền xóa đơn hàng!", "Không có quyền", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
                 if (dgvDonHang.SelectedRows.Count == 0)

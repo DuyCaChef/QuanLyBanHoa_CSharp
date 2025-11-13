@@ -14,6 +14,9 @@ namespace QuanLyBanHoa.Models
         public string SoDienThoai { get; set; }
         public int SoLuongDonHang { get; set; } // Số đơn hàng đã bán
         
+        // Thêm thuộc tính Vaitro
+        public string Vaitro { get; set; }
+
         // Thêm 2 thuộc tính này nếu đã cập nhật DB cho chức năng đăng nhập
         // public string Email { get; set; }
         // public string MatKhau { get; set; }
@@ -22,13 +25,14 @@ namespace QuanLyBanHoa.Models
         public NhanVien() { }
 
         // Constructor đầy đủ tham số (tiện cho việc khởi tạo)
-        public NhanVien(int maNV, string tenNV, string chucVu, string soDienThoai, int soLuongDonHang = 0)
+        public NhanVien(int maNV, string tenNV, string chucVu, string soDienThoai, int soLuongDonHang = 0, string vaitro = "NhanVien")
         {
             MaNV = maNV;
             TenNV = tenNV;
             ChucVu = chucVu;
             SoDienThoai = soDienThoai;
             SoLuongDonHang = soLuongDonHang;
+            Vaitro = vaitro;
         }
 
         // 2. Các phương thức truy vấn dữ liệu (Static Methods)
@@ -47,10 +51,12 @@ namespace QuanLyBanHoa.Models
                                     nv.TenNV,
                                     nv.SoDienThoai,
                                     nv.ChucVu,
+                                    nv.Vaitro,
                                     COUNT(ct.MaDH) AS SoLuongDonHang
                                 FROM NhanVien nv
                                 LEFT JOIN ChiTietDonHang ct ON nv.MaNV = ct.MaNV
-                                GROUP BY nv.MaNV, nv.TenNV, nv.SoDienThoai, nv.ChucVu
+                                WHERE nv.Vaitro = 'NhanVien'
+                                GROUP BY nv.MaNV, nv.TenNV, nv.SoDienThoai, nv.ChucVu, nv.Vaitro
                                 ORDER BY nv.MaNV DESC";
                 
                 using (var cmd = new SqlCommand(query, conn))
@@ -64,6 +70,7 @@ namespace QuanLyBanHoa.Models
                             TenNV = reader["TenNV"].ToString(),
                             SoDienThoai = reader["SoDienThoai"].ToString(),
                             ChucVu = reader["ChucVu"].ToString(),
+                            Vaitro = reader["Vaitro"].ToString(),
                             SoLuongDonHang = reader["SoLuongDonHang"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SoLuongDonHang"])
                         });
                     }
@@ -82,14 +89,15 @@ namespace QuanLyBanHoa.Models
                 conn.Open();
                 
                 // Không insert MaNV - để SQL Server tự động tạo
-                string query = @"INSERT INTO nhanvien (TenNV, SoDienThoai, ChucVu) 
-                               VALUES (@TenNV, @SoDienThoai, @ChucVu);
+                string query = @"INSERT INTO nhanvien (TenNV, SoDienThoai, ChucVu, Vaitro) 
+                               VALUES (@TenNV, @SoDienThoai, @ChucVu, @Vaitro);
                                SELECT CAST(SCOPE_IDENTITY() AS INT);";
                 using (var cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@TenNV", nhanVien.TenNV);
                     cmd.Parameters.AddWithValue("@SoDienThoai", nhanVien.SoDienThoai ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@ChucVu", nhanVien.ChucVu ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Vaitro", nhanVien.Vaitro ?? "NhanVien");
                     
                     var result = cmd.ExecuteScalar();
                     return result != null ? Convert.ToInt32(result) : 0;
@@ -106,7 +114,7 @@ namespace QuanLyBanHoa.Models
             {
                 conn.Open();
                 string query = @"UPDATE nhanvien 
-                               SET TenNV = @TenNV, SoDienThoai = @SoDienThoai, ChucVu = @ChucVu 
+                               SET TenNV = @TenNV, SoDienThoai = @SoDienThoai, ChucVu = @ChucVu, Vaitro = @Vaitro 
                                WHERE MaNV = @MaNV";
                 using (var cmd = new SqlCommand(query, conn))
                 {
@@ -114,6 +122,7 @@ namespace QuanLyBanHoa.Models
                     cmd.Parameters.AddWithValue("@TenNV", nhanVien.TenNV);
                     cmd.Parameters.AddWithValue("@SoDienThoai", nhanVien.SoDienThoai ?? (object)DBNull.Value);
                     cmd.Parameters.AddWithValue("@ChucVu", nhanVien.ChucVu ?? (object)DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Vaitro", nhanVien.Vaitro ?? "NhanVien");
                     return cmd.ExecuteNonQuery() > 0;
                 }
             }
@@ -186,14 +195,15 @@ namespace QuanLyBanHoa.Models
                                     nv.TenNV,
                                     nv.SoDienThoai,
                                     nv.ChucVu,
+                                    nv.Vaitro,
                                     COUNT(ct.MaDH) AS SoLuongDonHang
                                 FROM NhanVien nv
                                 LEFT JOIN ChiTietDonHang ct ON nv.MaNV = ct.MaNV
-                                WHERE nv.TenNV LIKE @Keyword 
+                                WHERE nv.Vaitro = 'NhanVien' AND (nv.TenNV LIKE @Keyword 
                                    OR nv.SoDienThoai LIKE @Keyword 
                                    OR nv.ChucVu LIKE @Keyword 
-                                   OR CAST(nv.MaNV AS NVARCHAR) LIKE @Keyword
-                                GROUP BY nv.MaNV, nv.TenNV, nv.SoDienThoai, nv.ChucVu
+                                   OR CAST(nv.MaNV AS NVARCHAR) LIKE @Keyword)
+                                GROUP BY nv.MaNV, nv.TenNV, nv.SoDienThoai, nv.ChucVu, nv.Vaitro
                                 ORDER BY nv.MaNV DESC";
                 
                 using (var cmd = new SqlCommand(query, conn))
@@ -209,6 +219,7 @@ namespace QuanLyBanHoa.Models
                                 TenNV = reader["TenNV"].ToString(),
                                 SoDienThoai = reader["SoDienThoai"].ToString(),
                                 ChucVu = reader["ChucVu"].ToString(),
+                                Vaitro = reader["Vaitro"].ToString(),
                                 SoLuongDonHang = reader["SoLuongDonHang"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SoLuongDonHang"])
                             });
                         }
@@ -231,11 +242,12 @@ namespace QuanLyBanHoa.Models
                                     nv.TenNV,
                                     nv.SoDienThoai,
                                     nv.ChucVu,
+                                    nv.Vaitro,
                                     COUNT(ct.MaDH) AS SoLuongDonHang
                                 FROM NhanVien nv
                                 LEFT JOIN ChiTietDonHang ct ON nv.MaNV = ct.MaNV
                                 WHERE nv.MaNV = @MaNV
-                                GROUP BY nv.MaNV, nv.TenNV, nv.SoDienThoai, nv.ChucVu";
+                                GROUP BY nv.MaNV, nv.TenNV, nv.SoDienThoai, nv.ChucVu, nv.Vaitro";
                 
                 using (var cmd = new SqlCommand(query, conn))
                 {
@@ -250,6 +262,7 @@ namespace QuanLyBanHoa.Models
                                 TenNV = reader["TenNV"].ToString(),
                                 SoDienThoai = reader["SoDienThoai"].ToString(),
                                 ChucVu = reader["ChucVu"].ToString(),
+                                Vaitro = reader["Vaitro"].ToString(),
                                 SoLuongDonHang = reader["SoLuongDonHang"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SoLuongDonHang"])
                             };
                         }

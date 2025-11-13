@@ -145,6 +145,12 @@ namespace QuanLyBanHoa.Forms
 
         private void btnSua_Click(object sender, EventArgs e)
         {
+            if (string.Equals(Session.Vaitro, "NhanVien", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Bạn không có quyền sửa khách hàng!", "Không có quyền", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             if (string.IsNullOrWhiteSpace(txtMaKH.Text))
             {
                 MessageBox.Show("Chọn khách hàng để sửa.", "Thông báo", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -187,6 +193,12 @@ namespace QuanLyBanHoa.Forms
 
         private void btnXoa_Click(object sender, EventArgs e)
         {
+            if (string.Equals(Session.Vaitro, "NhanVien", StringComparison.OrdinalIgnoreCase))
+            {
+                MessageBox.Show("Bạn không có quyền xóa khách hàng!", "Không có quyền", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
                 if (string.IsNullOrWhiteSpace(txtMaKH.Text) || !int.TryParse(txtMaKH.Text, out int maKH))
@@ -251,6 +263,20 @@ namespace QuanLyBanHoa.Forms
                 getData();
             }
             SetMode(CustomerFormMode.None);
+
+            // Phân quyền
+            if (string.Equals(Session.Vaitro, "NhanVien", StringComparison.OrdinalIgnoreCase))
+            {
+                btnSua.Enabled = false;
+                btnXoa.Enabled = false;
+                btnThem.Enabled = true;
+            }
+            else if (string.Equals(Session.Vaitro, "Admin", StringComparison.OrdinalIgnoreCase))
+            {
+                btnSua.Enabled = true;
+                btnXoa.Enabled = true;
+                btnThem.Enabled = true;
+            }
         }
 
         private void SetupDataGridView()
