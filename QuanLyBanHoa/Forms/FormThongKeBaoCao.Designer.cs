@@ -34,6 +34,7 @@
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle4 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle5 = new DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormThongKeBaoCao));
             headerPanel = new Panel();
             lblTitle = new Label();
             tlpFilters = new TableLayoutPanel();
@@ -91,7 +92,7 @@
             lblTitle.ForeColor = Color.White;
             lblTitle.Location = new Point(24, 12);
             lblTitle.Name = "lblTitle";
-            lblTitle.Size = new Size(313, 45);
+            lblTitle.Size = new Size(264, 37);
             lblTitle.TabIndex = 0;
             lblTitle.Text = "Thống kê đơn hàng";
             // 
@@ -124,9 +125,9 @@
             lblFrom.Anchor = AnchorStyles.Left;
             lblFrom.AutoSize = true;
             lblFrom.Font = new Font("Segoe UI", 10F);
-            lblFrom.Location = new Point(19, 18);
+            lblFrom.Location = new Point(19, 20);
             lblFrom.Name = "lblFrom";
-            lblFrom.Size = new Size(83, 28);
+            lblFrom.Size = new Size(71, 23);
             lblFrom.TabIndex = 0;
             lblFrom.Text = "Ngày từ";
             // 
@@ -136,10 +137,10 @@
             dtpFrom.CustomFormat = "dddd, dd/MM/yyyy";
             dtpFrom.Font = new Font("Segoe UI", 10F);
             dtpFrom.Format = DateTimePickerFormat.Custom;
-            dtpFrom.Location = new Point(116, 15);
+            dtpFrom.Location = new Point(116, 17);
             dtpFrom.Margin = new Padding(0, 3, 16, 3);
             dtpFrom.Name = "dtpFrom";
-            dtpFrom.Size = new Size(293, 34);
+            dtpFrom.Size = new Size(293, 30);
             dtpFrom.TabIndex = 1;
             // 
             // lblTo
@@ -147,9 +148,9 @@
             lblTo.Anchor = AnchorStyles.Left;
             lblTo.AutoSize = true;
             lblTo.Font = new Font("Segoe UI", 10F);
-            lblTo.Location = new Point(428, 12);
+            lblTo.Location = new Point(428, 20);
             lblTo.Name = "lblTo";
-            lblTo.Size = new Size(55, 40);
+            lblTo.Size = new Size(83, 23);
             lblTo.TabIndex = 2;
             lblTo.Text = "Đến ngày";
             // 
@@ -159,10 +160,10 @@
             dtpTo.CustomFormat = "dddd, dd/MM/yyyy";
             dtpTo.Font = new Font("Segoe UI", 10F);
             dtpTo.Format = DateTimePickerFormat.Custom;
-            dtpTo.Location = new Point(525, 15);
+            dtpTo.Location = new Point(525, 17);
             dtpTo.Margin = new Padding(0, 3, 16, 3);
             dtpTo.Name = "dtpTo";
-            dtpTo.Size = new Size(293, 34);
+            dtpTo.Size = new Size(293, 30);
             dtpTo.TabIndex = 3;
             // 
             // lblSearch
@@ -170,9 +171,9 @@
             lblSearch.Anchor = AnchorStyles.Left;
             lblSearch.AutoSize = true;
             lblSearch.Font = new Font("Segoe UI", 10F);
-            lblSearch.Location = new Point(837, 12);
+            lblSearch.Location = new Point(837, 20);
             lblSearch.Name = "lblSearch";
-            lblSearch.Size = new Size(81, 40);
+            lblSearch.Size = new Size(106, 23);
             lblSearch.TabIndex = 4;
             lblSearch.Text = "Tìm mã đơn:";
             // 
@@ -180,11 +181,11 @@
             // 
             txtSearch.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             txtSearch.Font = new Font("Segoe UI", 10F);
-            txtSearch.Location = new Point(954, 15);
+            txtSearch.Location = new Point(954, 17);
             txtSearch.Margin = new Padding(0, 3, 16, 3);
             txtSearch.Name = "txtSearch";
             txtSearch.PlaceholderText = "Nhập mã đơn hàng...";
-            txtSearch.Size = new Size(294, 34);
+            txtSearch.Size = new Size(294, 30);
             txtSearch.TabIndex = 5;
             // 
             // gbOverview
@@ -208,7 +209,7 @@
             tlpCards.Controls.Add(cardRevenue, 0, 0);
             tlpCards.Controls.Add(cardOrders, 1, 0);
             tlpCards.Dock = DockStyle.Fill;
-            tlpCards.Location = new Point(12, 38);
+            tlpCards.Location = new Point(12, 33);
             tlpCards.Name = "tlpCards";
             tlpCards.Padding = new Padding(8);
             tlpCards.RowCount = 2;
@@ -248,7 +249,7 @@
             lblOrders.ForeColor = Color.Black;
             lblOrders.Location = new Point(28, 35);
             lblOrders.Name = "lblOrders";
-            lblOrders.Size = new Size(38, 45);
+            lblOrders.Size = new Size(33, 37);
             lblOrders.TabIndex = 1;
             lblOrders.Text = "0";
             // 
@@ -259,7 +260,7 @@
             lblOrdersTitle.ForeColor = Color.DimGray;
             lblOrdersTitle.Location = new Point(28, 12);
             lblOrdersTitle.Name = "lblOrdersTitle";
-            lblOrdersTitle.Size = new Size(132, 28);
+            lblOrdersTitle.Size = new Size(112, 23);
             lblOrdersTitle.TabIndex = 0;
             lblOrdersTitle.Text = "Số đơn hàng";
             // 
@@ -460,6 +461,7 @@
             Controls.Add(gbOverview);
             Controls.Add(tlpFilters);
             Controls.Add(headerPanel);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FormThongKeBaoCao";
             headerPanel.ResumeLayout(false);
             headerPanel.PerformLayout();

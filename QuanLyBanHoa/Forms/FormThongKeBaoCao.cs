@@ -157,7 +157,15 @@ namespace QuanLyBanHoa.Forms
                 var listThongKe = ThongKe.SearchThongKeTheoNgay(from, to, searchText);
                 foreach (var item in listThongKe)
                 {
+<<<<<<< HEAD
                     dgvThongKe.Rows.Add(item.Ngay, item.SoDon, item.DoanhThu.ToString("N0"));
+=======
+                    // Định dạng ngày tháng trước khi thêm
+                    string ngayHienThi = (item.Ngay != null && item.Ngay != DateTime.MinValue)
+                                         ? item.Ngay.ToString("dd/MM/yyyy"): "";
+
+                    dgvThongKe.Rows.Add(ngayHienThi, item.SoDon, item.DoanhThu.ToString("N0"), item.KMs, item.NhanVien);
+>>>>>>> 821450bf0bd74fb3a00a2c278aa68b2b69209a0b
                 }
             }
             catch (Exception ex)
@@ -185,7 +193,19 @@ namespace QuanLyBanHoa.Forms
                 var listThongKe = ThongKe.GetThongKeTheoNgayChiTiet(from, to);
                 foreach (var item in listThongKe)
                 {
+<<<<<<< HEAD
                     dgvThongKe.Rows.Add(item.Ngay, item.SoDon, item.DoanhThu.ToString("N0"));
+=======
+                    // Định dạng ngày tháng trước khi thêm
+                    string ngayHienThi = "";
+                    if (item.Ngay != null && item.Ngay != DateTime.MinValue)
+                    {
+                        ngayHienThi = item.Ngay.ToString("dd/MM/yyyy");
+                    }
+
+                    // Thêm chuỗi đã định dạng (ngayHienThi) vào DGV
+                    dgvThongKe.Rows.Add(ngayHienThi, item.SoDon, item.DoanhThu.ToString("N0"), item.KMs, item.NhanVien);
+>>>>>>> 821450bf0bd74fb3a00a2c278aa68b2b69209a0b
                 }
             }
             catch (Exception ex)
