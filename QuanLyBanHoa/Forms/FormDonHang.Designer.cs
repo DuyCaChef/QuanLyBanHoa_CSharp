@@ -252,12 +252,12 @@
             colSDT.Name = "colSDT";
             colSDT.ReadOnly = true;
             // 
-            // colMaNV
+            // colNhanVien
             // 
-            colMaNV.FillWeight = 10F;
-            colMaNV.HeaderText = "Mã NV";
-            colMaNV.MinimumWidth = 70;
-            colMaNV.Name = "colMaNV";
+            colMaNV.FillWeight = 16F;
+            colMaNV.HeaderText = "Nhân viên bán";
+            colMaNV.MinimumWidth = 120;
+            colMaNV.Name = "colNhanVien";
             colMaNV.ReadOnly = true;
             // 
             // colTenHoa

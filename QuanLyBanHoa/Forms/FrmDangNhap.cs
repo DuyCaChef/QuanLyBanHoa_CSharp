@@ -16,7 +16,7 @@ namespace QuanLyBanHoa.Forms
         private void btnDangNhap_Click(object sender, EventArgs e)
         {
             string tk = txtEmail.Text.Trim();
-            string mk = txtPass.Text; // giữ nguyên theo yêu cầu (không hash)
+            string mk = txtPass.Text; // giữ nguyên không hash
 
             if (string.IsNullOrEmpty(tk) || string.IsNullOrEmpty(mk))
             {
@@ -24,35 +24,27 @@ namespace QuanLyBanHoa.Forms
                 return;
             }
 
-            string sql = "SELECT MaNV, TaiKhoan, Vaitro FROM NhanVien WHERE TaiKhoan = @tk AND MatKhau = @mk";
-
             try
             {
-                using (var conn = Database.GetConnection())
-                using (var cmd = new SqlCommand(sql, conn))
+                // Sử dụng User.Login từ Model
+                User user = User.Login(tk, mk);
+
+                if (user != null)
                 {
-                    cmd.Parameters.AddWithValue("@tk", tk);
-                    cmd.Parameters.AddWithValue("@mk", mk);
+                    // Lưu thông tin vào Session
+                    Session.UserID = user.UserID;
+                    Session.TaiKhoan = user.TaiKhoan;
+                    Session.Vaitro = user.VaiTro;
+                    Session.MaNV = user.MaNV;
 
-                    conn.Open();
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            Session.MaNV = reader["MaNV"] == DBNull.Value ?0 : Convert.ToInt32(reader["MaNV"]);
-                            Session.TaiKhoan = reader["TaiKhoan"] == DBNull.Value ? string.Empty : reader["TaiKhoan"].ToString();
-                            Session.Vaitro = reader["Vaitro"] == DBNull.Value ? string.Empty : reader["Vaitro"].ToString();
-
-                            // Mở FormMain vàẩn FormDangNhap
-                            FrmMain main = new FrmMain();
-                            main.Show();
-                            this.Hide();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Sai tài khoản hoặc mật khẩu!", "Lỗi đăng nhập", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        }
-                    }
+                    // Mở FormMain và ẩn FormDangNhap
+                    FrmMain main = new FrmMain();
+                    main.Show();
+                    this.Hide();
+                }
+                else
+                {
+                    MessageBox.Show("Sai tài khoản hoặc mật khẩu!", "Lỗi đăng nhập", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)

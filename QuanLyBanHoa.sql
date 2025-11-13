@@ -1,109 +1,135 @@
-﻿-- Tạo database QuanLyBanHoa
--- Lưu ý: SQL Server thường quản lý collation ở cấp server hoặc database.
--- Dòng dưới tạo DB với collation hỗ trợ tiếng Việt không phân biệt hoa thường, có phân biệt dấu.
+﻿--------------------------------------------------
+-- 1. TẠO DATABASE
+--------------------------------------------------
 CREATE DATABASE QuanLyBanHoa COLLATE Vietnamese_CI_AS;
 GO
 
--- Sử dụng database
 USE QuanLyBanHoa;
 GO
 
--- Tạo bảng Hoa
+
+--------------------------------------------------
+-- 2. BẢNG HOA
+--------------------------------------------------
 CREATE TABLE Hoa (
     MaHoa INT IDENTITY(1,1) PRIMARY KEY,
     TenHoa NVARCHAR(100) NOT NULL,
     Gia DECIMAL(12,2) NOT NULL,
     SoLuong INT NOT NULL,
-    MoTa NVARCHAR(MAX) -- Thay TEXT bằng NVARCHAR(MAX) cho Unicode tốt hơn
+    MoTa NVARCHAR(MAX) NULL
 );
 GO
--- SELECT * FROM Hoa; -- Không cần thiết chạy ngay khi tạo script
 
--- Tạo bảng KhachHang
+
+--------------------------------------------------
+-- 3. BẢNG KHÁCH HÀNG
+--------------------------------------------------
 CREATE TABLE KhachHang (
     MaKH INT IDENTITY(1,1) PRIMARY KEY,
     TenKH NVARCHAR(100) NOT NULL,
-    DiaChi NVARCHAR(200),
-    SoDienThoai VARCHAR(15) UNIQUE, -- Số điện thoại thường không cần Nvarchar
-    Email VARCHAR(100) -- Email thường không cần Nvarchar
+    DiaChi NVARCHAR(200) NULL,
+    SoDienThoai VARCHAR(15) NULL,
+    Email VARCHAR(100) NULL
 );
 GO
 
--- Tạo bảng NhanVien
+
+--------------------------------------------------
+-- 4. BẢNG NHÂN VIÊN (THÔNG TIN)
+--------------------------------------------------
 CREATE TABLE NhanVien (
     MaNV INT IDENTITY(1,1) PRIMARY KEY,
     TenNV NVARCHAR(100) NOT NULL,
-    ChucVu NVARCHAR(50),
-    SoDienThoai VARCHAR(15) UNIQUE
+    SoDienThoai VARCHAR(15) NULL
 );
 GO
 
--- Tạo bảng KhuyenMai
-CREATE TABLE KhuyenMai (
-    MaKM INT IDENTITY(1,1) PRIMARY KEY,
-    TenCT NVARCHAR(100) NOT NULL,
-    TyLeGiam DECIMAL(5,2) NOT NULL,
-    NgayBD DATE NOT NULL,
-    NgayKT DATE NOT NULL
+
+--------------------------------------------------
+-- 5. BẢNG USERS (ĐĂNG NHẬP + QUYỀN)
+-- Admin KHÔNG thuộc NhanVien (MaNV NULL)
+-- Nhân viên phải có MaNV (FK)
+--------------------------------------------------
+CREATE TABLE Users (
+    UserID INT IDENTITY(1,1) PRIMARY KEY,
+    TaiKhoan NVARCHAR(50) UNIQUE NOT NULL,
+    MatKhau NVARCHAR(100) NOT NULL,
+    VaiTro NVARCHAR(20) NOT NULL DEFAULT 'NhanVien',   -- Admin / NhanVien
+    MaNV INT NULL,
+    CONSTRAINT FK_Users_NhanVien 
+        FOREIGN KEY (MaNV) REFERENCES NhanVien(MaNV) ON DELETE CASCADE
 );
 GO
 
--- Tạo bảng DonHang
+
+--------------------------------------------------
+-- 6. BẢNG ĐƠN HÀNG (SNAPSHOT)
+--------------------------------------------------
 CREATE TABLE DonHang (
     MaDH INT IDENTITY(1,1) PRIMARY KEY,
-    MaKH INT NOT NULL,
-    MaNV INT NOT NULL,
-    NgayDatHang DATE NOT NULL DEFAULT CAST(GETDATE() AS DATE), -- Sử dụng GETDATE() và ép kiểu về DATE
+
+    MaKH INT NULL,
+    MaNV INT NULL,
+
+    NgayDatHang DATE NOT NULL DEFAULT CAST(GETDATE() AS DATE),
     TongTien DECIMAL(12,2) NOT NULL,
-    MaKM INT,
-    FOREIGN KEY (MaKH) REFERENCES KhachHang(MaKH),
-    FOREIGN KEY (MaNV) REFERENCES NhanVien(MaNV),
-    FOREIGN KEY (MaKM) REFERENCES KhuyenMai(MaKM)
+
+    -- Snapshot khách hàng
+    TenKH_DatHang NVARCHAR(100) NULL,
+    DiaChi_DatHang NVARCHAR(200) NULL,
+    SoDienThoai_DatHang VARCHAR(15) NULL,
+
+    -- Snapshot nhân viên
+    TenNV_BanHang NVARCHAR(100) NULL,
+
+    CONSTRAINT FK_DonHang_KhachHang 
+        FOREIGN KEY (MaKH) REFERENCES KhachHang(MaKH) ON DELETE SET NULL,
+
+    CONSTRAINT FK_DonHang_NhanVien
+        FOREIGN KEY (MaNV) REFERENCES NhanVien(MaNV) ON DELETE SET NULL
 );
 GO
 
--- Tạo bảng ChiTietDonHang
+
+--------------------------------------------------
+-- 7. BẢNG CHI TIẾT ĐƠN HÀNG (SNAPSHOT)
+--------------------------------------------------
 CREATE TABLE ChiTietDonHang (
     MaDH INT NOT NULL,
     MaHoa INT NOT NULL,
     SoLuong INT NOT NULL,
     ThanhTien DECIMAL(12,2) NOT NULL,
-    PRIMARY KEY (MaDH, MaHoa),
-    FOREIGN KEY (MaDH) REFERENCES DonHang(MaDH),
-    FOREIGN KEY (MaHoa) REFERENCES Hoa(MaHoa)
+
+    -- Snapshot
+    TenHoa_DatHang NVARCHAR(100) NULL,
+    DonGia DECIMAL(12,2) NULL,
+
+    CONSTRAINT PK_ChiTietDonHang PRIMARY KEY (MaDH, MaHoa),
+
+    CONSTRAINT FK_ChiTietDonHang_DH
+        FOREIGN KEY (MaDH) REFERENCES DonHang(MaDH) ON DELETE CASCADE,
+
+    CONSTRAINT FK_ChiTietDonHang_Hoa
+        FOREIGN KEY (MaHoa) REFERENCES Hoa(MaHoa)
 );
 GO
 
--- Thêm cột MaNV vào ChiTietDonHang và tạo khoá ngoại
--- Lưu ý: Nếu bảng đã có dữ liệu, việc thêm cột NOT NULL mà không có DEFAULT sẽ gây lỗi.
--- Ở đây giả sử bảng mới tạo chưa có dữ liệu.
-ALTER TABLE ChiTietDonHang ADD MaNV INT NOT NULL;
-GO
-ALTER TABLE ChiTietDonHang ADD CONSTRAINT FK_ChiTietDonHang_NhanVien FOREIGN KEY (MaNV) REFERENCES NhanVien(MaNV);
+
+--------------------------------------------------
+-- 8. DỮ LIỆU MẪU
+--------------------------------------------------
+
+-- Nhân viên mẫu
+INSERT INTO NhanVien (TenNV, SoDienThoai)
+VALUES
+(N'Nhân viên A', '0901111111'),
+(N'Nhân viên B', '0902222222');
 GO
 
---Thêm các thuộc tính cho bảng DonHang và ChiTietDonHang để sử dụng biến tạm
-ALTER TABLE DonHang
-ADD TenKH_DatHang NVARCHAR(100) NULL,
-    DiaChi_DatHang NVARCHAR(200),
-    SoDienThoai_DatHang VARCHAR(15),
-    TenNV_BanHang NVARCHAR(100);
-GO
-
-ALTER TABLE ChiTietDonHang
-ADD TenHoa_DatHang NVARCHAR(100) NULL,
-    DonGia DECIMAL(12,2) NULL;
-GO
---thêm thuộc tính cho nhân viên để quản lý và phân quyền
-ALTER TABLE NhanVien
-ADD 
-    TaiKhoan NVARCHAR(50) UNIQUE NOT NULL,
-    MatKhau NVARCHAR(100) NOT NULL,
-    Vaitro NVARCHAR(20) NOT NULL DEFAULT 'NhanVien';
-GO
-
-INSERT INTO NhanVien (TenNV, ChucVu, SoDienThoai, TaiKhoan, MatKhau, Vaitro)
-VALUES 
-(N'Quản trị hệ thống', N'Admin', '0123456789', 'admin', '123', 'Admin'),
-(N'Nhân viên bán hàng', N'Nhân viên', ' 0873858388', 'nv01', '123', 'NhanVien');
+-- Users mẫu: Admin + 2 nhân viên
+INSERT INTO Users (TaiKhoan, MatKhau, VaiTro, MaNV)
+VALUES
+('admin', '123', 'Admin', NULL),  -- admin KHÔNG thuộc NhanVien!
+('nv01', '123', 'NhanVien', 1),
+('nv02', '123', 'NhanVien', 2);
 GO

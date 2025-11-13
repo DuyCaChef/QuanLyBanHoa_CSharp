@@ -157,7 +157,7 @@ namespace QuanLyBanHoa.Forms
                 var listThongKe = ThongKe.SearchThongKeTheoNgay(from, to, searchText);
                 foreach (var item in listThongKe)
                 {
-                    dgvThongKe.Rows.Add(item.Ngay, item.SoDon, item.DoanhThu.ToString("N0"));
+                    dgvThongKe.Rows.Add(DBNull.Value, item.Ngay, item.SoDon, item.DoanhThu);
                 }
             }
             catch (Exception ex)
@@ -185,7 +185,7 @@ namespace QuanLyBanHoa.Forms
                 var listThongKe = ThongKe.GetThongKeTheoNgayChiTiet(from, to);
                 foreach (var item in listThongKe)
                 {
-                    dgvThongKe.Rows.Add(item.Ngay, item.SoDon, item.DoanhThu.ToString("N0"));
+                    dgvThongKe.Rows.Add(DBNull.Value, item.Ngay, item.SoDon, item.DoanhThu);
                 }
             }
             catch (Exception ex)

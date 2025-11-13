@@ -284,15 +284,15 @@ namespace QuanLyBanHoa.Models
             }
         }
 
-        // L?y th?ng kê t?ng quan (s? ??n, doanh thu, khuy?n mãi)
+        // L?y th?ng kê t?ng quan (s? ??n, doanh thu) - XÓA MaKM
         public static ThongKeTongQuan GetThongKeTongQuan(DateTime fromDate, DateTime toDate)
         {
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                string query = @"SELECT COUNT(DISTINCT d.MaDH) as SoDon, COALESCE(SUM(d.TongTien),0) as DoanhThu, COALESCE(SUM(CASE WHEN d.MaKM IS NOT NULL THEN 1 ELSE 0 END),0) as KmDung
-                               FROM DonHang d
-                               WHERE d.NgayDatHang BETWEEN @FromDate AND @ToDate";
+                string query = @"SELECT COUNT(DISTINCT d.MaDH) as SoDon, COALESCE(SUM(d.TongTien),0) as DoanhThu
+      FROM DonHang d
+        WHERE d.NgayDatHang BETWEEN @FromDate AND @ToDate";
                 using (var cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@FromDate", fromDate.Date);
@@ -305,7 +305,7 @@ namespace QuanLyBanHoa.Models
                             {
                                 SoDon = reader["SoDon"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SoDon"]),
                                 DoanhThu = reader["DoanhThu"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["DoanhThu"]),
-                                KmDung = reader["KmDung"] == DBNull.Value ? 0 : Convert.ToInt32(reader["KmDung"])
+                                KmDung = 0 // Không còn khuy?n mãi
                             };
                         }
                     }
@@ -314,81 +314,89 @@ namespace QuanLyBanHoa.Models
             return new ThongKeTongQuan { SoDon = 0, DoanhThu = 0m, KmDung = 0 };
         }
 
-        // L?y th?ng kê theo ngày v?i thông tin nhân viên và khuy?n mãi
-        public static List<dynamic> GetThongKeTheoNgayChiTiet(DateTime fromDate, DateTime toDate)
+    // L?y th?ng kê theo ngày - XÓA MaKM
+   public static List<dynamic> GetThongKeTheoNgayChiTiet(DateTime fromDate, DateTime toDate)
         {
-            List<dynamic> listThongKe = new List<dynamic>();
-            using (var conn = Database.GetConnection())
+          List<dynamic> listThongKe = new List<dynamic>();
+      using (var conn = Database.GetConnection())
+          {
+          conn.Open();
+      string query = @"SELECT CAST(d.NgayDatHang AS DATE) as Ngay, 
+        COUNT(DISTINCT d.MaDH) as SoDon, 
+              COALESCE(SUM(d.TongTien),0) as DoanhThu,
+      (SELECT TOP 1 STRING_AGG(n.TenNV, ', ') 
+    FROM DonHang dd 
+    JOIN NhanVien n ON dd.MaNV = n.MaNV 
+         WHERE CAST(dd.NgayDatHang AS DATE) = CAST(d.NgayDatHang AS DATE) 
+       GROUP BY CAST(dd.NgayDatHang AS DATE)) as NhanVien
+    FROM DonHang d
+   WHERE d.NgayDatHang BETWEEN @FromDate AND @ToDate
+             GROUP BY CAST(d.NgayDatHang AS DATE)
+     ORDER BY CAST(d.NgayDatHang AS DATE) DESC";
+  using (var cmd = new SqlCommand(query, conn))
+    {
+        cmd.Parameters.AddWithValue("@FromDate", fromDate.Date);
+     cmd.Parameters.AddWithValue("@ToDate", toDate.Date.AddDays(1).AddSeconds(-1));
+       using (var reader = cmd.ExecuteReader())
             {
-                conn.Open();
-                string query = @"SELECT d.NgayDatHang as Ngay, COUNT(d.MaDH) as SoDon, COALESCE(SUM(d.TongTien),0) as DoanhThu,
-                                      STRING_AGG(CAST(d.MaKM AS NVARCHAR), ',') as KMs,
-                                      (SELECT TOP 1 STRING_AGG(n.TenNV, ', ') FROM DonHang dd JOIN NhanVien n ON dd.MaNV = n.MaNV WHERE dd.NgayDatHang = d.NgayDatHang GROUP BY dd.NgayDatHang) as NhanVien
-                               FROM DonHang d
-                               WHERE d.NgayDatHang BETWEEN @FromDate AND @ToDate
-                               GROUP BY d.NgayDatHang
-                               ORDER BY d.NgayDatHang DESC";
-                using (var cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@FromDate", fromDate.Date);
-                    cmd.Parameters.AddWithValue("@ToDate", toDate.Date.AddDays(1).AddSeconds(-1));
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            listThongKe.Add(new
-                            {
-                                Ngay = reader["Ngay"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(reader["Ngay"]),
-                                SoDon = reader["SoDon"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SoDon"]),
-                                DoanhThu = reader["DoanhThu"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["DoanhThu"]),
-                                KMs = reader["KMs"] == DBNull.Value ? string.Empty : reader["KMs"].ToString(),
-                                NhanVien = reader["NhanVien"] == DBNull.Value ? string.Empty : reader["NhanVien"].ToString()
-                            });
-                        }
-                    }
-                }
-            }
+     while (reader.Read())
+     {
+                 listThongKe.Add(new
+{
+      Ngay = reader["Ngay"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(reader["Ngay"]),
+          SoDon = reader["SoDon"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SoDon"]),
+          DoanhThu = reader["DoanhThu"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["DoanhThu"]),
+     NhanVien = reader["NhanVien"] == DBNull.Value ? string.Empty : reader["NhanVien"].ToString()
+        });
+     }
+    }
+        }
+  }
             return listThongKe;
         }
 
-        // Tìm ki?m th?ng kê theo ngày v?i t? khóa
+   // Tìm ki?m th?ng kê theo ngày - XÓA MaKM
         public static List<dynamic> SearchThongKeTheoNgay(DateTime fromDate, DateTime toDate, string searchKeyword)
         {
-            List<dynamic> listThongKe = new List<dynamic>();
-            using (var conn = Database.GetConnection())
+  List<dynamic> listThongKe = new List<dynamic>();
+      using (var conn = Database.GetConnection())
+   {
+       conn.Open();
+         string query = @"SELECT CAST(d.NgayDatHang AS DATE) as Ngay, 
+  COUNT(DISTINCT d.MaDH) as SoDon, 
+         COALESCE(SUM(d.TongTien),0) as DoanhThu,
+     (SELECT TOP 1 STRING_AGG(n.TenNV, ', ') 
+      FROM DonHang dd 
+                JOIN NhanVien n ON dd.MaNV = n.MaNV 
+               WHERE CAST(dd.NgayDatHang AS DATE) = CAST(d.NgayDatHang AS DATE) 
+   GROUP BY CAST(dd.NgayDatHang AS DATE)) as NhanVien
+  FROM DonHang d
+       WHERE d.NgayDatHang BETWEEN @FromDate AND @ToDate
+             AND CAST(d.MaDH AS NVARCHAR) LIKE @Search
+      GROUP BY CAST(d.NgayDatHang AS DATE)
+        ORDER BY CAST(d.NgayDatHang AS DATE) DESC";
+      using (var cmd = new SqlCommand(query, conn))
             {
-                conn.Open();
-                string query = @"SELECT d.NgayDatHang as Ngay, COUNT(d.MaDH) as SoDon, COALESCE(SUM(d.TongTien),0) as DoanhThu,
-                                      STRING_AGG(CAST(d.MaKM AS NVARCHAR), ',') as KMs,
-                                      (SELECT TOP 1 STRING_AGG(n.TenNV, ', ') FROM DonHang dd JOIN NhanVien n ON dd.MaNV = n.MaNV WHERE dd.NgayDatHang = d.NgayDatHang GROUP BY dd.NgayDatHang) as NhanVien
-                               FROM DonHang d
-                               WHERE d.NgayDatHang BETWEEN @FromDate AND @ToDate
-                               AND CAST(d.MaDH AS NVARCHAR) LIKE @Search
-                               GROUP BY d.NgayDatHang
-                               ORDER BY d.NgayDatHang DESC";
-                using (var cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@FromDate", fromDate.Date);
-                    cmd.Parameters.AddWithValue("@ToDate", toDate.Date.AddDays(1).AddSeconds(-1));
-                    cmd.Parameters.AddWithValue("@Search", "%" + searchKeyword + "%");
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            listThongKe.Add(new
-                            {
-                                Ngay = reader["Ngay"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(reader["Ngay"]),
-                                SoDon = reader["SoDon"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SoDon"]),
-                                DoanhThu = reader["DoanhThu"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["DoanhThu"]),
-                                KMs = reader["KMs"] == DBNull.Value ? string.Empty : reader["KMs"].ToString(),
-                                NhanVien = reader["NhanVien"] == DBNull.Value ? string.Empty : reader["NhanVien"].ToString()
-                            });
-                        }
-                    }
-                }
-            }
-            return listThongKe;
-        }
+    cmd.Parameters.AddWithValue("@FromDate", fromDate.Date);
+            cmd.Parameters.AddWithValue("@ToDate", toDate.Date.AddDays(1).AddSeconds(-1));
+          cmd.Parameters.AddWithValue("@Search", "%" + searchKeyword + "%");
+           using (var reader = cmd.ExecuteReader())
+    {
+       while (reader.Read())
+    {
+    listThongKe.Add(new
+       {
+           Ngay = reader["Ngay"] == DBNull.Value ? DateTime.MinValue : Convert.ToDateTime(reader["Ngay"]),
+    SoDon = reader["SoDon"] == DBNull.Value ? 0 : Convert.ToInt32(reader["SoDon"]),
+   DoanhThu = reader["DoanhThu"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["DoanhThu"]),
+        NhanVien = reader["NhanVien"] == DBNull.Value ? string.Empty : reader["NhanVien"].ToString()
+             });
+               }
+    }
+       }
+          }
+          return listThongKe;
+    }
 
         // Xóa t?t c? ??n hàng theo ngày
         public static int DeleteOrdersByDate(DateTime date)
