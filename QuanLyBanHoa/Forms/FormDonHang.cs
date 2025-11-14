@@ -256,7 +256,7 @@ namespace QuanLyBanHoa.Forms
                     if (dgvChiTiet != null)
                         dgvChiTiet.Rows.Clear();
 
-                    if (lblTongTienValue != null) lblTongTienValue.Text = "0 ?";
+                    if (lblTongTienValue != null) lblTongTienValue.Text = "0 VNĐ";
 
                     return;
                 }
@@ -373,7 +373,8 @@ namespace QuanLyBanHoa.Forms
                 // C?p nh?t t?ng ti?n
                 if (lblTongTienValue != null)
                 {
-                    lblTongTienValue.Text = tongTien.ToString("N0") + " ?";
+                    var culture = new CultureInfo("vi-VN");
+                    lblTongTienValue.Text = tongTien.ToString("c0", culture);
                 }
             }
             catch (Exception ex)
