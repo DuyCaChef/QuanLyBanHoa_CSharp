@@ -112,7 +112,7 @@ namespace QuanLyBanHoa.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi load form đơn Hàng:\n{ex.Message}\n\nChi ti?t:\n{ex.StackTrace}",
+                MessageBox.Show($"Lỗi khi load form đơn Hàng:\n{ex.Message}\n\nChi tiết:\n{ex.StackTrace}",
                     "Lỗi Load", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -379,7 +379,7 @@ namespace QuanLyBanHoa.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Lỗi khi tải chi tiếtt đơn:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Lỗi khi tải chi tiết đơn:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -416,7 +416,7 @@ namespace QuanLyBanHoa.Forms
 
                 if (string.IsNullOrWhiteSpace(txtSdt.Text))
                 {
-                    MessageBox.Show("Vui lòng nh?p s? ?iễn tho?i khách hàng.", "Thi?u thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Vui lòng nhập số điện thoại khách hàng.", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtSdt.Focus();
                     return;
                 }
@@ -663,7 +663,7 @@ namespace QuanLyBanHoa.Forms
                     return;
                 }
 
-                var res = MessageBox.Show($"Bạn có chắcc muốn xóa đơn hàng #{maDH}?\nHành động này không thể hoàn tác.", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                var res = MessageBox.Show($"Bạn có chắc muốn xóa đơn hàng #{maDH}?\nHành động này không thể hoàn tác.", "Xác nhận", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 if (res != DialogResult.Yes) return;
 
                 using (var conn = Database.GetConnection())
