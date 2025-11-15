@@ -235,7 +235,7 @@
             btnThem.Location = new Point(19, 290);
             btnThem.Margin = new Padding(2);
             btnThem.Name = "btnThem";
-            btnThem.Size = new Size(80, 27);
+            btnThem.Size = new Size(80, 40);
             btnThem.TabIndex = 8;
             btnThem.Text = "Thêm";
             btnThem.UseVisualStyleBackColor = false;
@@ -251,7 +251,7 @@
             btnSua.Location = new Point(112, 290);
             btnSua.Margin = new Padding(2);
             btnSua.Name = "btnSua";
-            btnSua.Size = new Size(80, 27);
+            btnSua.Size = new Size(80, 40);
             btnSua.TabIndex = 10;
             btnSua.Text = "Sửa";
             btnSua.UseVisualStyleBackColor = false;
@@ -267,7 +267,7 @@
             btnXoa.Location = new Point(205, 290);
             btnXoa.Margin = new Padding(2);
             btnXoa.Name = "btnXoa";
-            btnXoa.Size = new Size(80, 27);
+            btnXoa.Size = new Size(79, 40);
             btnXoa.TabIndex = 9;
             btnXoa.Text = "Xóa";
             btnXoa.UseVisualStyleBackColor = false;
@@ -280,10 +280,10 @@
             C.FlatStyle = FlatStyle.Flat;
             C.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
             C.ForeColor = Color.Black;
-            C.Location = new Point(19, 328);
+            C.Location = new Point(19, 347);
             C.Margin = new Padding(2);
             C.Name = "C";
-            C.Size = new Size(266, 27);
+            C.Size = new Size(265, 35);
             C.TabIndex = 14;
             C.Text = "Tìm kiếm theo thông tin đã nhập";
             C.UseVisualStyleBackColor = false;
@@ -323,10 +323,10 @@
             btnTaiLai.FlatStyle = FlatStyle.Flat;
             btnTaiLai.Font = new Font("Segoe UI", 9.5F, FontStyle.Bold);
             btnTaiLai.ForeColor = Color.White;
-            btnTaiLai.Location = new Point(512, 5);
+            btnTaiLai.Location = new Point(512, 0);
             btnTaiLai.Margin = new Padding(2);
             btnTaiLai.Name = "btnTaiLai";
-            btnTaiLai.Size = new Size(168, 32);
+            btnTaiLai.Size = new Size(168, 40);
             btnTaiLai.TabIndex = 15;
             btnTaiLai.Text = "Tải lại";
             btnTaiLai.UseVisualStyleBackColor = false;

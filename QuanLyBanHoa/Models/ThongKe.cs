@@ -98,45 +98,6 @@ namespace QuanLyBanHoa.Models
             }
         }
 
-        public static List<HoaBanChay> GetHoaBanChay(DateTime fromDate, DateTime toDate, int top = 10)
-        {
-            List<HoaBanChay> listHoaBanChay = new List<HoaBanChay>();
-            using (var conn = Database.GetConnection())
-            {
-                conn.Open();
-                string query = @"SELECT TOP (@Top) h.MaHoa, h.TenHoa, h.PhanLoai,
-                                      SUM(ct.SoLuong) AS TongSoLuongBan,
-                                      SUM(ct.ThanhTien) AS TongDoanhThu
-                               FROM chitietdonhang ct
-                               INNER JOIN hoa h ON ct.MaHoa = h.MaHoa
-                               INNER JOIN donhang dh ON ct.MaDH = dh.MaDH
-                               WHERE dh.NgayDatHang BETWEEN @FromDate AND @ToDate
-                               GROUP BY h.MaHoa, h.TenHoa, h.PhanLoai
-                               ORDER BY TongSoLuongBan DESC";
-                using (var cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@FromDate", fromDate.Date);
-                    cmd.Parameters.AddWithValue("@ToDate", toDate.Date.AddDays(1).AddSeconds(-1));
-                    cmd.Parameters.AddWithValue("@Top", top);
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            listHoaBanChay.Add(new HoaBanChay()
-                            {
-                                MaHoa = reader["MaHoa"] == DBNull.Value ? 0 : Convert.ToInt32(reader["MaHoa"]),
-                                TenHoa = reader["TenHoa"] == DBNull.Value ? string.Empty : reader["TenHoa"].ToString(),
-                                PhanLoai = reader["PhanLoai"] == DBNull.Value ? string.Empty : reader["PhanLoai"].ToString(),
-                                TongSoLuongBan = reader["TongSoLuongBan"] == DBNull.Value ? 0 : Convert.ToInt32(reader["TongSoLuongBan"]),
-                                TongDoanhThu = reader["TongDoanhThu"] == DBNull.Value ? 0m : Convert.ToDecimal(reader["TongDoanhThu"])
-                            });
-                        }
-                    }
-                }
-            }
-            return listHoaBanChay;
-        }
-
         public static List<ThongKeNhanVien> GetThongKeNhanVien(DateTime fromDate, DateTime toDate)
         {
             List<ThongKeNhanVien> listThongKe = new List<ThongKeNhanVien>();
@@ -284,7 +245,7 @@ namespace QuanLyBanHoa.Models
             }
         }
 
-        // L?y th?ng kê t?ng quan (s? ??n, doanh thu) - XÓA MaKM
+        // L?y th?ng kê t?ng quan (s? ??n, doanh thu)
         public static ThongKeTongQuan GetThongKeTongQuan(DateTime fromDate, DateTime toDate)
         {
             using (var conn = Database.GetConnection())
@@ -314,7 +275,7 @@ namespace QuanLyBanHoa.Models
             return new ThongKeTongQuan { SoDon = 0, DoanhThu = 0m, KmDung = 0 };
         }
 
-    // L?y th?ng kê theo ngày - XÓA MaKM
+    // L?y th?ng kê theo ngày 
    public static List<dynamic> GetThongKeTheoNgayChiTiet(DateTime fromDate, DateTime toDate)
         {
           List<dynamic> listThongKe = new List<dynamic>();
@@ -355,7 +316,7 @@ namespace QuanLyBanHoa.Models
             return listThongKe;
         }
 
-   // Tìm ki?m th?ng kê theo ngày - XÓA MaKM
+   // Tìm ki?m th?ng kê theo ngày
         public static List<dynamic> SearchThongKeTheoNgay(DateTime fromDate, DateTime toDate, string searchKeyword)
         {
   List<dynamic> listThongKe = new List<dynamic>();

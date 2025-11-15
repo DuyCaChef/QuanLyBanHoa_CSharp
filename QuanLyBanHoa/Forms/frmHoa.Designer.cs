@@ -133,10 +133,10 @@
             btnTim.FlatStyle = FlatStyle.Flat;
             btnTim.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
             btnTim.ForeColor = Color.White;
-            btnTim.Location = new Point(713, 12);
+            btnTim.Location = new Point(714, 8);
             btnTim.Margin = new Padding(2);
             btnTim.Name = "btnTim";
-            btnTim.Size = new Size(128, 26);
+            btnTim.Size = new Size(128, 34);
             btnTim.TabIndex = 8;
             btnTim.Text = "Tìm";
             btnTim.UseVisualStyleBackColor = false;

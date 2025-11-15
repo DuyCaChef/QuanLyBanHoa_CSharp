@@ -44,7 +44,6 @@
             btnTaiLai = new Button();
             groupBox1 = new GroupBox();
             tlpInfo = new TableLayoutPanel();
-            label1 = new Label();
             lbHoTen = new Label();
             txtHoTen = new TextBox();
             lbMaKH = new Label();
@@ -99,7 +98,7 @@
             contentPanel.Location = new Point(0, 60);
             contentPanel.Name = "contentPanel";
             contentPanel.Padding = new Padding(16);
-            contentPanel.Size = new Size(1280, 700);
+            contentPanel.Size = new Size(1280, 689);
             contentPanel.TabIndex = 101;
             // 
             // groupBox2
@@ -110,7 +109,7 @@
             groupBox2.Location = new Point(16, 242);
             groupBox2.Name = "groupBox2";
             groupBox2.Padding = new Padding(12, 8, 12, 12);
-            groupBox2.Size = new Size(1248, 390);
+            groupBox2.Size = new Size(1248, 379);
             groupBox2.TabIndex = 6;
             groupBox2.TabStop = false;
             groupBox2.Text = "Danh sách khách hàng";
@@ -153,7 +152,7 @@
             dgDSKhachHang.RowHeadersWidth = 51;
             dgDSKhachHang.RowTemplate.Height = 28;
             dgDSKhachHang.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgDSKhachHang.Size = new Size(1224, 347);
+            dgDSKhachHang.Size = new Size(1224, 336);
             dgDSKhachHang.TabIndex = 0;
             dgDSKhachHang.CellContentClick += dataGridView1_CellContentClick;
             dgDSKhachHang.SelectionChanged += dgDSKhachHang_SelectionChanged;
@@ -167,7 +166,7 @@
             flpButtons.Controls.Add(btnXoa);
             flpButtons.Controls.Add(btnTaiLai);
             flpButtons.Dock = DockStyle.Bottom;
-            flpButtons.Location = new Point(16, 632);
+            flpButtons.Location = new Point(16, 621);
             flpButtons.Name = "flpButtons";
             flpButtons.Padding = new Padding(0, 8, 0, 0);
             flpButtons.Size = new Size(1248, 52);
@@ -258,7 +257,6 @@
             tlpInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35F));
             tlpInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 15F));
             tlpInfo.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 35F));
-            tlpInfo.Controls.Add(label1, 0, 4);
             tlpInfo.Controls.Add(lbHoTen, 0, 0);
             tlpInfo.Controls.Add(txtHoTen, 1, 0);
             tlpInfo.Controls.Add(lbMaKH, 2, 0);
@@ -275,29 +273,14 @@
             tlpInfo.Location = new Point(12, 31);
             tlpInfo.Name = "tlpInfo";
             tlpInfo.Padding = new Padding(8, 6, 8, 6);
-            tlpInfo.RowCount = 5;
+            tlpInfo.RowCount = 2;
             tlpInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tlpInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tlpInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tlpInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-            tlpInfo.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlpInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tlpInfo.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tlpInfo.Size = new Size(1224, 183);
             tlpInfo.TabIndex = 0;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Dock = DockStyle.Fill;
-            label1.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label1.Location = new Point(11, 169);
-            label1.Margin = new Padding(3);
-            label1.Name = "label1";
-            label1.Size = new Size(175, 5);
-            label1.TabIndex = 10;
-            label1.Text = "Số lượng đơn hàng:";
-            label1.TextAlign = ContentAlignment.MiddleRight;
             // 
             // lbHoTen
             // 
@@ -437,7 +420,7 @@
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.WhiteSmoke;
-            ClientSize = new Size(1280, 760);
+            ClientSize = new Size(1280, 749);
             Controls.Add(contentPanel);
             Controls.Add(headerPanel);
             Font = new Font("Segoe UI", 11F);
@@ -475,7 +458,6 @@
         private System.Windows.Forms.Button btnTaiLai;
         private GroupBox groupBox1;
         private TableLayoutPanel tlpInfo;
-        private Label label1;
         private Label lbHoTen;
         private TextBox txtHoTen;
         private Label lbMaKH;

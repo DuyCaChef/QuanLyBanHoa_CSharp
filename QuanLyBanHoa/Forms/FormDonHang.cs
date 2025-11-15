@@ -109,6 +109,9 @@ namespace QuanLyBanHoa.Forms
                     btnXoa.Enabled = true;
                     btnThem.Enabled = true;
                 }
+
+                // Mở khóa các control để cho phép nhập liệu ban đầu
+                EnableEditing();
             }
             catch (Exception ex)
             {
@@ -219,7 +222,7 @@ namespace QuanLyBanHoa.Forms
                 foreach (DataRow row in dt.Rows)
                 {
                     int maDH = row["MaDH"] != DBNull.Value ? Convert.ToInt32(row["MaDH"]) : 0;
-                    string ngay = row["NgayDatHang"] != DBNull.Value ? Convert.ToDateTime(row["NgayDatHang"]).ToString("g") : "";
+                    string ngay = row["NgayDatHang"] != DBNull.Value ? Convert.ToDateTime(row["NgayDatHang"]).ToString("dd/MM/yyyy") : "";
                     string tenKH = row["TenKH_DatHang"] != DBNull.Value ? row["TenKH_DatHang"].ToString() : "";
                     string sdt = row["SoDienThoai_DatHang"] != DBNull.Value ? row["SoDienThoai_DatHang"].ToString() : "";
                     string nhanVien = row["TenNV_BanHang"] != DBNull.Value ? row["TenNV_BanHang"].ToString() : "";
@@ -316,6 +319,9 @@ namespace QuanLyBanHoa.Forms
                         LoadChiTietDonHang(maDH);
                     }
                 }
+
+                // Khóa các control để chỉ xem
+                DisableEditing();
             }
             catch (Exception ex)
             {
@@ -636,6 +642,9 @@ namespace QuanLyBanHoa.Forms
                 dgvDonHang.ClearSelection();
             }
 
+            // Mở khóa các control để cho phép nhập liệu
+            EnableEditing();
+
             // T?t flag sau khi clear xong
             isInputting = false;
         }
@@ -774,6 +783,36 @@ namespace QuanLyBanHoa.Forms
             {
                 MessageBox.Show($"Lỗi khi tải danh sách:\n{ex.Message}", "Lỗi", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        /// <summary>
+        /// Khóa các control để chỉ xem thông tin đơn hàng
+        /// </summary>
+        private void DisableEditing()
+        {
+            txtMaDon.ReadOnly = true;
+            txtTenKhach.ReadOnly = true;
+            txtSdt.ReadOnly = true;
+            txtMaHoa.ReadOnly = true;
+            cboTenHoa.Enabled = false;
+            cboMaNV.Enabled = false;
+            dtpNgay.Enabled = false;
+            nudTongSoLuong.Enabled = false;
+        }
+
+        /// <summary>
+        /// Mở khóa các control để cho phép nhập liệu
+        /// </summary>
+        private void EnableEditing()
+        {
+            txtMaDon.ReadOnly = false;
+            txtTenKhach.ReadOnly = false;
+            txtSdt.ReadOnly = false;
+            txtMaHoa.ReadOnly = false;
+            cboTenHoa.Enabled = true;
+            cboMaNV.Enabled = true;
+            dtpNgay.Enabled = true;
+            nudTongSoLuong.Enabled = true;
         }
     }
 }

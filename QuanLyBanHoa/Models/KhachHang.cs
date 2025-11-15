@@ -97,20 +97,7 @@ namespace QuanLyBanHoa.Models
             using (var conn = Database.GetConnection())
             {
                 conn.Open();
-                // Xóa chi tiết đơn trước
-                string query1 = "DELETE FROM ChiTietDonHang WHERE MaDH IN (SELECT MaDH FROM DonHang WHERE MaKH = @MaKH)";
-                using (var cmd1 = new SqlCommand(query1, conn))
-                {
-                    cmd1.Parameters.AddWithValue("@MaKH", maKH);
-                    cmd1.ExecuteNonQuery();
-                }
-                // Xóa đơn hàng
-                string query2 = "DELETE FROM DonHang WHERE MaKH = @MaKH";
-                using (var cmd2 = new SqlCommand(query2, conn))
-                {
-                    cmd2.Parameters.AddWithValue("@MaKH", maKH);
-                    cmd2.ExecuteNonQuery();
-                }
+  
                 // Xóa khách hàng
                 string query3 = "DELETE FROM KhachHang WHERE MaKH = @MaKH";
                 using (var cmd3 = new SqlCommand(query3, conn))

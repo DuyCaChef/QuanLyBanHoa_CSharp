@@ -114,7 +114,14 @@ namespace QuanLyBanHoa.Forms
                     return;
                 }
 
-                var result = MessageBox.Show($"Bạn có chắc muốn xóa tất cả đơn hàng ngày {ngayStr}?\nHành động này không thể hoàn tác.", 
+                // Định dạng ngày chỉ hiển thị dd/MM/yyyy
+                string ngayDisplay = ngayStr;
+                if (DateTime.TryParse(ngayStr, out DateTime ngayParsed))
+                {
+                    ngayDisplay = ngayParsed.ToString("dd/MM/yyyy");
+                }
+
+                var result = MessageBox.Show($"Bạn có chắc muốn xóa tất cả đơn hàng ngày {ngayDisplay}?\nHành động này không thể hoàn tác.", 
                     "Xác nhận xóa", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
                 
                 if (result != DialogResult.Yes) return;
