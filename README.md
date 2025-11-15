@@ -20,12 +20,12 @@
 ---
 
 ## 🏗️ Công nghệ sử dụng
-- **Ngôn ngữ:** C# (.NET Framework / .NET 6)  
+- **Ngôn ngữ:** C# (.NET Framework / .NET 8)  
 - **Giao diện:** Windows Forms  
-- **Cơ sở dữ liệu:** MySQL  
+- **Cơ sở dữ liệu:** SQL Server  
 - **ORM:** ADO.NET (hoặc Entity Framework Core)  
 - **Quản lý mã nguồn:** Git + GitHub  
-- **Thiết kế CSDL:** MySQL Workbench  
+- **Thiết kế CSDL:** SSMS  
 - **Vẽ sơ đồ UML/ERD:** Draw.io, Lucidchart  
 
 ---
